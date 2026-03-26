@@ -863,44 +863,57 @@ async function fetchJSON(url) {
 }
 
 async function loadAllData() {
-  setLoadProgress(5, 'Cargando index.json desde GitHub...');
-  CONFIG = await fetchJSON(GITHUB_BASE + 'index.json');
-  if(!CONFIG) { toast('⚠️ No se pudo cargar index.json. Usando datos de demostración.', 'var(--red)'); loadDemoData(); return; }
+  setLoadProgress(5, 'Cargando vocabulario desde GitHub...');
   
-  BOOKS_DATA = CONFIG.books || [];
-  setLoadProgress(10, 'Cargando vocabulario A1...');
+  // Cargar vocabulario
+  const vocabData = await fetchJSON(GITHUB_BASE + 'vocabulary.json');
+  if (vocabData && Array.isArray(vocabData)) {
+    VOCAB = vocabData;
+    setLoadProgress(40, `✓ ${VOCAB.length} palabras cargadas`);
+  } else {
+    console.warn('No se pudo cargar vocabulary.json');
+  }
   
-  const allVocabFiles = [];
-  if(CONFIG.files && CONFIG.files.a1) allVocabFiles.push(...CONFIG.files.a1.map(f => ({file:f, level:'A1'})));
-  if(CONFIG.files && CONFIG.files.a2) allVocabFiles.push(...CONFIG.files.a2.map(f => ({file:f, level:'A2'})));
-  if(CONFIG.files && CONFIG.files.b1) allVocabFiles.push(...CONFIG.files.b1.map(f => ({file:f, level:'B1'})));
-  if(CONFIG.files && CONFIG.files.c1) allVocabFiles.push(...CONFIG.files.c1.map(f => ({file:f, level:'C1'})));
-  if(CONFIG.files && CONFIG.files.verbs) VERBS_DATA = await fetchJSON(GITHUB_BASE + CONFIG.files.verbs[0]) || [];
-  if(CONFIG.files && CONFIG.files.grammar) GRAMMAR_DATA = await fetchJSON(GITHUB_BASE + CONFIG.files.grammar[0]) || [];
+  setLoadProgress(50, 'Cargando verbos irregulares...');
+  const verbsData = await fetchJSON(GITHUB_BASE + 'irregular.json');
+  if (verbsData && Array.isArray(verbsData)) {
+    VERBS_DATA = verbsData;
+    setLoadProgress(70, `✓ ${VERBS_DATA.length} verbos cargados`);
+  } else {
+    console.warn('No se pudo cargar irregular.json');
+  }
   
-  let loaded = 0;
-  for(const item of allVocabFiles) {
-    const data = await fetchJSON(GITHUB_BASE + item.file);
-    if(data && Array.isArray(data)) {
-      data.forEach(w => { if(!w.level) w.level = item.level; });
-      VOCAB.push(...data);
+  setLoadProgress(75, 'Cargando reglas gramaticales...');
+  const grammarData = await fetchJSON(GITHUB_BASE + 'rules.json');
+  if (grammarData && Array.isArray(grammarData)) {
+    GRAMMAR_DATA = grammarData;
+    setLoadProgress(90, `✓ ${GRAMMAR_DATA.length} reglas cargadas`);
+  } else {
+    console.warn('No se pudo cargar rules.json');
+  }
+  
+  setLoadProgress(100, '¡Listo! Todo cargado correctamente');
+  
+  // Si no se cargaron datos, usar demo
+  if (VOCAB.length === 0) {
+    console.warn('No se pudieron cargar datos, usando demo');
+    loadDemoData();
+  } else {
+    // Si hay datos de Oxford guardados, agregarlos
+    if (oxfordWords.length) {
+      for (const w of oxfordWords) {
+        if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) {
+          VOCAB.push(w);
+        }
+      }
     }
-    loaded++;
-    setLoadProgress(10 + Math.floor((loaded / allVocabFiles.length) * 80), `Cargando ${item.file}...`);
   }
   
-  setLoadProgress(95, 'Procesando datos...');
-  if(oxfordWords.length) {
-    for(const w of oxfordWords) if(!VOCAB.some(v=>v.word.toLowerCase()===w.word.toLowerCase())) VOCAB.push(w);
-  }
-  
-  setLoadProgress(100, '¡Listo!');
   updateUI();
   renderLibrary();
   initQQ();
   toast(`✓ ${VOCAB.length} palabras · ${VERBS_DATA.length} verbos · ${GRAMMAR_DATA.length} reglas`, 'var(--green)');
 }
-
 function loadDemoData() {
   VOCAB = [
     {word:"Hello", level:"A1", ipa:"/həˈləʊ/", meaning:"A greeting", example:"Hello, how are you?", es:"Hola"},
