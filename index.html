@@ -9,6 +9,7 @@
 <title>LEXIS PRO · English A1→C2</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Syne+Mono&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
+/* [CSS igual al anterior - por brevedad no lo repito, pero mantenlo igual] */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
   --void:#0a0908;--surface:#111009;--card:#17140f;--card2:#1d1912;
@@ -601,7 +602,7 @@ body::before{
 </head>
 <body>
 
-<!-- ═══════════════════════════════════ LOGIN ═══════════════════════════════════ -->
+<!-- LOGIN -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
     <div class="login-glow"></div>
@@ -624,7 +625,7 @@ body::before{
   </div>
 </div>
 
-<!-- ═══════════════════════════════════ APP ════════════════════════════════════ -->
+<!-- APP -->
 <div class="shell" id="app" style="display:none">
   <aside class="sidebar">
     <div class="logo-s">L</div>
@@ -652,10 +653,9 @@ body::before{
     </header>
 
     <div class="content" id="content">
-
       <!-- HOME -->
       <div class="page active" id="page-home">
-        <div id="loadingBanner" class="loading-banner" style="display:none">
+        <div id="loadingBanner" class="loading-banner" style="display:flex">
           <div class="loading-spinner"></div>
           <div style="flex:1">
             <div style="margin-bottom:5px;font-size:12px" id="loadingText">Cargando datos desde GitHub…</div>
@@ -698,7 +698,7 @@ body::before{
           <div class="mini-card" data-page="vocab"><div class="mc-icon">📖</div><div class="mc-title">Vocabulary</div><div class="mc-sub" id="mcVocabSub">Loading…</div><div class="mc-badge">EXPLORE</div></div>
           <div class="mini-card" data-page="verbs"><div class="mc-icon">⚡</div><div class="mc-title">Irregular Verbs</div><div class="mc-sub" id="mcVerbsSub">Loading…</div><div class="mc-badge">STUDY</div></div>
           <div class="mini-card" data-page="grammar"><div class="mc-icon">📐</div><div class="mc-title">Grammar</div><div class="mc-sub" id="mcGrammarSub">Loading…</div><div class="mc-badge">REVIEW</div></div>
-          <div class="mini-card" data-page="library"><div class="mc-icon">📚</div><div class="mc-title">Library</div><div class="mc-sub" id="mcLibrarySub">30 classics</div><div class="mc-badge">READ</div></div>
+          <div class="mini-card" data-page="library"><div class="mc-icon">📚</div><div class="mc-title">Library</div><div class="mc-sub" id="mcLibrarySub">Classics</div><div class="mc-badge">READ</div></div>
           <div class="mini-card" data-page="practice"><div class="mc-icon">🎯</div><div class="mc-title">Practice</div><div class="mc-sub">Test your knowledge</div><div class="mc-badge">TRAIN</div></div>
           <div class="mini-card" data-page="chat"><div class="mc-icon">🤖</div><div class="mc-title">AI Tutor</div><div class="mc-sub">Corrections &amp; explanations</div><div class="mc-badge">AI</div></div>
         </div>
@@ -707,7 +707,7 @@ body::before{
       <!-- VOCABULARY -->
       <div class="page" id="page-vocab">
         <div class="vocab-toolbar">
-          <input class="search-input" id="vocabSearch" placeholder="🔍  Buscar / Search words…"/>
+          <input class="search-input" id="vocabSearch" placeholder="🔍 Buscar / Search words…"/>
           <div id="levelFilters" style="display:flex;gap:7px;flex-wrap:wrap">
             <button class="filter-chip active" data-lvl="all">All</button>
             <button class="filter-chip" data-lvl="A1">A1</button>
@@ -804,22 +804,17 @@ body::before{
           </div>
         </div>
       </div>
-
-    </div><!-- /content -->
-  </div><!-- /main -->
-</div><!-- /shell -->
+    </div>
+  </div>
+</div>
 
 <script>
 'use strict';
 
-// ════════════════════════════════════════════════════════════
-//  CONSTANTS
-// ════════════════════════════════════════════════════════════
-const GITHUB_BASE = 'https://raw.githubusercontent.com/RicardoM792/Lexis-data/main/';
+// ==================== CONSTANTS ====================
+const GITHUB_BASE = 'https://raw.githubusercontent.com/RicardoM79/Lexis-data/main/';
 
-// ════════════════════════════════════════════════════════════
-//  FETCH HELPER - Robust with multiple fallbacks
-// ════════════════════════════════════════════════════════════
+// ==================== FETCH HELPER ====================
 async function fetchWithRetry(url, retries = 2) {
   for (let i = 0; i <= retries; i++) {
     try {
@@ -841,15 +836,12 @@ async function ghFetch(pathOrUrl) {
   try {
     return await fetchWithRetry(url);
   } catch(e) {
-    // Try with CORS proxy as last resort
     const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
     return await fetchWithRetry(proxyUrl, 1);
   }
 }
 
-// ════════════════════════════════════════════════════════════
-//  STATE
-// ════════════════════════════════════════════════════════════
+// ==================== STATE ====================
 let VOCAB = [];
 let VERBS_DATA = [];
 let GRAMMAR_DATA = [];
@@ -869,11 +861,7 @@ let qqPool = [], qqIdx = 0;
 let pracQueue = [], pracIdx = 0, pracCurrent = null;
 let pracCorrect = 0, pracWrong = 0, pracStreak = 0, pracTotal = 0, pracDone = 0;
 
-let dataLoaded = false;
-
-// ════════════════════════════════════════════════════════════
-//  USER PERSISTENCE
-// ════════════════════════════════════════════════════════════
+// ==================== USER PERSISTENCE ====================
 function getAllUsers() {
   try { return JSON.parse(localStorage.getItem('lxp_users') || '{}'); } catch(e) { return {}; }
 }
@@ -905,9 +893,7 @@ function loadUser(name) {
 }
 function getActiveUser() { return localStorage.getItem('lxp_active_user') || ''; }
 
-// ════════════════════════════════════════════════════════════
-//  HELPERS
-// ════════════════════════════════════════════════════════════
+// ==================== HELPERS ====================
 function speak(text) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
@@ -929,23 +915,19 @@ const NEXT_LEVEL = {A1:'A2',A2:'B1',B1:'B2',B2:'C1',C1:'C2',C2:'Master'};
 const TAG_CLS = {A1:'tag-a1',A2:'tag-a2',B1:'tag-b1',B2:'tag-b2',C1:'tag-c1',C2:'tag-c2'};
 
 function checkLevelUp() {
-  const levels = ['A1','A2','B1','B2','C1','C2'];
-  const idx = levels.indexOf(userLevel);
-  if (idx < 5) {
-    const needed = getNextLevelThreshold(userLevel);
-    if (xp >= needed && NEXT_LEVEL[userLevel] !== 'Master') {
-      const prev = userLevel;
-      userLevel = NEXT_LEVEL[userLevel];
-      saveCurrentUser();
-      const banner = document.getElementById('levelupBanner');
-      const txt = document.getElementById('levelupText');
-      if (banner && txt) {
-        txt.textContent = `¡Pasaste de ${prev} a ${userLevel}! 🎓 Keep going!`;
-        banner.classList.add('show');
-        setTimeout(() => banner.classList.remove('show'), 5000);
-      }
-      toast(`🎓 Level Up! ${prev} → ${userLevel}`, 'var(--gold)');
+  const needed = getNextLevelThreshold(userLevel);
+  if (xp >= needed && NEXT_LEVEL[userLevel] !== 'Master') {
+    const prev = userLevel;
+    userLevel = NEXT_LEVEL[userLevel];
+    saveCurrentUser();
+    const banner = document.getElementById('levelupBanner');
+    const txt = document.getElementById('levelupText');
+    if (banner && txt) {
+      txt.textContent = `¡Pasaste de ${prev} a ${userLevel}! 🎓 Keep going!`;
+      banner.classList.add('show');
+      setTimeout(() => banner.classList.remove('show'), 5000);
     }
+    toast(`🎓 Level Up! ${prev} → ${userLevel}`, 'var(--gold)');
   }
 }
 
@@ -990,15 +972,15 @@ function updateUI() {
 function setLoadProgress(pct, text) {
   const bar = document.getElementById('loadBarFill');
   const txt = document.getElementById('loadingText');
-  const banner = document.getElementById('loadingBanner');
   if (bar) bar.style.width = pct + '%';
   if (txt) txt.textContent = text;
-  if (banner && pct >= 100) banner.style.display = 'none';
+  if (pct >= 100) {
+    const banner = document.getElementById('loadingBanner');
+    if (banner) banner.style.display = 'none';
+  }
 }
 
-// ════════════════════════════════════════════════════════════
-//  DATA LOADING - Robust version
-// ════════════════════════════════════════════════════════════
+// ==================== DATA LOADING ====================
 async function loadAllData() {
   setLoadProgress(5, 'Conectando con GitHub…');
   document.getElementById('loadingBanner').style.display = 'flex';
@@ -1010,7 +992,7 @@ async function loadAllData() {
     BOOKS_DATA = CONFIG.books || [];
     setLoadProgress(15, 'Index cargado — cargando vocabulario…');
 
-    // Define files to load - only those that exist
+    // Lista completa de archivos que existen en tu repositorio
     const vocabFiles = [
       'colors.json', 'numbers.json', 'pronouns.json', 'adjectives.json',
       'nouns.json', 'seasons-weather.json', 'time.json', 'vocabulary.json'
@@ -1022,7 +1004,7 @@ async function loadAllData() {
     const total = vocabFiles.length + 2;
     let loaded = 0;
 
-    // Load all vocab files
+    // Cargar todos los archivos de vocabulario
     const vocabResults = await Promise.all(
       vocabFiles.map(async (file) => {
         try {
@@ -1032,7 +1014,7 @@ async function loadAllData() {
           setLoadProgress(15 + Math.round((loaded / total) * 55), `Cargando ${file}…`);
           return Array.isArray(data) ? data : [];
         } catch(e) {
-          console.warn(`Could not load ${file}:`, e.message);
+          console.warn(`No se pudo cargar ${file}:`, e.message);
           loaded++;
           return [];
         }
@@ -1042,36 +1024,35 @@ async function loadAllData() {
     VOCAB = vocabResults.flat();
     setLoadProgress(72, 'Cargando verbos…');
 
-    // Load verbs
+    // Cargar verbos
     try {
       const vr = await ghFetch(verbFile);
       VERBS_DATA = await vr.json();
     } catch(e) { 
-      console.warn('Verbs load failed:', e.message); 
+      console.warn('Error cargando verbos:', e.message); 
       VERBS_DATA = []; 
     }
     loaded++;
     setLoadProgress(84, 'Cargando gramática…');
 
-    // Load grammar
+    // Cargar gramática
     try {
       const gr = await ghFetch(grammarFile);
       GRAMMAR_DATA = await gr.json();
     } catch(e) { 
-      console.warn('Grammar load failed:', e.message); 
+      console.warn('Error cargando gramática:', e.message); 
       GRAMMAR_DATA = []; 
     }
     loaded++;
     setLoadProgress(95, 'Finalizando…');
 
-    // Merge any saved oxford words
+    // Fusionar palabras de Oxford guardadas
     for (const w of oxfordWords) {
-      if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) {
+      if (!VOCAB.some(v => v.word && v.word.toLowerCase() === w.word.toLowerCase())) {
         VOCAB.push(w);
       }
     }
 
-    dataLoaded = true;
     setLoadProgress(100, 'Listo');
     updateUI();
     renderLibrary();
@@ -1081,15 +1062,12 @@ async function loadAllData() {
   } catch(err) {
     setLoadProgress(100, '');
     toast('⚠ Error cargando datos — revisa la conexión.', 'var(--red)');
-    console.error('Load error:', err);
-    // Show basic data anyway
+    console.error('Error de carga:', err);
     document.getElementById('mcVocabSub').textContent = 'Error loading';
   }
 }
 
-// ════════════════════════════════════════════════════════════
-//  NAVIGATION
-// ════════════════════════════════════════════════════════════
+// ==================== NAVIGATION ====================
 const PAGE_TITLES = {
   home:'Home', vocab:'Vocabulary', verbs:'Verbs',
   grammar:'Grammar', library:'Library', practice:'Practice', chat:'AI Tutor'
@@ -1107,10 +1085,10 @@ function goPage(id) {
   if (nav) nav.classList.add('active');
   document.getElementById('pageTitle').textContent = PAGE_TITLES[id] || id;
 
-  if (id === 'vocab')    renderVocab();
-  if (id === 'verbs')    renderVerbs();
-  if (id === 'grammar')  renderGrammar();
-  if (id === 'library')  renderLibrary();
+  if (id === 'vocab') renderVocab();
+  if (id === 'verbs') renderVerbs();
+  if (id === 'grammar') renderGrammar();
+  if (id === 'library') renderLibrary();
   if (id === 'practice') initPractice();
 
   const content = document.getElementById('content');
@@ -1121,18 +1099,16 @@ function goPage(id) {
   }
 }
 
-// ════════════════════════════════════════════════════════════
-//  VOCABULARY RENDER
-// ════════════════════════════════════════════════════════════
+// ==================== VOCABULARY RENDER ====================
 function renderVocab() {
   let words = VOCAB;
   if (vocabLevelFilter !== 'all') words = words.filter(w => w.level === vocabLevelFilter);
   if (showMasteredOnly) words = words.filter(w => mastered.includes(w.word));
-  if (showOxfordOnly)   words = words.filter(w => w.source === 'oxford');
+  if (showOxfordOnly) words = words.filter(w => w.source === 'oxford');
   if (vocabSearch) {
     const q = vocabSearch.toLowerCase();
     words = words.filter(w =>
-      w.word.toLowerCase().includes(q) ||
+      (w.word && w.word.toLowerCase().includes(q)) ||
       (w.meaning && w.meaning.toLowerCase().includes(q)) ||
       (w.es && w.es.toLowerCase().includes(q)) ||
       (w.topic && w.topic.toLowerCase().includes(q))
@@ -1152,9 +1128,10 @@ function renderVocab() {
     const hasES = !!w.es;
     const hasEsEx = !!w.example_es;
     const levelClass = w.level && TAG_CLS[w.level] ? TAG_CLS[w.level] : '';
+    const wordSafe = (w.word || '').replace(/"/g, '&quot;');
     return `<div class="word-card${isMastered?' mastered-card':''}${isOxford&&!isMastered?' oxford-card':''}">
       <div class="wc-top">
-        <div class="wc-word speak-word" data-word="${w.word.replace(/"/g, '&quot;')}">${w.word}</div>
+        <div class="wc-word speak-word" data-word="${wordSafe}">${w.word || ''}</div>
         <div class="wc-badges">
           ${w.level ? `<span class="level-tag ${levelClass}">${w.level}</span>` : ''}
           ${w.topic && !isOxford ? `<span class="topic-tag">${w.topic}</span>` : ''}
@@ -1170,10 +1147,10 @@ function renderVocab() {
       ${w.example ? `<div class="wc-example">"${w.example}"</div>` : ''}
       ${hasEsEx ? `<div class="wc-example-es${showES?' show':''}">🇪🇸 "${w.example_es}"</div>` : ''}
       <div class="wc-actions">
-        <button class="wc-btn speak-word" data-word="${w.word.replace(/"/g, '&quot;')}">🔊 Listen</button>
-        ${hasES ? `<button class="wc-btn es-btn${showES?' active':''}" data-word="${w.word}">🇪🇸 ES</button>` : ''}
+        <button class="wc-btn speak-word" data-word="${wordSafe}">🔊 Listen</button>
+        ${hasES ? `<button class="wc-btn es-btn${showES?' active':''}">🇪🇸 ES</button>` : ''}
         ${!isMastered
-          ? `<button class="wc-btn gold master-word" data-word="${w.word.replace(/"/g, '&quot;')}">✦ Master</button>`
+          ? `<button class="wc-btn gold master-word" data-word="${wordSafe}">✦ Master</button>`
           : '<button class="wc-btn" style="color:var(--green);border-color:rgba(61,220,132,0.15)" disabled>✓ Mastered</button>'}
       </div>
     </div>`;
@@ -1186,8 +1163,8 @@ function renderVocab() {
     el.addEventListener('click', () => masterWord(el.dataset.word))
   );
   g.querySelectorAll('.es-btn').forEach(el => {
-    el.addEventListener('click', () => {
-      const card = el.closest('.word-card');
+    el.addEventListener('click', (e) => {
+      const card = e.target.closest('.word-card');
       card.querySelectorAll('.wc-es, .wc-example-es').forEach(box => {
         box.classList.toggle('show');
       });
@@ -1196,25 +1173,24 @@ function renderVocab() {
   });
 }
 
-// ════════════════════════════════════════════════════════════
-//  VERBS RENDER
-// ════════════════════════════════════════════════════════════
+// ==================== VERBS RENDER ====================
 function renderVerbs() {
   const g = document.getElementById('verbsGrid');
-  if (!VERBS_DATA.length) {
-    g.innerHTML = '<div class="no-words">Cargando verbos…</div>'; return;
+  if (!VERBS_DATA || !VERBS_DATA.length) {
+    g.innerHTML = '<div class="no-words">Cargando verbos…</div>'; 
+    return;
   }
   g.innerHTML = VERBS_DATA.map(v => `
-    <div class="verb-card" data-base="${v.base}" data-past="${v.past}" data-part="${v.participle}">
+    <div class="verb-card" data-base="${v.base || ''}" data-past="${v.past || ''}" data-part="${v.participle || ''}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
-        <div class="vc-base">${v.base}</div>
+        <div class="vc-base">${v.base || ''}</div>
         ${v.level ? `<span class="level-tag ${TAG_CLS[v.level]||''}">${v.level}</span>` : ''}
       </div>
       <div class="vc-es">${v.es || ''}</div>
       <div class="vc-forms">
-        <div class="vc-form-group"><div class="vc-form-lbl">BASE</div><div class="vc-form">${v.base}</div></div>
-        <div class="vc-form-group"><div class="vc-form-lbl">PAST</div><div class="vc-form">${v.past}</div></div>
-        <div class="vc-form-group"><div class="vc-form-lbl">PARTICIPLE</div><div class="vc-form">${v.participle}</div></div>
+        <div class="vc-form-group"><div class="vc-form-lbl">BASE</div><div class="vc-form">${v.base || ''}</div></div>
+        <div class="vc-form-group"><div class="vc-form-lbl">PAST</div><div class="vc-form">${v.past || ''}</div></div>
+        <div class="vc-form-group"><div class="vc-form-lbl">PARTICIPLE</div><div class="vc-form">${v.participle || ''}</div></div>
       </div>
       ${v.example ? `<div class="vc-example">"${v.example}"</div>` : ''}
     </div>`).join('');
@@ -1226,13 +1202,12 @@ function renderVerbs() {
   });
 }
 
-// ════════════════════════════════════════════════════════════
-//  GRAMMAR RENDER
-// ════════════════════════════════════════════════════════════
+// ==================== GRAMMAR RENDER ====================
 function renderGrammar() {
   const g = document.getElementById('grammarGrid');
-  if (!GRAMMAR_DATA.length) {
-    g.innerHTML = '<div class="no-words">Cargando gramática…</div>'; return;
+  if (!GRAMMAR_DATA || !GRAMMAR_DATA.length) {
+    g.innerHTML = '<div class="no-words">Cargando gramática…</div>'; 
+    return;
   }
   const lvlBg = {A1:'rgba(61,220,132,0.12)',A2:'rgba(61,170,220,0.12)',B1:'rgba(232,184,109,0.12)',B2:'rgba(255,154,60,0.12)',C1:'rgba(255,90,31,0.12)',C2:'rgba(255,71,87,0.12)'};
   const lvlClr = {A1:'#3ddc84',A2:'#3daade',B1:'var(--gold)',B2:'var(--amber)',C1:'var(--ember)',C2:'var(--red)'};
@@ -1246,9 +1221,9 @@ function renderGrammar() {
         <span class="gc-tag">${gr.tag||''}</span>
         ${gr.level ? `<span class="gc-level" style="background:${bg};color:${cl}">${gr.level}</span>` : ''}
       </div>
-      <div class="gc-title">${gr.title}</div>
+      <div class="gc-title">${gr.title || ''}</div>
       ${gr.structure ? `<div class="gc-structure">${gr.structure}</div>` : ''}
-      <div class="gc-explanation">${gr.explanation_en||''}</div>
+      <div class="gc-explanation">${gr.explanation_en || gr.explanation || ''}</div>
       ${gr.explanation_es ? `<div class="gc-explanation-es${showES?' show':''}">🇪🇸 ${gr.explanation_es}</div>` : ''}
       <div class="gc-examples">
         ${gr.affirmative ? `<div class="gc-ex-row"><span class="gc-ex-label aff">+</span><div><div class="gc-ex-text">${gr.affirmative}</div>${gr.affirmative_es?`<div class="gc-ex-text-es${showES?' show':''}">🇪🇸 ${gr.affirmative_es}</div>`:''}</div></div>` : ''}
@@ -1262,9 +1237,7 @@ function renderGrammar() {
   }).join('');
 }
 
-// ════════════════════════════════════════════════════════════
-//  LIBRARY RENDER
-// ════════════════════════════════════════════════════════════
+// ==================== LIBRARY RENDER ====================
 function renderLibrary() {
   const books = BOOKS_DATA.length ? BOOKS_DATA : (CONFIG?.books || []);
   if (!books.length) return;
@@ -1274,14 +1247,14 @@ function renderLibrary() {
     const lc = levelColors[b.level] || 'var(--text3)';
     return `<div class="book-card">
       <div class="book-spine" style="background:${b.color||'#888'}"></div>
-      <div class="book-title">${b.title}</div>
-      <div class="book-author">${b.author} · ${b.year}</div>
+      <div class="book-title">${b.title || ''}</div>
+      <div class="book-author">${b.author || ''} · ${b.year || ''}</div>
       <div class="book-meta">
         <span class="book-tag" style="background:${b.color||'#888'}22;color:${b.color||'#888'}">CLASSIC</span>
-        <span class="book-tag" style="background:${lc}22;color:${lc}">${b.level}</span>
+        <span class="book-tag" style="background:${lc}22;color:${lc}">${b.level || ''}</span>
         <span class="book-tag" style="background:rgba(61,220,132,0.1);color:var(--green)">FREE</span>
       </div>
-      <div class="book-desc">${b.desc}</div>
+      <div class="book-desc">${b.desc || ''}</div>
       <button class="book-btn" data-book-idx="${i}">📖 Extract vocabulary</button>
     </div>`;
   }).join('');
@@ -1294,9 +1267,7 @@ function renderLibrary() {
   });
 }
 
-// ════════════════════════════════════════════════════════════
-//  OXFORD LOADER
-// ════════════════════════════════════════════════════════════
+// ==================== OXFORD LOADER ====================
 async function loadOxfordList(version) {
   const btn = document.getElementById(`loadOxford${version}Btn`);
   const prog = document.getElementById('oxfProgress');
@@ -1320,7 +1291,7 @@ async function loadOxfordList(version) {
     fill.style.width = '85%'; status.textContent = 'Añadiendo al vocabulario…';
     let added = 0;
     for (const w of newWords) {
-      if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) {
+      if (!VOCAB.some(v => v.word && v.word.toLowerCase() === w.word.toLowerCase())) {
         VOCAB.push(w); oxfordWords.push(w); added++;
       }
     }
@@ -1355,24 +1326,12 @@ function parseOxfordTxt(text, version) {
           source: 'oxford', topic: 'oxford' 
         });
       }
-    } else {
-      const wm = t.match(/^([a-zA-Z][a-zA-Z\-']+)/);
-      if (wm && wm[1].length > 2) {
-        words.push({ 
-          word: wm[1], level: 'B1', ipa: '', 
-          meaning: `Oxford ${version} word`, 
-          example: `"${wm[1]}" is an important English word.`, 
-          source: 'oxford', topic: 'oxford' 
-        });
-      }
     }
   }
   return words;
 }
 
-// ════════════════════════════════════════════════════════════
-//  GUTENBERG LOADER
-// ════════════════════════════════════════════════════════════
+// ==================== GUTENBERG LOADER ====================
 async function loadGutenbergBook(url, title, btnEl) {
   if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳ Cargando…'; }
   toast(`📖 Cargando "${title}"…`, 'var(--amber)');
@@ -1396,7 +1355,7 @@ function extractFromBook(text) {
   for (const w of (content.match(/\b[A-Za-z]{6,}\b/g) || [])) {
     const l = w.toLowerCase(); freq[l] = (freq[l] || 0) + 1;
   }
-  const existing = new Set(VOCAB.map(v => v.word.toLowerCase()));
+  const existing = new Set(VOCAB.map(v => v.word ? v.word.toLowerCase() : ''));
   return Object.entries(freq)
     .filter(([w, c]) => c >= 3 && c <= 25 && w.length >= 6 && !existing.has(w))
     .sort((a, b) => b[1] - a[1])
@@ -1438,7 +1397,7 @@ function showWordsModal(words, total, title) {
 function addBookWords(words) {
   let added = 0;
   for (const w of words) {
-    if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) {
+    if (!VOCAB.some(v => v.word && v.word.toLowerCase() === w.word.toLowerCase())) {
       VOCAB.push(w); oxfordWords.push(w); added++;
     }
   }
@@ -1447,12 +1406,11 @@ function addBookWords(words) {
   goPage('vocab');
 }
 
-// ════════════════════════════════════════════════════════════
-//  QUICK QUIZ
-// ════════════════════════════════════════════════════════════
+// ==================== QUICK QUIZ ====================
 function initQQ() {
   if (!VOCAB.length) return;
-  qqPool = shuffle(VOCAB); qqIdx = 0;
+  qqPool = shuffle(VOCAB.filter(w => w.meaning));
+  qqIdx = 0;
   nextQQ();
 }
 
@@ -1460,7 +1418,7 @@ function nextQQ() {
   if (!qqPool.length || !qqPool[qqIdx % qqPool.length]) return;
   qqCurrent = qqPool[qqIdx % qqPool.length]; qqIdx++;
 
-  document.getElementById('qqWord').textContent = qqCurrent.word;
+  document.getElementById('qqWord').textContent = qqCurrent.word || '—';
   document.getElementById('qqIpa').textContent = qqCurrent.ipa || '';
   const eg = document.getElementById('qqEg');
   if (qqCurrent.example) { eg.textContent = '"' + qqCurrent.example + '"'; eg.style.display = 'block'; }
@@ -1476,7 +1434,7 @@ function nextQQ() {
   const letters = ['A','B','C','D'];
   const container = document.getElementById('qqOpts');
   container.innerHTML = opts.map((o, i) =>
-    `<div class="q-opt" data-m="${o.replace(/"/g,'&quot;')}"><span class="q-letter">${letters[i]}</span>${o}</div>`
+    `<div class="q-opt" data-m="${(o || '').replace(/"/g,'&quot;')}"><span class="q-letter">${letters[i]}</span>${o || ''}</div>`
   ).join('');
   container.querySelectorAll('.q-opt').forEach(el =>
     el.addEventListener('click', () => checkQQ(el.dataset.m))
@@ -1504,16 +1462,14 @@ function checkQQ(sel) {
   document.getElementById('qqC').textContent = qqCorrect;
   document.getElementById('qqW').textContent = qqWrong;
   document.getElementById('qqS').textContent = qqStreak;
-  speak(qqCurrent.word);
+  if (qqCurrent.word) speak(qqCurrent.word);
   setTimeout(nextQQ, 1400);
 }
 
-// ════════════════════════════════════════════════════════════
-//  PRACTICE
-// ════════════════════════════════════════════════════════════
+// ==================== PRACTICE ====================
 function initPractice() {
   if (!VOCAB.length) return;
-  pracQueue = shuffle(VOCAB);
+  pracQueue = shuffle(VOCAB.filter(w => w.meaning));
   pracIdx = 0; pracCorrect = 0; pracWrong = 0; pracStreak = 0;
   pracTotal = pracQueue.length; pracDone = 0;
   document.getElementById('levelupBanner').classList.remove('show');
@@ -1533,7 +1489,7 @@ function nextPrac() {
     return;
   }
   pracCurrent = pracQueue[pracIdx++]; pracDone++;
-  document.getElementById('pracWord').textContent = pracCurrent.word;
+  document.getElementById('pracWord').textContent = pracCurrent.word || '—';
   document.getElementById('pracIpa').textContent = pracCurrent.ipa || '';
 
   const ctx = document.getElementById('pracCtx');
@@ -1551,7 +1507,7 @@ function nextPrac() {
   opts = shuffle(opts);
   const container = document.getElementById('pracOpts');
   container.innerHTML = opts.map(o =>
-    `<button class="prac-opt" data-m="${o.replace(/"/g,'&quot;')}">${o}</button>`
+    `<button class="prac-opt" data-m="${(o || '').replace(/"/g,'&quot;')}">${o || ''}</button>`
   ).join('');
   container.querySelectorAll('.prac-opt').forEach(el =>
     el.addEventListener('click', () => checkPrac(el.dataset.m))
@@ -1585,7 +1541,7 @@ function checkPrac(sel) {
   fb.innerHTML = correctness + exPart + exEsPart + whyEs;
   fb.classList.add('show');
   document.getElementById('pracNextBtn').classList.add('show');
-  speak(pracCurrent.word);
+  if (pracCurrent.word) speak(pracCurrent.word);
 }
 
 function updatePracStats() {
@@ -1597,9 +1553,9 @@ function updatePracStats() {
   document.getElementById('pracCount').textContent = pracDone + ' / ' + pracTotal;
 }
 
-// ════════════════════════════════════════════════════════════
-//  AI CHAT (simplified without API key)
-// ════════════════════════════════════════════════════════════
+// ==================== AI CHAT ====================
+let chatHistory = [];
+
 async function sendChat(msg) {
   if (!msg.trim()) return;
   chatHistory.push({ role: 'user', content: msg });
@@ -1608,20 +1564,13 @@ async function sendChat(msg) {
   document.getElementById('chatSendBtn').disabled = true;
   const typEl = appendTyping();
 
-  try {
-    // Simulated AI response - you can replace with actual API
-    setTimeout(() => {
-      typEl.remove();
-      const reply = generateMockResponse(msg);
-      chatHistory.push({ role: 'assistant', content: reply });
-      appendMsg('ai', reply);
-      document.getElementById('chatSendBtn').disabled = false;
-    }, 800);
-  } catch(e) {
+  setTimeout(() => {
     typEl.remove();
-    appendMsg('ai', '⚠️ Error en el servicio de chat.');
+    const reply = generateMockResponse(msg);
+    chatHistory.push({ role: 'assistant', content: reply });
+    appendMsg('ai', reply);
     document.getElementById('chatSendBtn').disabled = false;
-  }
+  }, 800);
 }
 
 function generateMockResponse(msg) {
@@ -1647,13 +1596,11 @@ function generateMockResponse(msg) {
            "✨ *Tip:* 'Make' para crear algo nuevo, 'Do' para acciones generales.";
   }
   if (lowerMsg.includes('new words') || lowerMsg.includes('vocabulary')) {
-    const words = VOCAB.slice(0, 5).map(w => `**${w.word}** → ${w.meaning}`).join('\n');
+    const words = VOCAB.slice(0, 5).map(w => `**${w.word || ''}** → ${w.meaning || ''}`).join('\n');
     return `Here are 5 useful words for you:\n\n${words}\n\nPractice them and you'll master them soon! 💪`;
   }
   return `Great question! I'm your LEXIS AI tutor. I can help you with:\n\n📖 **Vocabulary** - meanings, examples, pronunciation\n⚡ **Irregular Verbs** - conjugations and usage\n📐 **Grammar** - rules and explanations\n\nWhat specific topic would you like to study today?`;
 }
-
-let chatHistory = [];
 
 function appendMsg(role, text) {
   const msgs = document.getElementById('chatMessages');
@@ -1680,9 +1627,7 @@ function appendTyping() {
   return d;
 }
 
-// ════════════════════════════════════════════════════════════
-//  VOICE INPUT
-// ════════════════════════════════════════════════════════════
+// ==================== VOICE INPUT ====================
 function initVoice() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) { 
@@ -1725,9 +1670,7 @@ function initVoice() {
   });
 }
 
-// ════════════════════════════════════════════════════════════
-//  LOGIN / MULTI-USER
-// ════════════════════════════════════════════════════════════
+// ==================== LOGIN ====================
 function showLogin() {
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginOverlay').style.display = 'flex';
@@ -1761,9 +1704,7 @@ function continueAsUser(name) {
   toast(`¡Bienvenido de nuevo, ${name}! 🎉`, 'var(--gold)');
 }
 
-// ════════════════════════════════════════════════════════════
-//  START APP
-// ════════════════════════════════════════════════════════════
+// ==================== START APP ====================
 function startApp() {
   if (localStorage.getItem('lexis_theme') === 'light') {
     document.body.classList.add('light');
@@ -1808,10 +1749,10 @@ function startApp() {
     });
   }
   
-  const vocabSearch = document.getElementById('vocabSearch');
-  if (vocabSearch) {
-    vocabSearch.addEventListener('input', e => {
-      window.vocabSearch = e.target.value.toLowerCase();
+  const searchInput = document.getElementById('vocabSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', e => {
+      vocabSearch = e.target.value.toLowerCase();
       renderVocab();
     });
   }
@@ -1894,9 +1835,7 @@ function startApp() {
   loadAllData();
 }
 
-// ════════════════════════════════════════════════════════════
-//  BOOT
-// ════════════════════════════════════════════════════════════
+// ==================== BOOT ====================
 (function boot() {
   if (localStorage.getItem('lexis_theme') === 'light') {
     document.body.classList.add('light');
