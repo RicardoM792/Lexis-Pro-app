@@ -1022,13 +1022,17 @@ async function loadAllData() {
     BOOKS_DATA = CONFIG.books || [];
     setLoadProgress(15, 'Index cargado — cargando vocabulario…');
 
-    // 2. Cargar todos los archivos de vocabulario en paralelo
-    const vocabFiles = [
-      ...(CONFIG.files.a1 || []),
-      ...(CONFIG.files.a2 || []),
-      ...(CONFIG.files.b1 || []),
-      ...(CONFIG.files.c1 || [])
-    ];
+   // 2. Cargar todos los archivos de vocabulario en paralelo
+     const vocabFiles = [
+       ...(CONFIG.files.a1 || []),
+       ...(CONFIG.files.a2 || []),
+       ...(CONFIG.files.b1 || []),
+       ...(CONFIG.files.c1 || [])
+     ];
+
+   // Obtener verbos y gramática correctamente
+   let verbsFile = CONFIG.files.verbs && CONFIG.files.verbs[0] ? CONFIG.files.verbs[0] : 'verbs/irregular.json';
+   let grammarFile = CONFIG.files.grammar && CONFIG.files.grammar[0] ? CONFIG.files.grammar[0] : 'grammar/rules.json';
 
     const total = vocabFiles.length + 2; // +verbs +grammar
     let loaded = 0;
@@ -1046,8 +1050,8 @@ async function loadAllData() {
       }
     });
 
-    const verbsPromise = ghFetch(CONFIG.files.verbs[0]).then(r => r.json()).catch(() => []);
-    const grammarPromise = ghFetch(CONFIG.files.grammar[0]).then(r => r.json()).catch(() => []);
+    const verbsPromise = ghFetch(verbsFile).then(r => r.json()).catch(() => []);
+    const grammarPromise = ghFetch(grammarFile).then(r => r.json()).catch(() => []);
 
     const vocabResults = await Promise.all(vocabPromises);
     VOCAB = vocabResults.flat();
