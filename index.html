@@ -1569,10 +1569,14 @@ async function loadAllData() {
     BOOKS_DATA = CONFIG?.books || [];
     
     // 2. Define files to load
-    const vocabFiles = [
-      'colors.json', 'numbers.json', 'pronouns.json', 'adjectives.json',
-      'nouns.json', 'seasons-weather.json', 'time.json', 'vocabulary.json'
-    ];
+  const vocabFiles = [
+  'colors.json', 'numbers.json', 'pronouns.json', 'adjectives.json',
+  'nouns.json', 'seasons-weather.json', 'time.json', 'vocabulary.json',
+  'animals.json', 'prepositions.json', 'verbs-a1.json', 'adverbs.json',
+  'travel.json', 'work.json', 'phrasal-verbs.json', 'collocations.json',
+  'idioms.json', 'business.json', 'advanced-idioms.json', 'philosophy.json',
+  'esoteric-terms.json', 'linguistics.json'
+];
     const totalFiles = vocabFiles.length + 2;
     let loaded = 0;
     
@@ -1676,6 +1680,9 @@ function goPage(id) {
   document.getElementById('pageTitle').textContent = PAGE_TITLES[id] || id;
 
   if (id === 'vocab')    renderVocab();
+  if (typeof window.vocabSearch === 'undefined') {
+  window.vocabSearch = '';
+}
   if (id === 'verbs')    renderVerbs();
   if (id === 'grammar')  renderGrammar();
   if (id === 'library')  renderLibrary();
@@ -2193,14 +2200,17 @@ function initQQ() {
   nextQQ();
 }
 function ensureQuizHasValidWords() {
-  const validWords = VOCAB.filter(w => (w.es || w.meaning) && w.es !== 'Oxford 5000 word' && w.meaning !== 'Oxford 5000 word');
+  const validWords = VOCAB.filter(w => 
+    (w.es || w.meaning) && 
+    !(w.source === 'oxford' && (w.es?.includes('palabra que empieza') || w.meaning?.includes('word starting')))
+  );
+  
   if (validWords.length === 0) {
-    // Crear palabras de respaldo si no hay ninguna válida
+    // Palabras de respaldo
     const fallbackWords = [
-      { word: "Hello", es: "Hola", meaning: "Greeting", level: "A1", ipa: "/həˈləʊ/" },
-      { word: "Goodbye", es: "Adiós", meaning: "Farewell", level: "A1", ipa: "/ˌɡʊdˈbaɪ/" },
-      { word: "Thank you", es: "Gracias", meaning: "Expression of gratitude", level: "A1", ipa: "/ˈθæŋk juː/" },
-      { word: "Please", es: "Por favor", meaning: "Polite request", level: "A1", ipa: "/pliːz/" }
+      { word: "Hello", es: "Hola", meaning: "Greeting", level: "A1", ipa: "/həˈləʊ/", example: "Hello, how are you?", example_es: "Hola, ¿cómo estás?" },
+      { word: "Goodbye", es: "Adiós", meaning: "Farewell", level: "A1", ipa: "/ˌɡʊdˈbaɪ/", example: "Goodbye, see you tomorrow!", example_es: "¡Adiós, nos vemos mañana!" },
+      { word: "Thank you", es: "Gracias", meaning: "Expression of gratitude", level: "A1", ipa: "/ˈθæŋk juː/", example: "Thank you for your help.", example_es: "Gracias por tu ayuda." }
     ];
     for (const w of fallbackWords) {
       if (!VOCAB.some(v => v.word === w.word)) {
