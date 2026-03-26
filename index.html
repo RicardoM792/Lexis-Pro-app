@@ -2024,7 +2024,8 @@ async function parseOxfordTxtAsync(text, version, onProgress = null) {
   }
   
   // Eliminar duplicados manteniendo orden
-  const uniqueWords = [...new Set(validWords)].slice(0, 2000); // Límite para rendimiento
+  // ✅ Sin límite - carga todas las palabras disponibles
+    const uniqueWords = [...new Set(validWords)];
   
   // Procesar palabras con progreso
   for (let i = 0; i < uniqueWords.length; i++) {
@@ -2176,6 +2177,9 @@ function addBookWords(words) {
 // ════════════════════════════════════════════════════════════
 //  QUICK QUIZ - FIXED to use 'es' field correctly
 // ════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════
+//  QUICK QUIZ - VERSIÓN CORREGIDA CON VARIEDAD
+// ════════════════════════════════════════════════════════════
 function initQQ() {
   if (!VOCAB.length) {
     document.getElementById('qqWord').textContent = '⏳';
@@ -2183,58 +2187,95 @@ function initQQ() {
     return;
   }
   
-  // ✅ Filtrar: solo palabras con definiciones reales (excluir Oxford genéricas)
-  qqPool = shuffle(VOCAB.filter(w => 
+  // ✅ Pool MIXTO: palabras normales + verbos + Oxford (sin filtros excesivos)
+  // 1. Palabras normales del vocabulario
+  const normalWords = VOCAB.filter(w => 
     w.word && 
-    (w.es || w.meaning) && 
-    // Excluir definiciones genéricas de Oxford
-    !(w.source === 'oxford' && (
-      w.es?.includes('palabra que empieza') || 
-      w.es?.includes('término de') ||
-      w.meaning?.includes('word starting') ||
-      w.meaning?.includes('syllable term')
-    ))
-  ));
-  
-  qqIdx = 0; qqCorrect = 0; qqWrong =  0; qqStreak = 0;
-  nextQQ();
-}
-function ensureQuizHasValidWords() {
-  const validWords = VOCAB.filter(w => 
-    (w.es || w.meaning) && 
-    !(w.source === 'oxford' && (w.es?.includes('palabra que empieza') || w.meaning?.includes('word starting')))
+    (w.es || w.meaning) &&
+    w.source !== 'oxford' &&  // Excluir Oxford para balance, pero los incluiremos después
+    w.source !== 'gutenberg'
   );
   
-  if (validWords.length === 0) {
-    // Palabras de respaldo
+  // 2. Palabras de Oxford (con definiciones reales)
+  const oxfordWordsList = VOCAB.filter(w => 
+    w.source === 'oxford' && 
+    w.es && 
+    w.es.length > 5 &&
+    !w.es.includes('palabra que empieza') &&
+    !w.es.includes('término de') &&
+    !w.es.includes('palabra nivel')
+  );
+  
+  // 3. Verbos (si existen en VERBS_DATA y tienen definición)
+  const verbWords = VERBS_DATA.map(v => ({
+    word: v.base,
+    level: v.level || 'B1',
+    es: v.es || (v.meaning ? v.meaning : `verbo: ${v.base}`),
+    meaning: v.meaning || `verb: ${v.base}`,
+    example: v.example,
+    source: 'verb',
+    ipa: v.ipa || ''
+  })).filter(v => v.es && v.es.length > 2);
+  
+  // Mezclar: 50% palabras normales, 30% Oxford, 20% verbos
+  const shuffledNormal = shuffle([...normalWords]);
+  const shuffledOxford = shuffle([...oxfordWordsList]);
+  const shuffledVerbs = shuffle([...verbWords]);
+  
+  // Tomar proporciones
+  const normalCount = Math.min(30, shuffledNormal.length);
+  const oxfordCount = Math.min(20, shuffledOxford.length);
+  const verbCount = Math.min(10, shuffledVerbs.length);
+  
+  qqPool = [
+    ...shuffledNormal.slice(0, normalCount),
+    ...shuffledOxford.slice(0, oxfordCount),
+    ...shuffledVerbs.slice(0, verbCount)
+  ];
+  
+  // Si aún no hay suficientes, incluir palabras de respaldo
+  if (qqPool.length < 20) {
     const fallbackWords = [
-      { word: "Hello", es: "Hola", meaning: "Greeting", level: "A1", ipa: "/həˈləʊ/", example: "Hello, how are you?", example_es: "Hola, ¿cómo estás?" },
-      { word: "Goodbye", es: "Adiós", meaning: "Farewell", level: "A1", ipa: "/ˌɡʊdˈbaɪ/", example: "Goodbye, see you tomorrow!", example_es: "¡Adiós, nos vemos mañana!" },
-      { word: "Thank you", es: "Gracias", meaning: "Expression of gratitude", level: "A1", ipa: "/ˈθæŋk juː/", example: "Thank you for your help.", example_es: "Gracias por tu ayuda." }
+      { word: "Hello", es: "Hola", meaning: "Greeting", level: "A1", source: "fallback" },
+      { word: "Goodbye", es: "Adiós", meaning: "Farewell", level: "A1", source: "fallback" },
+      { word: "Thank you", es: "Gracias", meaning: "Expression of gratitude", level: "A1", source: "fallback" },
+      { word: "Beautiful", es: "Hermoso", meaning: "Pleasing to the eye", level: "A2", source: "fallback" },
+      { word: "Quick", es: "Rápido", meaning: "Fast", level: "A2", source: "fallback" }
     ];
     for (const w of fallbackWords) {
-      if (!VOCAB.some(v => v.word === w.word)) {
-        VOCAB.push(w);
+      if (!qqPool.some(p => p.word === w.word)) {
+        qqPool.push(w);
       }
     }
   }
+  
+  qqPool = shuffle(qqPool);
+  qqIdx = 0; 
+  qqCorrect = 0; 
+  qqWrong = 0; 
+  qqStreak = 0;
+  
+  console.log(`✅ Quiz iniciado con ${qqPool.length} palabras (${normalCount} normal, ${oxfordCount} Oxford, ${verbCount} verbos)`);
+  nextQQ();
 }
+
+// También mejoro nextQQ para que funcione correctamente con verbos
 function nextQQ() {
-  if (!qqPool.length) {
+  if (!qqPool.length || qqIdx >= qqPool.length) {
     document.getElementById('qqWord').textContent = '🎉';
     document.getElementById('qqOpts').innerHTML = '<div style="text-align:center;color:var(--gold)">¡Quiz completado! Reiniciando…</div>';
     setTimeout(() => initQQ(), 2000);
     return;
   }
   
-  qqCurrent = qqPool[qqIdx % qqPool.length]; 
+  qqCurrent = qqPool[qqIdx]; 
   qqIdx++;
 
-  // Show word
+  // Mostrar palabra
   document.getElementById('qqWord').textContent = qqCurrent.word;
   document.getElementById('qqIpa').textContent = qqCurrent.ipa || '';
   
-  // Example in English
+  // Ejemplo en inglés
   const eg = document.getElementById('qqEg');
   if (qqCurrent.example) { 
     eg.textContent = '"' + qqCurrent.example + '"'; 
@@ -2243,7 +2284,7 @@ function nextQQ() {
     eg.style.display = 'none';
   }
 
-  // Spanish translation (if enabled)
+  // Traducción española
   const esEl = document.getElementById('qqEs');
   if (qqCurrent.es && showES) { 
     esEl.textContent = '🇪🇸 ' + qqCurrent.es; 
@@ -2252,58 +2293,81 @@ function nextQQ() {
     esEl.classList.remove('show');
   }
 
-// Generar answer options - CORREGIDO para usar definiciones reales
-const correctAnswer = qqCurrent.es || qqCurrent.meaning || '';
-if (!correctAnswer) {
-  // Si no hay definición, saltar esta palabra
-  setTimeout(nextQQ, 100);
-  return;
-}
-
-// Buscar palabras con definiciones reales para usar como distractores
-const poolWithDefs = VOCAB.filter(w => 
+  // Obtener la respuesta correcta
+  const correctAnswer = qqCurrent.es || qqCurrent.meaning || '';
+  if (!correctAnswer) {
+    setTimeout(nextQQ, 100);
+    return;
+  }
+  
+  // Generar opciones incorrectas de diferentes fuentes
+  let wrongOptions = [];
+  
+// ✅ PRIORIZA palabras JSON como distractores
+const jsonDistractors = VOCAB.filter(w => 
   w.word !== qqCurrent.word && 
-  (w.es || w.meaning) && 
-  (w.es || w.meaning).length > 2 &&
-  (w.es || w.meaning) !== correctAnswer
+  w.source !== 'oxford' && 
+  w.source !== 'gutenberg' &&
+  (w.es || w.meaning)
 );
 
-// Tomar hasta 3 opciones incorrectas únicas
-let wrongOptions = [];
-const shuffledPool = shuffle(poolWithDefs);
-for (let i = 0; i < shuffledPool.length && wrongOptions.length < 3; i++) {
-  const def = shuffledPool[i].es || shuffledPool[i].meaning;
-  if (def && def !== correctAnswer && !wrongOptions.includes(def)) {
-    wrongOptions.push(def);
+const oxfordDistractors = VOCAB.filter(w => 
+  w.word !== qqCurrent.word && 
+  w.source === 'oxford' &&
+  (w.es || w.meaning)
+);
+
+const verbDistractors = VERBS_DATA.map(v => ({ 
+  es: v.es || v.meaning, 
+  word: v.base 
+})).filter(v => v.es && v.word !== qqCurrent.word);
+
+// ✅ Mezcla: 60% JSON, 25% Oxford, 15% Verbos
+const shuffledJson = shuffle(jsonDistractors).slice(0, 6);
+const shuffledOxford = shuffle(oxfordDistractors).slice(0, 3);
+const shuffledVerbs = shuffle(verbDistractors).slice(0, 2);
+
+const allPotentialDistractors = [...shuffledJson, ...shuffledOxford, ...shuffledVerbs];
+  
+  // Mezclar y tomar únicas
+  const shuffled = shuffle(allPotentialDistractors);
+  for (let i = 0; i < shuffled.length && wrongOptions.length < 3; i++) {
+    const def = shuffled[i].es || shuffled[i].meaning;
+    if (def && def !== correctAnswer && !wrongOptions.includes(def)) {
+      wrongOptions.push(def);
+    }
   }
-}
-
-// Si no hay suficientes opciones incorrectas, usar opciones genéricas variadas
-const fallbackOptions = [
-  "Comer / To eat",
-  "Caminar / To walk",
-  "Grande / Big",
-  "Pequeño / Small",
-  "Rápido / Fast",
-  "Lento / Slow",
-  "Feliz / Happy",
-  "Triste / Sad"
-];
-
-while (wrongOptions.length < 3) {
-  const fb = fallbackOptions[Math.floor(Math.random() * fallbackOptions.length)];
-  if (!wrongOptions.includes(fb) && fb !== correctAnswer) {
-    wrongOptions.push(fb);
+  
+  // Si faltan opciones, usar alternativas genéricas
+  const backupOptions = [
+    "Comer / To eat",
+    "Correr / To run",
+    "Grande / Big",
+    "Pequeño / Small",
+    "Feliz / Happy",
+    "Triste / Sad",
+    "Rápido / Fast",
+    "Lento / Slow",
+    "Nuevo / New",
+    "Viejo / Old",
+    "Bueno / Good",
+    "Malo / Bad"
+  ];
+  
+  while (wrongOptions.length < 3) {
+    const fb = backupOptions[Math.floor(Math.random() * backupOptions.length)];
+    if (!wrongOptions.includes(fb) && fb !== correctAnswer) {
+      wrongOptions.push(fb);
+    }
   }
-}
-
-let opts = [correctAnswer, ...wrongOptions];
-opts = shuffle(opts);
-
+  
+  let opts = [correctAnswer, ...wrongOptions];
+  opts = shuffle(opts);
+  
   const letters = ['A','B','C','D'];
   const container = document.getElementById('qqOpts');
   container.innerHTML = opts.map((o, i) =>
-    `<div class="q-opt" data-m="${(o||'').toString().replace(/"/g,'&quot;')}">
+    `<div class="q-opt" data-m="${(o || '').toString().replace(/"/g, '&quot;')}">
       <span class="q-letter">${letters[i]}</span>
       ${o || 'No definition'}
     </div>`
@@ -2313,7 +2377,7 @@ opts = shuffle(opts);
     el.addEventListener('click', () => checkQQ(el.dataset.m))
   );
   
-  // Pronounce the word
+  // Pronunciar la palabra
   speak(qqCurrent.word);
 }
 
