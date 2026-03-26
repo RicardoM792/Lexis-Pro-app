@@ -1009,6 +1009,7 @@ body.light .content {
       <div class="xp-pill">✦ <span id="xpDisplay">0</span> XP</div>
       <div class="lang-pill" id="langBtn">🇪🇸 ES</div>
       <button class="topbar-btn" id="resetBtn" title="Reset progress">↺</button>
+      <button class="topbar-btn" id="syncBtn" title="Sincronizar datos">…</button>
     </header>
 
     <div class="content" id="content">
@@ -1027,7 +1028,7 @@ body.light .content {
         <div id="errorState" class="error-state" style="display:none">
           <h3>⚠️ No se pudo cargar los datos</h3>
           <p>Verifica tu conexión a internet o intenta más tarde.</p>
-          <button class="retry-btn" id="retryLoadBtn">🔄 Reintentar</button>
+          <button class="retry-btn" id="retryLoadBtn">… Reintentar</button>
         </div>
 
         <div class="hero-section">
@@ -1553,13 +1554,39 @@ function hideErrorState() {
 }
 
 // ════════════════════════════════════════════════════════════
-//  DATA LOADING - Robust version with multiple fallbacks
+//  DATA LOADING - Con soporte OFFLINE
 // ════════════════════════════════════════════════════════════
 async function loadAllData() {
   hideErrorState();
   const banner = document.getElementById('loadingBanner');
   if (banner) banner.style.display = 'flex';
-  setLoadProgress(5, '🔗 Conectando con CDN…');
+  
+  // ═══════════════════════════════════
+  //  MODO OFFLINE - Sin internet
+  // ═══════════════════════════════════
+  if (!navigator.onLine) {
+    setLoadProgress(5, '📴 Modo Offline detectado…');
+    const loadedOffline = loadDataFromOffline();
+    if (loadedOffline) {
+      setLoadProgress(100, '📴 Datos locales cargados');
+      setTimeout(() => { if (banner) banner.style.display = 'none'; }, 800);
+      dataLoaded = true;
+      updateUI();
+      renderLibrary();
+      initQQ();
+      toast('📴 Modo Offline - Datos guardados', 'var(--amber)');
+      return;
+    } else {
+      showErrorState();
+      toast('⚠ Sin conexión y sin datos guardados', 'var(--red)');
+      return;
+    }
+  }
+  
+  // ═══════════════════════════════════
+  //  MODO ONLINE - Con internet
+  // ═══════════════════════════════════
+  setLoadProgress(5, '🌐 Conectando con GitHub…');
   
   try {
     // 1. Load index.json
@@ -1569,14 +1596,14 @@ async function loadAllData() {
     BOOKS_DATA = CONFIG?.books || [];
     
     // 2. Define files to load
-  const vocabFiles = [
-  'colors.json', 'numbers.json', 'pronouns.json', 'adjectives.json',
-  'nouns.json', 'seasons-weather.json', 'time.json', 'vocabulary.json',
-  'animals.json', 'prepositions.json', 'verbs-a1.json', 'adverbs.json',
-  'travel.json', 'work.json', 'phrasal-verbs.json', 'collocations.json',
-  'idioms.json', 'business.json', 'advanced-idioms.json', 'philosophy.json',
-  'esoteric-terms.json', 'linguistics.json'
-];
+    const vocabFiles = [
+      'colors.json', 'numbers.json', 'pronouns.json', 'adjectives.json',
+      'nouns.json', 'seasons-weather.json', 'time.json', 'vocabulary.json',
+      'animals.json', 'prepositions.json', 'verbs-a1.json', 'adverbs.json',
+      'travel.json', 'work.json', 'phrasal-verbs.json', 'collocations.json',
+      'idioms.json', 'business.json', 'advanced-idioms.json', 'philosophy.json',
+      'esoteric-terms.json', 'linguistics.json'
+    ];
     const totalFiles = vocabFiles.length + 2;
     let loaded = 0;
     
@@ -1628,7 +1655,10 @@ async function loadAllData() {
       }
     }
     
-    // 7. Complete
+    // 7. ✅ GUARDAR PARA OFFLINE
+    saveDataForOffline();
+    
+    // 8. Complete
     dataLoaded = true;
     setLoadProgress(100, '✅ ¡Listo para aprender!');
     setTimeout(() => { if (banner) banner.style.display = 'none'; }, 800);
@@ -1643,6 +1673,18 @@ async function loadAllData() {
     console.error('❌ Load error:', err);
     loadAttempts++;
     
+    // ✅ FALLBACK: Intentar usar datos offline si falla online
+    const loadedOffline = loadDataFromOffline();
+    if (loadedOffline) {
+      setLoadProgress(100, '⚠ Usando datos guardados');
+      dataLoaded = true;
+      updateUI();
+      renderLibrary();
+      initQQ();
+      toast('⚠ Sin conexión - Usando datos guardados', 'var(--amber)');
+      return;
+    }
+    
     if (loadAttempts < MAX_LOAD_ATTEMPTS) {
       setLoadProgress(0, `⚠ Error - Reintentando (${loadAttempts}/${MAX_LOAD_ATTEMPTS})…`);
       setTimeout(() => loadAllData(), 2000);
@@ -1652,13 +1694,65 @@ async function loadAllData() {
     showErrorState();
     toast('⚠ Error cargando datos — revisa tu conexión.', 'var(--red)');
     
-    // Show basic data anyway
     document.getElementById('mcVocabSub').textContent = VOCAB.length + ' words loaded';
     document.getElementById('mcVerbsSub').textContent = VERBS_DATA.length + ' verbs';
     document.getElementById('mcGrammarSub').textContent = GRAMMAR_DATA.length + ' rules';
   }
 }
+// ═══════════════════════════════════
+//  DETECTAR CAMBIOS DE CONEXIÓN
+// ═══════════════════════════════════
+window.addEventListener('online', () => {
+  toast('🌐 Conexión restaurada', 'var(--green)');
+  document.getElementById('pageTitle').textContent += ' 🌐';
+});
 
+window.addEventListener('offline', () => {
+  toast('📴 Modo Offline activado', 'var(--amber)');
+  document.getElementById('pageTitle').textContent += ' 📴';
+});
+// ═══════════════════════════════════
+//  GUARDAR DATOS PARA OFFLINE
+// ═══════════════════════════════════
+function saveDataForOffline() {
+  try {
+    const dataToSave = {
+      vocab: VOCAB,
+      verbs: VERBS_DATA,
+      grammar: GRAMMAR_DATA,
+      books: BOOKS_DATA,
+      timestamp: Date.now()
+    };
+    const compressed = JSON.stringify(dataToSave);
+    localStorage.setItem('lexis_offline_data', compressed);
+    localStorage.setItem('lexis_offline_saved', 'true');
+    console.log('✅ Datos guardados para offline:', compressed.length, 'bytes');
+  } catch(e) {
+    console.warn('⚠ No se pudo guardar para offline:', e.message);
+  }
+}
+
+function loadDataFromOffline() {
+  try {
+    const saved = localStorage.getItem('lexis_offline_data');
+    if (!saved) return false;
+    const data = JSON.parse(saved);
+    const age = Date.now() - data.timestamp;
+    const sevenDays = 7 * 24 * 60 * 60 * 1000;
+    if (age > sevenDays) {
+      console.log('⚠ Datos offline con más de 7 días');
+    }
+    VOCAB = data.vocab || [];
+    VERBS_DATA = data.verbs || [];
+    GRAMMAR_DATA = data.grammar || [];
+    BOOKS_DATA = data.books || [];
+    console.log('✅ Datos cargados desde offline');
+    return true;
+  } catch(e) {
+    console.warn('⚠ Error cargando datos offline:', e.message);
+    return false;
+  }
+}
 // ════════════════════════════════════════════════════════════
 //  NAVIGATION
 // ════════════════════════════════════════════════════════════
@@ -2777,6 +2871,20 @@ function startApp() {
       mastered = []; xp = 0; streak = 0;
       saveCurrentUser(); updateUI();
       toast('Progreso reiniciado / Progress reset', 'var(--text2)');
+    });
+  }
+
+  // ✅ BOTÓN SYNC - AGREGADO AQUÍ
+  const syncBtn = document.getElementById('syncBtn');
+  if (syncBtn) {
+    syncBtn.addEventListener('click', () => {
+      if (!navigator.onLine) {
+        toast('⚠ Sin conexión para sincronizar', 'var(--red)');
+        return;
+      }
+      localStorage.removeItem('lexis_offline_data');
+      toast('… Sincronizando datos…', 'var(--gold)');
+      loadAllData();
     });
   }
 
