@@ -291,6 +291,9 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .error-state p{color:var(--text2);font-size:12px;margin-bottom:15px}
 .retry-btn{padding:8px 20px;border-radius:20px;border:1px solid var(--gold);background:rgba(232,184,109,0.1);color:var(--gold);cursor:pointer;font-size:11px;font-weight:600;transition:var(--t)}
 .retry-btn:hover{background:rgba(232,184,109,0.2)}
+
+.smart-island{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--surface);backdrop-filter:blur(20px);border:1px solid var(--border2);border-radius:100px;padding:8px 20px;display:flex;align-items:center;gap:12px;z-index:10000;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);opacity:0;pointer-events:none;box-shadow:0 8px 32px rgba(0,0,0,0.2);font-family:'Syne',sans-serif}
+.smart-island.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
 </style>
 </head>
 <body>
@@ -354,7 +357,7 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
         <div id="errorState" class="error-state" style="display:none">
           <h3>⚠️ No se pudo cargar los datos</h3>
           <p>Verifica tu conexión a internet o intenta más tarde.</p>
-          <button class="retry-btn" id="retryLoadBtn">… Reintentar</button>
+          <button class="retry-btn" id="retryLoadBtn">Reintentar</button>
         </div>
         <div class="hero-section">
           <div class="hero-card">
@@ -387,7 +390,7 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
           <div class="mini-card" data-page="grammar"><div class="mc-icon">📐</div><div class="mc-title">Grammar</div><div class="mc-sub" id="mcGrammarSub">Loading…</div><div class="mc-badge">REVIEW</div></div>
           <div class="mini-card" data-page="library"><div class="mc-icon">📚</div><div class="mc-title">Library</div><div class="mc-sub" id="mcLibrarySub">30 classics</div><div class="mc-badge">READ</div></div>
           <div class="mini-card" data-page="practice"><div class="mc-icon">🎯</div><div class="mc-title">Practice</div><div class="mc-sub">Test your knowledge</div><div class="mc-badge">TRAIN</div></div>
-          <div class="mini-card" data-page="chat"><div class="mc-icon">🤖</div><div class="mc-title">AI Tutor</div><div class="mc-sub">Corrections &amp; explanations</div><div class="mc-badge">AI</div></div>
+          <div class="mini-card" data-page="chat"><div class="mc-icon">🤖</div><div class="mc-title">AI Tutor</div><div class="mc-sub">Corrections & explanations</div><div class="mc-badge">AI</div></div>
         </div>
       </div>
 
@@ -480,237 +483,48 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 
 // ==================== SMART GENERATE FUNCTION ====================
 function smartGenerate(text, level = "A1") {
-
   const sentences = text.match(/[^.!?]+[.!?]+/g)?.map(s => s.trim()).filter(s => s.length > 0) || [];
-
   if (sentences.length === 0) {
-    return {
-      level: level,
-      audio_chunks: [],
-      exercises: {
-        reading: [],
-        grammar: [],
-        vocabulary: [],
-        listening: []
-      }
-    };
+    return { level: level, audio_chunks: [], exercises: { reading: [], grammar: [], vocabulary: [], listening: [] }, metadata: { total_sentences: 0, total_audio_chunks: 0, total_exercises: 0 } };
   }
-
-  // AUDIO CHUNKS (sin URLs)
-  const audio_chunks = sentences.map((s, i) => ({
-    id: `${level}_AUD_${String(i + 1).padStart(3, "0")}`,
-    text: s,
-    duration_seconds: Math.max(3, Math.floor(s.split(" ").length / 2.5)),
-    speaker: "male_1"
-  }));
-
-  // READING QUESTIONS
+  const audio_chunks = sentences.map((s, i) => ({ id: `${level}_AUD_${String(i + 1).padStart(3, "0")}`, text: s, duration_seconds: Math.max(3, Math.floor(s.split(" ").length / 2.5)), speaker: "male_1" }));
   const reading = [];
   const textLower = text.toLowerCase();
-
   const cities = ["bogotá", "medellín", "cali", "mexico", "madrid", "buenos aires", "lima", "santiago", "new york", "london"];
   const foundCity = cities.find(city => textLower.includes(city));
-  if (foundCity) {
-    reading.push({
-      id: `${level}_R_001`,
-      question: "Where does the person live?",
-      options: [
-        foundCity.charAt(0).toUpperCase() + foundCity.slice(1),
-        "New York",
-        "London"
-      ],
-      correct: foundCity.charAt(0).toUpperCase() + foundCity.slice(1)
-    });
-  }
-
+  if (foundCity) reading.push({ id: `${level}_R_001`, question: "Where does the person live?", options: [foundCity.charAt(0).toUpperCase() + foundCity.slice(1), "New York", "London"], correct: foundCity.charAt(0).toUpperCase() + foundCity.slice(1) });
   const wakeTimeMatch = text.match(/wake up at (\d{1,2}:\d{2})/i);
-  if (wakeTimeMatch) {
-    reading.push({
-      id: `${level}_R_002`,
-      question: "What time does he wake up?",
-      options: [
-        wakeTimeMatch[1],
-        `${parseInt(wakeTimeMatch[1].split(":")[0]) + 1}:00`,
-        `${parseInt(wakeTimeMatch[1].split(":")[0]) - 1}:00`
-      ],
-      correct: wakeTimeMatch[1]
-    });
-  }
-
+  if (wakeTimeMatch) reading.push({ id: `${level}_R_002`, question: "What time does he wake up?", options: [wakeTimeMatch[1], `${parseInt(wakeTimeMatch[1].split(":")[0]) + 1}:00`, `${parseInt(wakeTimeMatch[1].split(":")[0]) - 1}:00`], correct: wakeTimeMatch[1] });
   const studyMatch = text.match(/study (english|math|mathematics|science|history|engineering|spanish|french|german)/i);
-  if (studyMatch) {
-    const subject = studyMatch[1].toLowerCase();
-    reading.push({
-      id: `${level}_R_003`,
-      question: "What does he study?",
-      options: [
-        subject.charAt(0).toUpperCase() + subject.slice(1),
-        "Mathematics",
-        "Science"
-      ],
-      correct: subject.charAt(0).toUpperCase() + subject.slice(1)
-    });
-  }
-
+  if (studyMatch) reading.push({ id: `${level}_R_003`, question: "What does he study?", options: [studyMatch[1].charAt(0).toUpperCase() + studyMatch[1].slice(1), "Mathematics", "Science"], correct: studyMatch[1].charAt(0).toUpperCase() + studyMatch[1].slice(1) });
   const ageMatch = text.match(/(\d{1,2}) years? old/i);
-  if (ageMatch) {
-    reading.push({
-      id: `${level}_R_004`,
-      question: "How old is the person?",
-      options: [
-        `${ageMatch[1]} years old`,
-        `${parseInt(ageMatch[1]) + 5} years old`,
-        `${parseInt(ageMatch[1]) - 3} years old`
-      ],
-      correct: `${ageMatch[1]} years old`
-    });
-  }
-
+  if (ageMatch) reading.push({ id: `${level}_R_004`, question: "How old is the person?", options: [`${ageMatch[1]} years old`, `${parseInt(ageMatch[1]) + 5} years old`, `${parseInt(ageMatch[1]) - 3} years old`], correct: `${ageMatch[1]} years old` });
   const nameMatch = text.match(/my name is ([a-z]+ [a-z]+|[a-z]+)/i);
-  if (nameMatch) {
-    reading.push({
-      id: `${level}_R_005`,
-      question: "What is his name?",
-      options: [
-        nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1),
-        "John",
-        "Michael"
-      ],
-      correct: nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1)
-    });
-  }
-
-  // GRAMMAR
+  if (nameMatch) reading.push({ id: `${level}_R_005`, question: "What is his name?", options: [nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1), "John", "Michael"], correct: nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1) });
   const grammar = [];
   const grammarSentences = sentences.slice(0, Math.min(6, sentences.length));
-
   grammarSentences.forEach((s, i) => {
     const words = s.split(" ");
     if (words.length < 3) return;
-
     const verbIndices = [];
     const commonVerbs = ["am", "is", "are", "study", "studies", "live", "lives", "wake", "wakes", "have", "has", "go", "goes", "eat", "eats"];
-    words.forEach((word, idx) => {
-      const cleanWord = word.toLowerCase().replace(/[.,!?;:()]/g, "");
-      if (commonVerbs.includes(cleanWord)) verbIndices.push(idx);
-    });
-
+    words.forEach((word, idx) => { const cleanWord = word.toLowerCase().replace(/[.,!?;:()]/g, ""); if (commonVerbs.includes(cleanWord)) verbIndices.push(idx); });
     let idxToHide, correctWord;
-    if (verbIndices.length > 0) {
-      idxToHide = verbIndices[0];
-      correctWord = words[idxToHide].replace(/[.,!?;:()]/g, "");
-    } else {
-      const longWords = [];
-      words.forEach((word, idx) => {
-        const clean = word.replace(/[.,!?;:()]/g, "");
-        if (clean.length > 3 && !["the", "and", "for", "but", "with", "that"].includes(clean.toLowerCase())) {
-          longWords.push(idx);
-        }
-      });
-      if (longWords.length > 0) {
-        idxToHide = longWords[Math.floor(Math.random() * longWords.length)];
-        correctWord = words[idxToHide].replace(/[.,!?;:()]/g, "");
-      } else {
-        idxToHide = Math.floor(words.length / 2);
-        correctWord = words[idxToHide].replace(/[.,!?;:()]/g, "");
-      }
-    }
-
-    const questionWords = [...words];
-    questionWords[idxToHide] = "______";
-    grammar.push({
-      id: `${level}_G_${String(i + 1).padStart(3, "0")}`,
-      type: "fill",
-      question: questionWords.join(" "),
-      correct: correctWord
-    });
+    if (verbIndices.length > 0) { idxToHide = verbIndices[0]; correctWord = words[idxToHide].replace(/[.,!?;:()]/g, ""); } 
+    else { const longWords = []; words.forEach((word, idx) => { const clean = word.replace(/[.,!?;:()]/g, ""); if (clean.length > 3 && !["the", "and", "for", "but", "with", "that"].includes(clean.toLowerCase())) longWords.push(idx); }); if (longWords.length > 0) { idxToHide = longWords[Math.floor(Math.random() * longWords.length)]; correctWord = words[idxToHide].replace(/[.,!?;:()]/g, ""); } else { idxToHide = Math.floor(words.length / 2); correctWord = words[idxToHide].replace(/[.,!?;:()]/g, ""); } }
+    const questionWords = [...words]; questionWords[idxToHide] = "______";
+    grammar.push({ id: `${level}_G_${String(i + 1).padStart(3, "0")}`, type: "fill", question: questionWords.join(" "), correct: correctWord });
   });
-
-  if (grammar.length < 3) {
-    const defaultGrammar = [
-      { question: "I ___ a student.", correct: "am" },
-      { question: "He ___ English every day.", correct: "studies" },
-      { question: "She ___ to school by bus.", correct: "goes" }
-    ];
-    defaultGrammar.forEach((g, i) => {
-      grammar.push({
-        id: `${level}_G_${String(grammar.length + 1).padStart(3, "0")}`,
-        type: "fill",
-        question: g.question,
-        correct: g.correct
-      });
-    });
-  }
-
-  // VOCABULARY
+  if (grammar.length < 3) { const defaultGrammar = [{ question: "I ___ a student.", correct: "am" }, { question: "He ___ English every day.", correct: "studies" }, { question: "She ___ to school by bus.", correct: "goes" }]; defaultGrammar.forEach((g, i) => { grammar.push({ id: `${level}_G_${String(grammar.length + 1).padStart(3, "0")}`, type: "fill", question: g.question, correct: g.correct }); }); }
   const vocabulary = [];
-  const commonVocab = {
-    breakfast: "desayuno", lunch: "almuerzo", dinner: "cena", school: "escuela",
-    university: "universidad", teacher: "profesor", student: "estudiante", family: "familia",
-    home: "casa", bus: "autobús", study: "estudiar", learn: "aprender", english: "inglés",
-    morning: "mañana", evening: "tarde", night: "noche", coffee: "café", water: "agua", book: "libro"
-  };
-
-  const foundWords = [];
-  for (const word in commonVocab) {
-    if (textLower.includes(word) && !foundWords.includes(word)) foundWords.push(word);
-  }
-
-  const vocabWordsToUse = foundWords.slice(0, 6);
-  if (vocabWordsToUse.length === 0) vocabWordsToUse.push("study", "family", "school");
-
-  vocabWordsToUse.forEach((word, i) => {
-    const translation = commonVocab[word] || "desconocido";
-    const wrongOptions = ["almuerzo", "cena", "escuela", "universidad", "casa", "trabajo"];
-    const filteredWrongs = wrongOptions.filter(opt => opt !== translation).slice(0, 2);
-    vocabulary.push({
-      id: `${level}_V_${String(i + 1).padStart(3, "0")}`,
-      question: `${word.charAt(0).toUpperCase() + word.slice(1)} = ?`,
-      options: [translation, filteredWrongs[0] || "comida", filteredWrongs[1] || "lugar"],
-      correct: translation
-    });
-  });
-
-  // LISTENING
+  const commonVocab = { breakfast: "desayuno", lunch: "almuerzo", dinner: "cena", school: "escuela", university: "universidad", teacher: "profesor", student: "estudiante", family: "familia", home: "casa", bus: "autobús", study: "estudiar", learn: "aprender", english: "inglés", morning: "mañana", evening: "tarde", night: "noche", coffee: "café", water: "agua", book: "libro" };
+  const foundWords = []; for (const word in commonVocab) { if (textLower.includes(word) && !foundWords.includes(word)) foundWords.push(word); }
+  const vocabWordsToUse = foundWords.slice(0, 6); if (vocabWordsToUse.length === 0) vocabWordsToUse.push("study", "family", "school");
+  vocabWordsToUse.forEach((word, i) => { const translation = commonVocab[word] || "desconocido"; const wrongOptions = ["almuerzo", "cena", "escuela", "universidad", "casa", "trabajo"]; const filteredWrongs = wrongOptions.filter(opt => opt !== translation).slice(0, 2); vocabulary.push({ id: `${level}_V_${String(i + 1).padStart(3, "0")}`, question: `${word.charAt(0).toUpperCase() + word.slice(1)} = ?`, options: [translation, filteredWrongs[0] || "comida", filteredWrongs[1] || "lugar"], correct: translation }); });
   const listening = [];
   const listeningChunks = audio_chunks.slice(0, Math.min(5, audio_chunks.length));
-
-  listeningChunks.forEach((chunk, i) => {
-    const chunkText = chunk.text;
-    const words = chunkText.split(" ");
-    let wrongOption1 = chunkText;
-    let wrongOption2 = chunkText;
-
-    if (words.length > 3) {
-      const wrongWords = [...words];
-      const indexToChange = Math.floor(Math.random() * words.length);
-      wrongWords[indexToChange] = "something";
-      wrongOption1 = wrongWords.join(" ");
-    }
-    if (words.length > 5) {
-      wrongOption2 = words.slice(0, Math.floor(words.length / 2)).join(" ") + " ...";
-    }
-
-    listening.push({
-      id: `${level}_L_${String(i + 1).padStart(3, "0")}`,
-      audio_id: chunk.id,
-      audio_text: chunk.text,
-      question: "What did you hear?",
-      options: [chunk.text, wrongOption1, wrongOption2],
-      correct: chunk.text
-    });
-  });
-
-  return {
-    level: level,
-    audio_chunks: audio_chunks,
-    exercises: { reading, grammar, vocabulary, listening },
-    metadata: {
-      total_sentences: sentences.length,
-      total_audio_chunks: audio_chunks.length,
-      total_exercises: reading.length + grammar.length + vocabulary.length + listening.length
-    }
-  };
+  listeningChunks.forEach((chunk, i) => { const chunkText = chunk.text; let wrongOption1 = chunkText; let wrongOption2 = chunkText; const words = chunkText.split(" "); if (words.length > 3) { const wrongWords = [...words]; const indexToChange = Math.floor(Math.random() * words.length); wrongWords[indexToChange] = "something"; wrongOption1 = wrongWords.join(" "); } if (words.length > 5) { wrongOption2 = words.slice(0, Math.floor(words.length / 2)).join(" ") + " ..."; } listening.push({ id: `${level}_L_${String(i + 1).padStart(3, "0")}`, audio_id: chunk.id, audio_text: chunk.text, question: "What did you hear?", options: [chunk.text, wrongOption1, wrongOption2], correct: chunk.text }); });
+  return { level: level, audio_chunks: audio_chunks, exercises: { reading, grammar, vocabulary, listening }, metadata: { total_sentences: sentences.length, total_audio_chunks: audio_chunks.length, total_exercises: reading.length + grammar.length + vocabulary.length + listening.length } };
 }
 
 // CONSTANTS
@@ -725,6 +539,7 @@ let vocabLevelFilter = 'all', vocabSearch = '', showMasteredOnly = false;
 let qqCurrent = null, qqCorrect = 0, qqWrong = 0, qqStreak = 0, qqPool = [], qqIdx = 0;
 let pracQueue = [], pracIdx = 0, pracCurrent = null, pracCorrect = 0, pracWrong = 0, pracStreak = 0, pracTotal = 0, pracDone = 0;
 let dataLoaded = false, loadAttempts = 0;
+let AUDIO_DATA = {};
 const MAX_LOAD_ATTEMPTS = 3;
 
 // HELPERS
@@ -763,7 +578,35 @@ function getNextLevelThreshold(lv) { return {A1:100,A2:250,B1:500,B2:800,C1:1200
 const NEXT_LEVEL = {A1:'A2',A2:'B1',B1:'B2',B2:'C1',C1:'C2',C2:'Master'};
 const TAG_CLS = {A1:'tag-a1',A2:'tag-a2',B1:'tag-b1',B2:'tag-b2',C1:'tag-c1',C2:'tag-c2'};
 
-function speak(text) { if(window.speechSynthesis) { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=0.87; window.speechSynthesis.speak(u); } }
+function speak(text, word = null) {
+  if (word && AUDIO_DATA[userLevel]) {
+    const audioFile = AUDIO_DATA[userLevel].find(a => a.word === word);
+    if (audioFile && audioFile.url) {
+      const audio = new Audio(audioFile.url);
+      audio.play().catch(e => console.log("Audio fallback a TTS", e));
+      return;
+    }
+  }
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.87;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
+async function loadAudioForLevel(level) {
+  try {
+    const res = await ghFetch(`${level}/aud.json`);
+    const data = await res.json();
+    AUDIO_DATA[level] = data.audio_files || [];
+    return AUDIO_DATA[level];
+  } catch(e) {
+    AUDIO_DATA[level] = [];
+    return [];
+  }
+}
 
 // USER PERSISTENCE
 function getAllUsers() { try { return JSON.parse(localStorage.getItem('lxp_users') || '{}'); } catch(e) { return {}; } }
@@ -843,6 +686,8 @@ async function loadAllData() {
     setTimeout(() => document.getElementById('loadingBanner').style.display = 'none', 800);
     updateUI(); renderLibrary(); initQQ();
     toast(`✓ ${VOCAB.length} palabras · ${VERBS_DATA.length} verbos`, 'var(--green)');
+    const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+    Promise.all(levels.map(level => loadAudioForLevel(level))).catch(e => console.warn('Audio preload parcial'));
   } catch(err) {
     loadAttempts++;
     if (loadDataFromOffline()) { setLoadProgress(100, '⚠ Usando datos guardados'); dataLoaded = true; updateUI(); renderLibrary(); initQQ(); toast('⚠ Usando datos guardados', 'var(--amber)'); return; }
@@ -868,7 +713,7 @@ function renderVocab() {
     ${w.example?`<div class="wc-example">"${w.example}"</div>`:''}
     <div class="wc-actions"><button class="wc-btn speak-word" data-word="${w.word.replace(/"/g, '&quot;')}">🔊 Listen</button>${w.es?`<button class="wc-btn es-btn${showES?' active':''}" data-word="${w.word}">🇪🇸 ES</button>`:''}${!mastered.includes(w.word)?`<button class="wc-btn gold master-word" data-word="${w.word.replace(/"/g, '&quot;')}">✦ Master</button>`:'<button class="wc-btn" style="color:var(--green)" disabled>✓ Mastered</button>'}</div>
   </div>`).join('');
-  g.querySelectorAll('.speak-word').forEach(el => el.addEventListener('click', () => speak(el.dataset.word)));
+  g.querySelectorAll('.speak-word').forEach(el => el.addEventListener('click', () => speak(el.dataset.word, el.dataset.word)));
   g.querySelectorAll('.master-word').forEach(el => el.addEventListener('click', () => masterWord(el.dataset.word)));
   g.querySelectorAll('.es-btn').forEach(el => { el.addEventListener('click', () => { const card = el.closest('.word-card'); card.querySelectorAll('.wc-es').forEach(b => b.classList.toggle('show')); el.classList.toggle('active'); }); });
 }
@@ -877,7 +722,7 @@ function renderVerbs() {
   const g = document.getElementById('verbsGrid');
   if (!VERBS_DATA.length) { g.innerHTML = '<div class="no-words">Cargando verbos…</div>'; return; }
   g.innerHTML = VERBS_DATA.map(v => `<div class="verb-card" data-base="${v.base}" data-past="${v.past}" data-part="${v.participle}"><div style="display:flex;justify-content:space-between"><div class="vc-base">${v.base}</div>${v.level?`<span class="level-tag ${TAG_CLS[v.level]||''}">${v.level}</span>`:''}</div><div class="vc-es">${v.es||''}</div><div class="vc-forms"><div class="vc-form-group"><div class="vc-form-lbl">BASE</div><div class="vc-form">${v.base}</div></div><div class="vc-form-group"><div class="vc-form-lbl">PAST</div><div class="vc-form">${v.past}</div></div><div class="vc-form-group"><div class="vc-form-lbl">PARTICIPLE</div><div class="vc-form">${v.participle}</div></div></div>${v.example?`<div class="vc-example">"${v.example}"</div>`:''}</div>`).join('');
-  g.querySelectorAll('.verb-card').forEach(c => c.addEventListener('click', () => speak(`${c.dataset.base}, ${c.dataset.past}, ${c.dataset.part}`)));
+  g.querySelectorAll('.verb-card').forEach(c => c.addEventListener('click', () => speak(`${c.dataset.base}, ${c.dataset.past}, ${c.dataset.part}`, c.dataset.base)));
 }
 
 function renderGrammar() {
@@ -893,7 +738,7 @@ function renderLibrary() {
   if (!books.length) return;
   const levelColors = {A1:'#3ddc84',A2:'#3daade',B1:'#e8b86d',B2:'#ff9a3c',C1:'#ff5a1f',C2:'#ff4757'};
   document.getElementById('libraryGrid').innerHTML = books.map((b, i) => `<div class="book-card"><div class="book-spine" style="background:${b.color||'#888'}"></div><div class="book-title">${b.title}</div><div class="book-author">${b.author} · ${b.year}</div><div class="book-meta"><span class="book-tag" style="background:${b.color||'#888'}22;color:${b.color||'#888'}">CLASSIC</span><span class="book-tag" style="background:${levelColors[b.level]}22;color:${levelColors[b.level]}">${b.level}</span></div><div class="book-desc">${b.desc}</div><button class="book-btn" data-book-idx="${i}">📖 Extract vocabulary</button></div>`).join('');
-  document.querySelectorAll('#libraryGrid .book-btn').forEach(btn => btn.addEventListener('click', async function() { const book = books[parseInt(this.dataset.bookIdx)]; toast(`📖 Cargando "${book.title}"…`, 'var(--amber)'); try { const res = await ghFetch(book.url); const text = await res.text(); const start = text.indexOf('*** START OF'); const end = text.indexOf('*** END OF'); const content = start > -1 ? text.slice(start, end > -1 ? end : undefined) : text; const freq = {}; for (const w of (content.match(/\b[A-Za-z]{6,}\b/g) || [])) freq[w.toLowerCase()] = (freq[w.toLowerCase()] || 0) + 1; const existing = new Set(VOCAB.map(v => v.word.toLowerCase())); const words = Object.entries(freq).filter(([w,c]) => c >= 3 && c <= 25 && w.length >= 6 && !existing.has(w)).sort((a,b)=>b[1]-a[1]).slice(0,50).map(([w]) => ({ word: w[0].toUpperCase()+w.slice(1), level: w.length>10?'C1':w.length>8?'B2':'B1', ipa: '', meaning: 'Extracted from classic literature', es: 'Extraído de literatura clásica', example: `"${w[0].toUpperCase()+w.slice(1)}" appears in this classic text.`, source: 'gutenberg', topic: 'literature' })); let added = 0; for (const w of words) { if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) { VOCAB.push(w); added++; } } saveCurrentUser(); updateUI(); toast(`📚 +${added} palabras añadidas`, 'var(--amber)'); goPage('vocab'); } catch(e) { toast('Error al cargar el libro', 'var(--red'); } })); }
+  document.querySelectorAll('#libraryGrid .book-btn').forEach(btn => btn.addEventListener('click', async function() { const book = books[parseInt(this.dataset.bookIdx)]; toast(`📖 Cargando "${book.title}"…`, 'var(--amber)'); try { const res = await ghFetch(book.url); const text = await res.text(); const start = text.indexOf('*** START OF'); const end = text.indexOf('*** END OF'); const content = start > -1 ? text.slice(start, end > -1 ? end : undefined) : text; const freq = {}; for (const w of (content.match(/\b[A-Za-z]{6,}\b/g) || [])) freq[w.toLowerCase()] = (freq[w.toLowerCase()] || 0) + 1; const existing = new Set(VOCAB.map(v => v.word.toLowerCase())); const words = Object.entries(freq).filter(([w,c]) => c >= 3 && c <= 25 && w.length >= 6 && !existing.has(w)).sort((a,b)=>b[1]-a[1]).slice(0,50).map(([w]) => ({ word: w[0].toUpperCase()+w.slice(1), level: w.length>10?'C1':w.length>8?'B2':'B1', ipa: '', meaning: 'Extracted from classic literature', es: 'Extraído de literatura clásica', example: `"${w[0].toUpperCase()+w.slice(1)}" appears in this classic text.`, source: 'gutenberg', topic: 'literature' })); let added = 0; for (const w of words) { if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) { VOCAB.push(w); added++; } } saveCurrentUser(); updateUI(); toast(`📚 +${added} palabras añadidas`, 'var(--amber)'); goPage('vocab'); } catch(e) { toast('Error al cargar el libro', 'var(--red)'); } })); }
 
 // QUICK QUIZ
 function initQQ() {
@@ -920,7 +765,7 @@ function nextQQ() {
   const letters = ['A','B','C','D'];
   document.getElementById('qqOpts').innerHTML = opts.map((o,i) => `<div class="q-opt" data-m="${(o||'').toString().replace(/"/g,'&quot;')}"><span class="q-letter">${letters[i]}</span>${o||'No definition'}</div>`).join('');
   document.querySelectorAll('#qqOpts .q-opt').forEach(el => el.addEventListener('click', () => checkQQ(el.dataset.m)));
-  speak(qqCurrent.word);
+  speak(qqCurrent.word, qqCurrent.word);
 }
 function checkQQ(sel) {
   if (!qqCurrent) return;
@@ -959,12 +804,73 @@ function checkPrac(sel) {
   fb.innerHTML = (right ? `✓ <strong>Correcto!</strong> "${pracCurrent.word}" = ${correctAnswer}` : `✗ La respuesta correcta es: <strong>"${correctAnswer}"</strong>`) + (pracCurrent.example ? `<br><em>"${pracCurrent.example}"</em>` : '');
   fb.classList.add('show');
   document.getElementById('pracNextBtn').classList.add('show');
-  speak(pracCurrent.word);
+  speak(pracCurrent.word, pracCurrent.word);
 }
 function updatePracStats() {
   document.getElementById('psC').textContent = pracCorrect; document.getElementById('psW').textContent = pracWrong; document.getElementById('psS').textContent = pracStreak;
   const pct = pracTotal ? Math.round((pracDone / pracTotal) * 100) : 0;
   document.getElementById('pracFill').style.width = pct + '%'; document.getElementById('pracCount').textContent = pracDone + ' / ' + pracTotal;
+}
+
+// SMART GENERATE UI
+function setupSmartGenerate() {
+  const btn = document.getElementById('smartGenBtn');
+  const textarea = document.getElementById('smartGenText');
+  const levelSelect = document.getElementById('smartGenLevel');
+  const output = document.getElementById('smartGenOutput');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const text = textarea.value.trim();
+    if (!text) { output.textContent = '⚠️ Please enter some text to generate exercises.'; return; }
+    const level = levelSelect.value;
+    const result = smartGenerate(text, level);
+    output.textContent = JSON.stringify(result, null, 2);
+    toast(`✅ Generated ${result.metadata.total_exercises} exercises`, 'var(--green)');
+  });
+}
+
+// SMART DYNAMIC ISLAND
+let islandTimeout;
+function showIsland(content) {
+  let island = document.getElementById('smartIsland');
+  if (!island) {
+    island = document.createElement('div');
+    island.id = 'smartIsland';
+    island.className = 'smart-island';
+    document.body.appendChild(island);
+  }
+  island.innerHTML = `<span style="font-size:18px;">${content.icon || '✨'}</span><div style="display:flex;flex-direction:column;"><strong style="font-size:13px;color:var(--gold);">${content.title}</strong><span style="font-size:11px;color:var(--text2);">${content.desc}</span>${content.extra ? `<span style="font-size:9px;color:var(--text3);">${content.extra}</span>` : ''}${content.level ? `<span style="font-size:8px;margin-top:2px;background:rgba(232,184,109,0.1);padding:2px 6px;border-radius:20px;">${content.level}</span>` : ''}</div>`;
+  island.classList.add('show');
+  if (islandTimeout) clearTimeout(islandTimeout);
+  islandTimeout = setTimeout(() => island.classList.remove('show'), 3000);
+}
+
+function initSmartIsland() {
+  document.querySelectorAll('.nav-item[data-page], .mini-card[data-page], .book-btn, .wc-btn, .master-word, .es-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      let content = null;
+      const page = el.dataset?.page || el.closest('[data-page]')?.dataset?.page;
+      if (page === 'home') content = { icon: '🏠', title: 'Home', desc: 'Resumen de tu progreso y palabras del día' };
+      else if (page === 'vocab') content = { icon: '📖', title: 'Vocabulary', desc: `${VOCAB.length} palabras organizadas por nivel CEFR` };
+      else if (page === 'verbs') content = { icon: '⚡', title: 'Irregular Verbs', desc: `${VERBS_DATA.length} verbos irregulares con ejemplos` };
+      else if (page === 'grammar') content = { icon: '📐', title: 'Grammar', desc: `${GRAMMAR_DATA.length} reglas gramaticales explicadas` };
+      else if (page === 'library') content = { icon: '📚', title: 'Library', desc: 'Clásicos de literatura para practicar reading' };
+      else if (page === 'practice') content = { icon: '🎯', title: 'Practice', desc: 'Ejercicios personalizados con feedback' };
+      else if (page === 'chat') content = { icon: '🤖', title: 'AI Tutor', desc: 'Pregúntame cualquier duda de inglés' };
+      else if (el.classList.contains('master-word')) content = { icon: '✨', title: 'Master Word', desc: 'Aprende esta palabra para ganar +15 XP' };
+      else if (el.classList.contains('book-btn')) content = { icon: '📘', title: 'Extract Vocabulary', desc: 'Extrae palabras del libro para estudiar' };
+      else if (el.classList.contains('es-btn')) content = { icon: '🇪🇸', title: 'Spanish Translation', desc: 'Muestra/oculta la traducción al español' };
+      if (content) showIsland(content);
+    });
+  });
+  document.addEventListener('mouseup', () => {
+    const selection = window.getSelection().toString().trim();
+    if (selection.length > 0 && selection.length < 50) {
+      const vocabWord = VOCAB.find(w => w.word.toLowerCase() === selection.toLowerCase());
+      if (vocabWord) showIsland({ icon: '📖', title: vocabWord.word, desc: vocabWord.es || vocabWord.meaning, extra: vocabWord.ipa ? `/${vocabWord.ipa}/` : null, level: vocabWord.level });
+      else showIsland({ icon: '🔍', title: selection, desc: 'Selecciona esta palabra para traducir', extra: 'Haz click para buscar' });
+    }
+  });
 }
 
 // NAVIGATION
@@ -1012,32 +918,10 @@ function renderSavedUsers() { const users = getAllUsers(); const keys = Object.k
 function continueAsUser(name) { if (!loadUser(name)) { toast('Usuario no encontrado', 'var(--red)'); return; } document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('app').style.display = 'block'; startApp(); toast(`¡Bienvenido de nuevo, ${name}! 🎉`, 'var(--gold)'); }
 function showLogin() { document.getElementById('app').style.display = 'none'; document.getElementById('loginOverlay').style.display = 'flex'; renderSavedUsers(); }
 
-// SMART GENERATE UI
-function setupSmartGenerate() {
-  const btn = document.getElementById('smartGenBtn');
-  const textarea = document.getElementById('smartGenText');
-  const levelSelect = document.getElementById('smartGenLevel');
-  const output = document.getElementById('smartGenOutput');
-  
-  if (!btn) return;
-  
-  btn.addEventListener('click', () => {
-    const text = textarea.value.trim();
-    if (!text) {
-      output.textContent = '⚠️ Please enter some text to generate exercises.';
-      return;
-    }
-    const level = levelSelect.value;
-    const result = smartGenerate(text, level);
-    output.textContent = JSON.stringify(result, null, 2);
-    toast(`✅ Generated ${result.metadata.total_exercises} exercises`, 'var(--green)');
-  });
-}
-
 // START APP
 function startApp() {
   if (localStorage.getItem('lexis_theme') === 'light') { document.body.classList.add('light'); document.getElementById('themeBtn').innerHTML = '🌙<span class="nav-tip">Theme</span>'; }
-  updateUI(); renderLibrary(); setupSmartGenerate();
+  updateUI(); renderLibrary(); setupSmartGenerate(); initSmartIsland();
   document.querySelectorAll('.nav-item[data-page]').forEach(n => n.addEventListener('click', () => goPage(n.dataset.page)));
   document.querySelectorAll('.mini-card[data-page]').forEach(c => c.addEventListener('click', () => goPage(c.dataset.page)));
   document.querySelectorAll('#levelFilters .filter-chip').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('#levelFilters .filter-chip').forEach(b => b.classList.remove('active')); btn.classList.add('active'); vocabLevelFilter = btn.dataset.lvl; renderVocab(); }));
@@ -1067,4 +951,4 @@ function startApp() {
 })();
 </script>
 </body>
-</html>
+  </html>
