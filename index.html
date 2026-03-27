@@ -837,10 +837,24 @@ async function fetchJson(path, silent = false) {
         try {
           const parsed = JSON.parse(text);
           if (!silent) {
-            const count = Array.isArray(parsed) ? parsed.length : 
-                         parsed?.content?.audio_chunks?.length || 
-                         Object.keys(parsed).length;
-            console.log(`✅ Loaded ${path}: ${count} items via ${base.includes('jsdelivr')?'jsDelivr':'GitHub'}`);
+            // 🔍 Debug mejorado: muestra tipo de estructura
+            let structure = 'array';
+            let count = 0;
+            
+            if (Array.isArray(parsed)) {
+              count = parsed.length;
+            } else if (parsed?.content?.audio_chunks) {
+              structure = 'nested (content.audio_chunks)';
+              count = parsed.content.audio_chunks.length;
+            } else if (parsed?.items) {
+              structure = 'object with items';
+              count = parsed.items.length;
+            } else {
+              structure = 'object';
+              count = Object.keys(parsed).length;
+            }
+            
+            console.log(`✅ ${path}: ${count} items [${structure}] via ${base.includes('jsdelivr')?'jsDelivr':'GitHub'}`);
           }
           return parsed;
         } catch (e) {
@@ -901,8 +915,11 @@ async function loadAllData() {
   const bannerEl = document.getElementById('loadingBanner');
   errorEl.style.display = 'none';
   bannerEl.style.display = 'flex';
-  setProgress(5, '🔍 Iniciando carga…');
-
+  
+  // 🔧 NUEVO: Cargar index.json PRIMERO
+  setProgress(5, '📋 Cargando configuración…');
+  await loadIndexConfig();
+  
   // Offline primero
   if (loadOffline()) {
     console.log('📴 Usando caché offline');
