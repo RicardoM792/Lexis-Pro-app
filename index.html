@@ -30,8 +30,11 @@ body.light{
 html{background:var(--void);-webkit-text-size-adjust:100%}
 body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);overflow-x:hidden}
 
-/* ── SHELL ── */
+/* ── SHELL - DESKTOP FIX ── */
 .shell{display:flex;min-height:100vh;min-height:100svh}
+@media(min-width:769px){
+  .shell{display:grid!important;grid-template-columns:var(--sidebar-w) 1fr!important}
+}
 @media(max-width:768px){.shell{flex-direction:column}}
 
 /* ── SIDEBAR ── */
@@ -42,6 +45,9 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
   padding:20px 0 16px;gap:2px;
   position:sticky;top:0;height:100vh;overflow:hidden;
   z-index:100;
+}
+@media(min-width:769px){
+  .sidebar{position:sticky!important;height:100vh!important}
 }
 @media(max-width:768px){
   .sidebar{
@@ -79,7 +85,7 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
   .nav-label{display:block;font-size:8px}
 }
 
-/* Desktop hover tooltip */
+/* Desktop hover tooltip - Dynamic Island */
 .nav-tip{
   position:absolute;left:calc(100% + 14px);top:50%;
   transform:translateY(-50%) scale(0.92);
@@ -106,7 +112,10 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 @media(max-width:768px){.sidebar-gap{display:none}}
 
 /* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;min-height:100vh}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+@media(min-width:769px){
+  .main{min-height:100vh!important}
+}
 @media(max-width:768px){.main{min-height:auto}}
 
 /* ── TOPBAR ── */
@@ -153,11 +162,14 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .topbar-btn:hover{border-color:var(--gold);color:var(--gold)}
 @media(max-width:480px){.streak-pill span:first-child{display:none}.xp-pill{display:none}}
 
-/* ── CONTENT ── */
+/* ── CONTENT - DESKTOP FIX ── */
 .content{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
   padding:28px;scroll-behavior:smooth;
+}
+@media(min-width:769px){
+  .content{height:calc(100vh - 60px)!important}
 }
 @media(max-width:768px){.content{padding:12px;padding-bottom:72px;overflow:visible}}
 @media(min-width:1280px){.content{padding:36px 52px}}
@@ -423,6 +435,7 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 
 /* ── CHAT ── */
 .chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 60px - 56px);max-height:700px}
+@media(min-width:769px){.chat-wrap{height:calc(100vh - 60px)!important}}
 @media(max-width:768px){.chat-wrap{height:calc(100svh - 52px - 56px - 24px);max-height:none}}
 .chat-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:14px;-webkit-overflow-scrolling:touch}
 .msg{display:flex;gap:9px;align-items:flex-start}
@@ -770,7 +783,7 @@ const CDN_BASES = [
   'https://raw.githubusercontent.com/RicardoM792/Lexis-data/main/'
 ];
 
-// Rutas exactas según tu index.json
+// Rutas exactas según tu index.json (CASE-SENSITIVE)
 const LEVEL_FILES = {
   vocabulary: ['A1/vocabulary.json','A2/vocabulary.json','B1/vocabulary.json','B2/vocabulary.json','C1/vocabulary.json','C2/vocabulary.json'],
   grammar:    ['A1/Grammar.json',   'A2/Grammar.json',   'B1/Grammar.json',   'B2/Grammar.json',   'C1/Grammar.json',   'C2/Grammar.json'],
@@ -802,25 +815,35 @@ let loadAttempts = 0;
 const MAX_ATTEMPTS = 3;
 
 // ═══════════════════════════════════════════
-// FETCH HELPERS
+// FETCH HELPERS - CON LOGGING DETALLADO
 // ═══════════════════════════════════════════
-
-// Fetch con fallback entre CDNs y timeout
 async function fetchJson(path) {
   for (const base of CDN_BASES) {
     try {
       const ctrl = new AbortController();
       const t = setTimeout(() => ctrl.abort(), 15000);
-      const r = await fetch(base + path, { signal: ctrl.signal, cache: 'default' });
+      const r = await fetch(base + path, { signal: ctrl.signal, cache: 'no-cache' });
       clearTimeout(t);
+      
       if (r.ok) {
         const ct = r.headers.get('content-type') || '';
         if (ct.includes('json') || ct.includes('text')) {
           const text = await r.text();
-          try { return JSON.parse(text); } catch { return null; }
+          try { 
+            const parsed = JSON.parse(text);
+            console.log(`✅ Loaded ${path}: ${Array.isArray(parsed) ? parsed.length + ' items' : 'object with keys: '+Object.keys(parsed).join(', ')}`);
+            return parsed;
+          } catch (e) { 
+            console.warn(`❌ JSON parse error in ${path}:`, e.message);
+            return null; 
+          }
         }
+      } else {
+        console.warn(`❌ HTTP ${r.status} for ${path}`);
       }
-    } catch { /* try next */ }
+    } catch (e) {
+      console.warn(`❌ Fetch error for ${path}:`, e.message);
+    }
   }
   return null;
 }
@@ -831,8 +854,7 @@ function extractArray(data) {
   if (Array.isArray(data)) return data;
 
   // Claves comunes que contienen arrays de ítems
-  const keys = ['items','words','verbs','rules','entries','vocabulary',
-                 'data','list','exercises','grammar','vocabulary'];
+  const keys = ['items','words','verbs','rules','entries','vocabulary','data','list','exercises','grammar'];
   for (const k of keys) {
     if (Array.isArray(data[k])) return data[k];
   }
@@ -847,14 +869,13 @@ function extractArray(data) {
 }
 
 // Extraer audio_chunks desde la estructura anidada de Aud.json
-// Estructura: { content: { audio_chunks: [...] } }
 function extractAudioChunks(data) {
   if (!data) return [];
   // Tu estructura específica: data.content.audio_chunks
   if (data.content && Array.isArray(data.content.audio_chunks)) {
     return data.content.audio_chunks;
   }
-  // Fallback: buscar audio_chunks en cualquier lugar
+  // Fallbacks
   if (Array.isArray(data.audio_chunks)) return data.audio_chunks;
   if (data.content && Array.isArray(data.content)) return data.content;
   return [];
@@ -872,6 +893,7 @@ async function loadAllData() {
 
   // Intentar offline primero
   if (loadOffline()) {
+    console.log('📴 Usando datos offline');
     setProgress(100, '📴 Datos offline');
     setTimeout(() => { bannerEl.style.display = 'none'; finishUI(); }, 400);
     return;
@@ -958,7 +980,6 @@ async function loadAllData() {
           if (c) {
             c._level = c.level || lvl;
             c.level  = c._level;
-            // Normalizar campo de texto
             if (!c.text && c.audio_text) c.text = c.audio_text;
           }
         });
@@ -970,11 +991,16 @@ async function loadAllData() {
 
     saveOffline();
 
-    console.group('📊 LEXIS Cargado');
-    console.log('📖 VOCAB:', VOCAB.length, VOCAB[0]);
-    console.log('⚡ VERBS:', VERBS_DATA.length, VERBS_DATA[0]);
-    console.log('📐 GRAMMAR:', GRAMMAR_DATA.length, GRAMMAR_DATA[0]);
-    console.log('🎧 AUDIO:', AUDIO_DATA.length, AUDIO_DATA[0]);
+    // Debug log detallado
+    console.group('📊 LEXIS Cargado Exitosamente');
+    console.log('📖 VOCAB:', VOCAB.length, 'items');
+    if (VOCAB[0]) console.log('   Primer item:', VOCAB[0]);
+    console.log('⚡ VERBS:', VERBS_DATA.length, 'items');
+    if (VERBS_DATA[0]) console.log('   Primer verbo:', VERBS_DATA[0]);
+    console.log('📐 GRAMMAR:', GRAMMAR_DATA.length, 'items');
+    if (GRAMMAR_DATA[0]) console.log('   Primera regla:', GRAMMAR_DATA[0]);
+    console.log('🎧 AUDIO:', AUDIO_DATA.length, 'items');
+    if (AUDIO_DATA[0]) console.log('   Primer audio:', AUDIO_DATA[0]);
     console.groupEnd();
 
     setTimeout(() => {
@@ -984,7 +1010,7 @@ async function loadAllData() {
     }, 400);
 
   } catch (err) {
-    console.error('❌ Error cargando:', err);
+    console.error('❌ Error crítico cargando datos:', err);
     loadAttempts++;
 
     if (loadOffline()) {
@@ -1003,6 +1029,7 @@ async function loadAllData() {
     bannerEl.style.display = 'none';
     errorEl.style.display = 'block';
     document.getElementById('errorMsg').textContent = `Error: ${err.message || 'Conexión fallida'}`;
+    toast('❌ Error cargando datos', 'var(--red)');
   }
 }
 
@@ -1025,14 +1052,14 @@ function saveOffline() {
       vocab: VOCAB, verbs: VERBS_DATA, grammar: GRAMMAR_DATA,
       audio: AUDIO_DATA, ts: Date.now()
     }));
-  } catch(e) {}
+  } catch(e) { console.warn('⚠ No se pudo guardar caché:', e); }
 }
 function loadOffline() {
   try {
     const c = JSON.parse(localStorage.getItem('lexis_cache_v2') || '{}');
     if (!c.vocab?.length) return false;
     const age = Date.now() - (c.ts || 0);
-    if (age > 24 * 60 * 60 * 1000) return false; // Cache de 24h
+    if (age > 24 * 60 * 60 * 1000) return false; // Cache de 24h máximo
     VOCAB = c.vocab || []; VERBS_DATA = c.verbs || [];
     GRAMMAR_DATA = c.grammar || []; AUDIO_DATA = c.audio || [];
     return true;
@@ -1109,7 +1136,7 @@ function updateUI() {
 }
 
 // ═══════════════════════════════════════════
-// FILTER TOGGLE (oculto por defecto)
+// FILTER TOGGLE
 // ═══════════════════════════════════════════
 function setupFilterToggle(btnId, rowId) {
   const btn = document.getElementById(btnId);
@@ -1663,10 +1690,26 @@ function startApp() {
     toast(showES?'🇪🇸 Español activado':'🇬🇧 Español desactivado','#7ecb9a');
   });
 
-  // Reset
-  document.getElementById('resetBtn')?.addEventListener('click',()=>{
-    if(!confirm(`¿Reiniciar progreso de ${userName}?`)) return;
-    mastered=[]; xp=0; streak=0; saveUser(); updateUI(); toast('Progreso reiniciado','var(--text2)');
+  // 🔧 RESET COMPLETO - Arreglado
+  document.getElementById('resetBtn')?.addEventListener('click', async () => {
+    if(!confirm(`¿Reiniciar progreso de ${userName}?\n\nEsto limpiará:\n• Tu progreso (XP, palabras dominadas)\n• Caché de datos\n• Preferencias`)) return;
+    
+    // Limpiar todo localStorage relacionado
+    localStorage.removeItem('lxp_users');
+    localStorage.removeItem('lxp_active');
+    localStorage.removeItem('lexis_cache_v2');
+    localStorage.removeItem('lexis_theme');
+    localStorage.removeItem('lexis_filters_collapsed');
+    
+    // Resetear variables en memoria
+    mastered = []; xp = 0; streak = 0;
+    showES = false; showTranscript = false;
+    
+    // Cerrar sesión y recargar
+    toast('Progreso reiniciado. Recargando…', 'var(--text2)');
+    setTimeout(() => {
+      location.reload();
+    }, 800);
   });
 
   // Switch user
