@@ -776,19 +776,19 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 'use strict';
 
 // ═══════════════════════════════════════════
-// CONFIG — URLs base del repositorio
+// CONFIG — URLs con jsDelivr como principal (mejor CORS)
 // ═══════════════════════════════════════════
 const CDN_BASES = [
-  'https://cdn.jsdelivr.net/gh/RicardoM792/Lexis-data@main/',
-  'https://raw.githubusercontent.com/RicardoM792/Lexis-data/main/'
+  'https://cdn.jsdelivr.net/gh/RicardoM792/Lexis-data@main/',  // ✅ Principal: mejor CORS
+  'https://raw.githubusercontent.com/RicardoM792/Lexis-data/main/'  // Fallback
 ];
 
-// Rutas exactas según tu index.json (CASE-SENSITIVE)
+// Rutas EXACTAS (case-sensitive para GitHub)
 const LEVEL_FILES = {
   vocabulary: ['A1/vocabulary.json','A2/vocabulary.json','B1/vocabulary.json','B2/vocabulary.json','C1/vocabulary.json','C2/vocabulary.json'],
-  grammar:    ['A1/Grammar.json',   'A2/Grammar.json',   'B1/Grammar.json',   'B2/Grammar.json',   'C1/Grammar.json',   'C2/Grammar.json'],
-  irregular:  ['A1/Irregular.json', 'A2/Irregular.json', 'B1/Irregular.json', 'B2/Irregular.json', 'C1/Irregular.json', 'C2/Irregular.json'],
-  audio:      ['A1/Aud.json',       'A2/Aud.json',       'B1/Aud.json',       'B2/Aud.json',       'C1/Aud.json',       'C2/Aud.json']
+  grammar:    ['A1/Grammar.json',  'A2/Grammar.json',  'B1/Grammar.json',  'B2/Grammar.json',  'C1/Grammar.json',  'C2/Grammar.json'],
+  irregular:  ['A1/Irregular.json','A2/Irregular.json','B1/Irregular.json','B2/Irregular.json','C1/Irregular.json','C2/Irregular.json'],
+  audio:      ['A1/Aud.json',      'A2/Aud.json',      'B1/Aud.json',      'B2/Aud.json',      'C1/Aud.json',      'C2/Aud.json']
 };
 
 const TOPIC_FILES = [
@@ -815,85 +815,97 @@ let loadAttempts = 0;
 const MAX_ATTEMPTS = 3;
 
 // ═══════════════════════════════════════════
-// FETCH HELPERS - CON LOGGING DETALLADO
+// FETCH con logging y fallback automático
 // ═══════════════════════════════════════════
-async function fetchJson(path) {
+async function fetchJson(path, silent = false) {
   for (const base of CDN_BASES) {
     try {
       const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), 15000);
-      const r = await fetch(base + path, { signal: ctrl.signal, cache: 'no-cache' });
-      clearTimeout(t);
+      const timeout = setTimeout(() => ctrl.abort(), 15000);
+      
+      const url = base + path;
+      const r = await fetch(url, { 
+        signal: ctrl.signal, 
+        cache: 'no-cache',
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      clearTimeout(timeout);
       
       if (r.ok) {
-        const ct = r.headers.get('content-type') || '';
-        if (ct.includes('json') || ct.includes('text')) {
-          const text = await r.text();
-          try { 
-            const parsed = JSON.parse(text);
-            console.log(`✅ Loaded ${path}: ${Array.isArray(parsed) ? parsed.length + ' items' : 'object with keys: '+Object.keys(parsed).join(', ')}`);
-            return parsed;
-          } catch (e) { 
-            console.warn(`❌ JSON parse error in ${path}:`, e.message);
-            return null; 
+        const text = await r.text();
+        try {
+          const parsed = JSON.parse(text);
+          if (!silent) {
+            const count = Array.isArray(parsed) ? parsed.length : 
+                         parsed?.content?.audio_chunks?.length || 
+                         Object.keys(parsed).length;
+            console.log(`✅ Loaded ${path}: ${count} items via ${base.includes('jsdelivr')?'jsDelivr':'GitHub'}`);
           }
+          return parsed;
+        } catch (e) {
+          if (!silent) console.warn(`❌ JSON parse error in ${path}:`, e.message);
         }
-      } else {
-        console.warn(`❌ HTTP ${r.status} for ${path}`);
+      } else if (!silent) {
+        console.warn(`❌ HTTP ${r.status} for ${path} via ${base}`);
       }
     } catch (e) {
-      console.warn(`❌ Fetch error for ${path}:`, e.message);
+      if (!silent) console.warn(`❌ Fetch error for ${path}:`, e.message);
     }
   }
   return null;
 }
 
-// Extraer array de ítems desde múltiples estructuras posibles
-function extractArray(data) {
+// ═══════════════════════════════════════════
+// EXTRACTORES por tipo de estructura JSON
+// ═══════════════════════════════════════════
+
+// Para vocabulary, grammar, irregular (array directo o {items: [...]})
+function extractStandardArray(data) {
   if (!data) return [];
   if (Array.isArray(data)) return data;
-
-  // Claves comunes que contienen arrays de ítems
-  const keys = ['items','words','verbs','rules','entries','vocabulary','data','list','exercises','grammar'];
+  
+  const keys = ['items','words','verbs','rules','entries','vocabulary','data','list'];
   for (const k of keys) {
     if (Array.isArray(data[k])) return data[k];
   }
-
-  // Si los valores del objeto parecen ítems
+  
+  // Fallback: si los valores parecen items
   const vals = Object.values(data);
-  if (vals.length && vals.every(v => v && typeof v === 'object' && !Array.isArray(v))) {
-    const flat = vals.filter(v => v.word || v.base || v.title || v.id);
-    if (flat.length) return flat;
+  if (vals.length && vals.every(v => v && typeof v === 'object' && !Array.isArray(v) && (v.word || v.base || v.title))) {
+    return vals;
   }
   return [];
 }
 
-// Extraer audio_chunks desde la estructura anidada de Aud.json
+// Para Aud.json: {content: {audio_chunks: [...]}}
 function extractAudioChunks(data) {
   if (!data) return [];
-  // Tu estructura específica: data.content.audio_chunks
-  if (data.content && Array.isArray(data.content.audio_chunks)) {
+  if (Array.isArray(data)) return data;
+  
+  // Tu estructura específica
+  if (data.content?.audio_chunks && Array.isArray(data.content.audio_chunks)) {
     return data.content.audio_chunks;
   }
-  // Fallbacks
-  if (Array.isArray(data.audio_chunks)) return data.audio_chunks;
   if (data.content && Array.isArray(data.content)) return data.content;
+  if (Array.isArray(data.audio_chunks)) return data.audio_chunks;
+  
   return [];
 }
 
 // ═══════════════════════════════════════════
-// CARGA PRINCIPAL DE DATOS
+// CARGA PRINCIPAL - CON Promise.allSettled
 // ═══════════════════════════════════════════
 async function loadAllData() {
-  const errorEl  = document.getElementById('errorState');
+  const errorEl = document.getElementById('errorState');
   const bannerEl = document.getElementById('loadingBanner');
   errorEl.style.display = 'none';
   bannerEl.style.display = 'flex';
   setProgress(5, '🔍 Iniciando carga…');
 
-  // Intentar offline primero
+  // Offline primero
   if (loadOffline()) {
-    console.log('📴 Usando datos offline');
+    console.log('📴 Usando caché offline');
     setProgress(100, '📴 Datos offline');
     setTimeout(() => { bannerEl.style.display = 'none'; finishUI(); }, 400);
     return;
@@ -902,26 +914,36 @@ async function loadAllData() {
   try {
     // ── 1. VOCABULARIO por nivel ──
     setProgress(10, '📖 Vocabulario por nivel…');
-    const vocabByLevel = await Promise.all(
+    const vocabResults = await Promise.allSettled(
       LEVEL_FILES.vocabulary.map(async (path, i) => {
         const data = await fetchJson(path);
-        const items = extractArray(data);
+        const items = extractStandardArray(data);
         const lvl = LEVELS[i];
-        items.forEach(w => { if (w) w._level = w.level || lvl; });
-        return items;
+        items.forEach(w => { if (w) { w._level = w.level || lvl; w.level = lvl; }});
+        return {path, items, level: lvl};
       })
     );
+    
+    const vocabByLevel = vocabResults
+      .filter(r => r.status === 'fulfilled' && r.value?.items?.length)
+      .map(r => r.value.items);
+    
+    console.log(`📊 Vocab por nivel cargado: ${vocabByLevel.length}/6 niveles`);
 
-    // ── 2. VOCABULARIO temático ──
+    // ── 2. VOCABULARIO temático (raíz) ──
     setProgress(25, '📖 Vocabulario temático…');
-    const topicItems = [];
-    for (const path of TOPIC_FILES) {
-      const data = await fetchJson(path);
-      if (data) topicItems.push(...extractArray(data));
-    }
+    const topicResults = await Promise.allSettled(
+      TOPIC_FILES.map(async path => {
+        const data = await fetchJson(path);
+        return extractStandardArray(data);
+      })
+    );
+    const topicItems = topicResults
+      .filter(r => r.status === 'fulfilled')
+      .flatMap(r => r.value);
 
-    // Merge y deduplicar vocabulario
-    const allVocab = [...vocabByLevel.flat(), ...topicItems].filter(w => w && w.word);
+    // Merge y deduplicar
+    const allVocab = [...vocabByLevel.flat(), ...topicItems].filter(w => w?.word);
     const vocabMap = new Map();
     allVocab.forEach(w => {
       const key = w.word.toLowerCase().trim();
@@ -931,24 +953,30 @@ async function loadAllData() {
       }
     });
     VOCAB = Array.from(vocabMap.values());
-    setProgress(40, `✅ ${VOCAB.length} palabras`);
+    setProgress(40, `✅ ${VOCAB.length} palabras totales`);
 
     // ── 3. VERBOS ──
     setProgress(50, '⚡ Verbos irregulares…');
-    const verbItems = await Promise.all(
+    const verbResults = await Promise.allSettled(
       LEVEL_FILES.irregular.map(async (path, i) => {
         const data = await fetchJson(path);
-        const items = extractArray(data);
-        items.forEach(v => { if (v) v._level = v.level || LEVELS[i]; });
+        const items = extractStandardArray(data);
+        items.forEach(v => { 
+          if (v) { 
+            v._level = v.level || LEVELS[i]; 
+            v.level = LEVELS[i];
+            if (!v.base) v.base = v.verb || v.infinitive || '';
+          }
+        });
         return items;
       })
     );
+    const verbItems = verbResults.filter(r => r.status === 'fulfilled').flatMap(r => r.value);
     const verbMap = new Map();
-    verbItems.flat().filter(v => v).forEach(v => {
-      const key = (v.base || v.verb || v.infinitive || '').toLowerCase().trim();
+    verbItems.filter(v => v).forEach(v => {
+      const key = (v.base || '').toLowerCase().trim();
       if (key && !verbMap.has(key)) {
         v.level = v.level || v._level || '';
-        if (!v.base) v.base = v.verb || v.infinitive || key;
         verbMap.set(key, v);
       }
     });
@@ -956,22 +984,25 @@ async function loadAllData() {
     setProgress(65, `✅ ${VERBS_DATA.length} verbos`);
 
     // ── 4. GRAMÁTICA ──
-    setProgress(75, '📐 Reglas de gramática…');
-    const grammarItems = await Promise.all(
+    setProgress(75, '📐 Gramática…');
+    const grammarResults = await Promise.allSettled(
       LEVEL_FILES.grammar.map(async (path, i) => {
         const data = await fetchJson(path);
-        const items = extractArray(data);
-        items.forEach(g => { if (g) g._level = g.level || LEVELS[i]; });
+        const items = extractStandardArray(data);
+        items.forEach(g => { if (g) { g._level = g.level || LEVELS[i]; g.level = LEVELS[i]; }});
         return items;
       })
     );
-    GRAMMAR_DATA = grammarItems.flat().filter(g => g && (g.title || g.rule || g.topic));
+    GRAMMAR_DATA = grammarResults
+      .filter(r => r.status === 'fulfilled')
+      .flatMap(r => r.value)
+      .filter(g => g && (g.title || g.rule || g.topic));
     GRAMMAR_DATA.forEach(g => { g.level = g.level || g._level || ''; });
     setProgress(85, `✅ ${GRAMMAR_DATA.length} reglas`);
 
-    // ── 5. AUDIO (estructura: content.audio_chunks) ──
-    setProgress(90, '🎧 Cargando audio…');
-    const audioResults = await Promise.all(
+    // ── 5. AUDIO (estructura especial: content.audio_chunks) ──
+    setProgress(90, '🎧 Audio…');
+    const audioResults = await Promise.allSettled(
       LEVEL_FILES.audio.map(async (path, i) => {
         const data = await fetchJson(path);
         const chunks = extractAudioChunks(data);
@@ -979,30 +1010,31 @@ async function loadAllData() {
         chunks.forEach(c => {
           if (c) {
             c._level = c.level || lvl;
-            c.level  = c._level;
+            c.level = lvl;
             if (!c.text && c.audio_text) c.text = c.audio_text;
+            if (!c.id) c.id = `${lvl}_AUD_${Math.random().toString(36).substr(2,6)}`;
           }
         });
-        return chunks.filter(c => c && c.text);
+        return chunks.filter(c => c?.text);
       })
     );
-    AUDIO_DATA = audioResults.flat();
+    AUDIO_DATA = audioResults
+      .filter(r => r.status === 'fulfilled')
+      .flatMap(r => r.value);
     setProgress(100, `✅ ${AUDIO_DATA.length} fragmentos de audio`);
 
-    saveOffline();
-
-    // Debug log detallado
-    console.group('📊 LEXIS Cargado Exitosamente');
-    console.log('📖 VOCAB:', VOCAB.length, 'items');
-    if (VOCAB[0]) console.log('   Primer item:', VOCAB[0]);
-    console.log('⚡ VERBS:', VERBS_DATA.length, 'items');
-    if (VERBS_DATA[0]) console.log('   Primer verbo:', VERBS_DATA[0]);
-    console.log('📐 GRAMMAR:', GRAMMAR_DATA.length, 'items');
-    if (GRAMMAR_DATA[0]) console.log('   Primera regla:', GRAMMAR_DATA[0]);
-    console.log('🎧 AUDIO:', AUDIO_DATA.length, 'items');
-    if (AUDIO_DATA[0]) console.log('   Primer audio:', AUDIO_DATA[0]);
+    // Debug final
+    console.group('🎉 LEXIS Cargado Exitosamente');
+    console.log(`📖 VOCAB: ${VOCAB.length} palabras`);
+    console.log(`⚡ VERBS: ${VERBS_DATA.length} verbos`);
+    console.log(`📐 GRAMMAR: ${GRAMMAR_DATA.length} reglas`);
+    console.log(`🎧 AUDIO: ${AUDIO_DATA.length} audios`);
+    if (VOCAB.length) console.log('🔍 Sample vocab:', VOCAB[0]);
+    if (AUDIO_DATA.length) console.log('🔊 Sample audio:', AUDIO_DATA[0]);
     console.groupEnd();
 
+    saveOffline();
+    
     setTimeout(() => {
       bannerEl.style.display = 'none';
       finishUI();
@@ -1010,26 +1042,25 @@ async function loadAllData() {
     }, 400);
 
   } catch (err) {
-    console.error('❌ Error crítico cargando datos:', err);
+    console.error('❌ Error crítico:', err);
     loadAttempts++;
-
+    
     if (loadOffline()) {
       bannerEl.style.display = 'none';
       finishUI();
       toast('⚠ Usando datos offline', 'var(--amber)');
       return;
     }
-
-    if (loadAttempts < MAX_ATTEMPTS) {
-      setProgress(0, `↺ Reintentando (${loadAttempts}/${MAX_ATTEMPTS})…`);
+    
+    if (loadAttempts < 3) {
+      setProgress(0, `↺ Reintentando (${loadAttempts}/3)…`);
       setTimeout(loadAllData, 2500);
       return;
     }
-
+    
     bannerEl.style.display = 'none';
     errorEl.style.display = 'block';
     document.getElementById('errorMsg').textContent = `Error: ${err.message || 'Conexión fallida'}`;
-    toast('❌ Error cargando datos', 'var(--red)');
   }
 }
 
@@ -1059,7 +1090,7 @@ function loadOffline() {
     const c = JSON.parse(localStorage.getItem('lexis_cache_v2') || '{}');
     if (!c.vocab?.length) return false;
     const age = Date.now() - (c.ts || 0);
-    if (age > 24 * 60 * 60 * 1000) return false; // Cache de 24h máximo
+    if (age > 24 * 60 * 60 * 1000) return false;
     VOCAB = c.vocab || []; VERBS_DATA = c.verbs || [];
     GRAMMAR_DATA = c.grammar || []; AUDIO_DATA = c.audio || [];
     return true;
@@ -1577,7 +1608,6 @@ function goPage(id) {
   page.classList.add('active');
   document.querySelector(`.nav-item[data-page="${id}"]`)?.classList.add('active');
   document.getElementById('pageTitle').textContent=PAGE_TITLES[id]||id;
-  // Scroll al top
   const content=document.getElementById('content');
   if (content) content.scrollTop=0;
   window.scrollTo(0,0);
@@ -1618,19 +1648,16 @@ function showLogin() {
 // START APP
 // ═══════════════════════════════════════════
 function startApp() {
-  // Tema guardado
   if (localStorage.getItem('lexis_theme')==='light') {
     document.body.classList.add('light');
     document.querySelector('#themeBtn .nav-emoji').textContent='🌙';
   }
 
-  // Filtros (ocultos por defecto)
   setupFilterToggle('vocabFilterBtn','vocabFilters');
   setupFilterToggle('verbFilterBtn','verbFilters');
   setupFilterToggle('grammarFilterBtn','grammarFilters');
   setupFilterToggle('audFilterBtn','audFilters');
 
-  // Navegación principal
   document.querySelectorAll('.nav-item[data-page]').forEach(n=>{
     n.addEventListener('click',()=>goPage(n.dataset.page));
   });
@@ -1638,7 +1665,6 @@ function startApp() {
     c.addEventListener('click',()=>goPage(c.dataset.page));
   });
 
-  // Filtros vocab
   document.querySelectorAll('#vocabFilters .filter-chip').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('#vocabFilters .filter-chip').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); vocabLevelFilter=btn.dataset.lvl; renderVocab();
@@ -1648,21 +1674,18 @@ function startApp() {
   });
   document.getElementById('vocabSearch')?.addEventListener('input',e=>{vocabSearch=e.target.value;renderVocab();});
 
-  // Filtros verbs
   document.querySelectorAll('#verbFilters .filter-chip').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('#verbFilters .filter-chip').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); verbLevelFilter=btn.dataset.vlvl; renderVerbs();
   }));
   document.getElementById('verbSearch')?.addEventListener('input',e=>{verbSearch=e.target.value;renderVerbs();});
 
-  // Filtros grammar
   document.querySelectorAll('#grammarFilters .filter-chip').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('#grammarFilters .filter-chip').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); grammarLevelFilter=btn.dataset.glvl; renderGrammar();
   }));
   document.getElementById('grammarSearch')?.addEventListener('input',e=>{grammarSearch=e.target.value;renderGrammar();});
 
-  // Filtros audio
   document.querySelectorAll('#audFilters .filter-chip').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('#audFilters .filter-chip').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active'); audLevelFilter=btn.dataset.alvl; renderListening();
@@ -1672,7 +1695,6 @@ function startApp() {
     document.querySelectorAll('.listen-text').forEach(el=>el.classList.toggle('show',showTranscript));
   });
 
-  // Tema
   document.getElementById('themeBtn')?.addEventListener('click',()=>{
     document.body.classList.toggle('light');
     const isLight=document.body.classList.contains('light');
@@ -1680,7 +1702,6 @@ function startApp() {
     document.querySelector('#themeBtn .nav-emoji').textContent=isLight?'🌙':'🌓';
   });
 
-  // ES toggle
   document.getElementById('langBtn')?.addEventListener('click',()=>{
     showES=!showES;
     document.getElementById('langBtn').classList.toggle('on',showES);
@@ -1690,36 +1711,29 @@ function startApp() {
     toast(showES?'🇪🇸 Español activado':'🇬🇧 Español desactivado','#7ecb9a');
   });
 
-  // 🔧 RESET COMPLETO - Arreglado
-  document.getElementById('resetBtn')?.addEventListener('click', async () => {
+  // 🔧 RESET COMPLETO
+  document.getElementById('resetBtn')?.addEventListener('click', () => {
     if(!confirm(`¿Reiniciar progreso de ${userName}?\n\nEsto limpiará:\n• Tu progreso (XP, palabras dominadas)\n• Caché de datos\n• Preferencias`)) return;
     
-    // Limpiar todo localStorage relacionado
     localStorage.removeItem('lxp_users');
     localStorage.removeItem('lxp_active');
     localStorage.removeItem('lexis_cache_v2');
     localStorage.removeItem('lexis_theme');
     localStorage.removeItem('lexis_filters_collapsed');
     
-    // Resetear variables en memoria
     mastered = []; xp = 0; streak = 0;
     showES = false; showTranscript = false;
     
-    // Cerrar sesión y recargar
     toast('Progreso reiniciado. Recargando…', 'var(--text2)');
     setTimeout(() => {
       location.reload();
     }, 800);
   });
 
-  // Switch user
   document.getElementById('switchUserBtn')?.addEventListener('click',showLogin);
-
-  // Practice
   document.getElementById('pracNextBtn')?.addEventListener('click',nextPrac);
   document.getElementById('qqNextBtn')?.addEventListener('click',nextQQ);
 
-  // Chat
   document.getElementById('chatSendBtn')?.addEventListener('click',()=>sendChat(document.getElementById('chatInput').value));
   document.getElementById('chatInput')?.addEventListener('keydown',e=>{
     if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat(e.target.value);}
@@ -1728,15 +1742,11 @@ function startApp() {
     sendChat(btn.textContent.trim());
   }));
 
-  // Retry
   document.getElementById('retryLoadBtn')?.addEventListener('click',()=>{loadAttempts=0;loadAllData();});
 
-  // Smart generate
   setupSmartGen();
   initVoice();
   updateUI();
-
-  // Cargar datos
   loadAllData();
 }
 
