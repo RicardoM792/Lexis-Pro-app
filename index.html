@@ -42,7 +42,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .nav-item.active{color:var(--gold);background:rgba(232,184,109,0.1);border-color:rgba(232,184,109,0.2)}
 @media(max-width:768px){.nav-item{width:44px;height:44px}}
 
-/* Dynamic island tooltip */
 .nav-tip{position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%) scale(0.9);background:var(--card2);border:1px solid var(--border2);padding:5px 11px 5px 9px;border-radius:22px;font-size:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.18s,transform 0.18s;z-index:300;display:flex;align-items:center;gap:6px;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
 .nav-tip::before{content:'';position:absolute;right:100%;top:50%;transform:translateY(-50%);border:5px solid transparent;border-right-color:var(--card2)}
 .nav-tip .tip-icon{font-size:13px}
@@ -51,7 +50,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .nav-item:hover .nav-tip{opacity:1;transform:translateY(-50%) scale(1)}
 @media(max-width:768px){.nav-tip{display:none}}
 
-/* Mobile nav labels */
 .nav-label{display:none;font-size:8px;font-weight:700;color:var(--text3);margin-top:2px;letter-spacing:0.04em}
 @media(max-width:768px){.nav-item{flex-direction:column;gap:1px;height:auto;padding:6px 4px 4px;width:40px}.nav-item .nav-emoji{font-size:18px}.nav-label{display:block}.nav-item.active .nav-label{color:var(--gold)}}
 
@@ -140,9 +138,23 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .vocab-toolbar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
 .search-input{flex:1;min-width:180px;padding:9px 15px;background:var(--card);border:1px solid var(--border);border-radius:40px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;outline:none;transition:var(--t)}
 .search-input:focus{border-color:rgba(232,184,109,0.3);box-shadow:0 0 0 3px rgba(232,184,109,0.06)}
+
+/* ── FILTER TOGGLE ── */
+.filter-toggle-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:40px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;transition:var(--t);white-space:nowrap}
+.filter-toggle-btn:hover{border-color:var(--border2);color:var(--text)}
+.filter-toggle-btn.active{background:rgba(232,184,109,0.1);border-color:rgba(232,184,109,0.3);color:var(--gold)}
+.filter-toggle-btn .toggle-icon{transition:transform 0.2s ease;font-size:11px}
+.filter-toggle-btn.active .toggle-icon{transform:rotate(180deg)}
+
+.filters-wrapper{display:flex;gap:7px;flex-wrap:wrap;transition:all 0.25s ease;overflow:hidden}
+.filters-wrapper.collapsed{max-height:0;opacity:0;pointer-events:none;margin:0!important;padding:0!important}
+.filters-wrapper.expanded{max-height:200px;opacity:1;pointer-events:auto}
+@media(max-width:768px){.filters-wrapper{display:none}.filters-wrapper.expanded{display:flex;margin-top:10px;padding:10px;background:var(--card);border-radius:var(--r2);border:1px solid var(--border)}}
+
 .filter-chip{padding:7px 12px;border-radius:40px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:'Syne',sans-serif;font-size:10px;font-weight:600;cursor:pointer;transition:var(--t)}
 .filter-chip:hover{border-color:var(--border2);color:var(--text)}
 .filter-chip.active{background:rgba(232,184,109,0.1);border-color:rgba(232,184,109,0.3);color:var(--gold)}
+
 .vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
 .word-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;transition:var(--t);position:relative;overflow:hidden}
 .word-card:hover{border-color:var(--border2);transform:translateY(-1px)}
@@ -495,7 +507,8 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
       <div class="page" id="page-vocab">
         <div class="vocab-toolbar">
           <input class="search-input" id="vocabSearch" placeholder="🔍 Buscar / Search words…"/>
-          <div id="levelFilters" style="display:flex;gap:7px;flex-wrap:wrap">
+          <button class="filter-toggle-btn" id="filterToggleBtn"><span class="toggle-icon">▼</span> Filtros</button>
+          <div class="filters-wrapper expanded" id="levelFilters">
             <button class="filter-chip active" data-lvl="all">All</button>
             <button class="filter-chip" data-lvl="A1">A1</button>
             <button class="filter-chip" data-lvl="A2">A2</button>
@@ -640,28 +653,26 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 'use strict';
 
 // ═══════════════════════════════════════════
-// CONFIG & CONSTANTS
+// CONFIG & CONSTANTS - RUTAS CORREGIDAS
 // ═══════════════════════════════════════════
 const CDN = [
   'https://cdn.jsdelivr.net/gh/RicardoM792/Lexis-data@main/',
   'https://raw.githubusercontent.com/RicardoM792/Lexis-data/main/'
 ];
 
-// Files to load PER LEVEL from the folder structure
+// Files to load - CASE SENSITIVE paths matching your repo
 const LEVEL_FILES = {
   vocabulary: ['A1/vocabulary.json','A2/vocabulary.json','B1/vocabulary.json','B2/vocabulary.json','C1/vocabulary.json','C2/vocabulary.json'],
-  grammar:    ['A1/grammar.json','A2/grammar.json','B1/grammar.json','B2/grammar.json','C1/grammar.json','C2/grammar.json'],
-  irregular:  ['A1/irregular.json','A2/irregular.json','B1/irregular.json','B2/irregular.json','C1/irregular.json','C2/irregular.json'],
-  audio:      ['A1/aud.json','A2/aud.json','B1/aud.json','B2/aud.json','C1/aud.json','C2/aud.json'],
-  adjectives: ['A1/adjectives.json','A2/adjectives.json','B1/adjectives.json','B2/adjectives.json','C1/adjectives.json','C2/adjectives.json'],
-  nouns:      ['A1/nouns.json','A2/nouns.json','B1/nouns.json','B2/nouns.json','C1/nouns.json','C2/nouns.json'],
-  exercises:  ['A1/exercises.json','A2/exercises.json','B1/exercises.json','B2/exercises.json','C1/exercises.json','C2/exercises.json']
+  grammar:    ['A1/Grammar.json','A2/Grammar.json','B1/Grammar.json','B2/Grammar.json','C1/Grammar.json','C2/Grammar.json'],
+  irregular:  ['A1/Irregular.json','A2/Irregular.json','B1/Irregular.json','B2/Irregular.json','C1/Irregular.json','C2/Irregular.json'],
+  audio:      ['A1/Aud.json','A2/Aud.json','B1/Aud.json','B2/Aud.json','C1/Aud.json','C2/Aud.json'],
+  exercises:  ['A1/Exercises.json','A2/Exercises.json','B1/Exercises.json','B2/Exercises.json','C1/Exercises.json','C2/Exercises.json']
 };
 
-// Extra topic files (flat)
+// Topic files in root
 const TOPIC_FILES = [
-  'A1/colors.json','A1/numbers.json','A1/pronouns.json',
-  'A1/time.json','A1/seasons-weather.json'
+  'adjectives.json','nouns.json','colors.json','numbers.json',
+  'pronouns.json','time.json','seasons-weather.json','rules.json'
 ];
 
 // ═══════════════════════════════════════════
@@ -683,164 +694,268 @@ const MAX_ATTEMPTS = 3;
 
 // Island state
 let islandTimer = null;
-let currentIslandPage = null;
 
 // ═══════════════════════════════════════════
-// FETCH HELPERS
+// FETCH HELPERS - NORMALIZADOR ROBUSTO
 // ═══════════════════════════════════════════
-async function fetchJson(path, silent = false) {
-  for (const base of CDN) {
-    try {
-      const ctrl = new AbortController();
-      const tid = setTimeout(() => ctrl.abort(), 9000);
-      const res = await fetch(base + path, { signal: ctrl.signal });
-      clearTimeout(tid);
-      if (res.ok) {
-        const data = await res.json();
-        return data;
+
+// Extract items from ANY JSON structure (handles your nested Aud.json)
+function extractItems(data, path = null) {
+  if (!data) return [];
+  if (Array.isArray(data)) return data;
+  
+  // If path specified (e.g., 'content.audio_chunks'), traverse
+  if (path) {
+    const parts = path.split('.');
+    let current = data;
+    for (const part of parts) {
+      if (current && typeof current === 'object' && part in current) {
+        current = current[part];
+      } else {
+        current = null;
+        break;
       }
-    } catch(e) {}
+    }
+    if (Array.isArray(current)) return current;
   }
-  if (!silent) console.warn('Could not load:', path);
+  
+  // Common keys that might contain arrays
+  const commonKeys = [
+    'items','words','verbs','rules','chunks','exercises','vocabulary',
+    'data','list','entries','audio_chunks','reading','listening',
+    'grammar','vocabulary','speaking'
+  ];
+  
+  for (const key of commonKeys) {
+    if (data[key]) {
+      if (Array.isArray(data[key])) return data[key];
+      if (typeof data[key] === 'object') {
+        // Handle nested exercise categories
+        const nested = Object.values(data[key]).flat().filter(i => i);
+        if (nested.length) return nested;
+      }
+    }
+  }
+  
+  // If object has item-like properties, return values
+  const values = Object.values(data);
+  if (values.length > 0 && values.every(v => v && (v.word || v.id || v.base || v.title || v.text || v.question))) {
+    return values.filter(v => v);
+  }
+  
+  return [];
+}
+
+// Fetch with retry, timeout, and CORS handling
+async function fetchJson(path, silent = false) {
+  const bases = CDN;
+  
+  for (const base of bases) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
+      
+      const response = await fetch(base + path, { 
+        signal: controller.signal,
+        cache: 'force-cache',
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      clearTimeout(timeout);
+      
+      if (response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          return await response.json();
+        }
+      }
+    } catch (e) {
+      continue; // Try next base URL
+    }
+  }
+  
+  if (!silent) console.warn(`❌ Failed to load: ${path}`);
   return null;
 }
 
-// Load multiple files in parallel, return flat array of all items
-async function loadFiles(paths, silent = true) {
-  const results = await Promise.all(paths.map(p => fetchJson(p, silent)));
-  const items = [];
-  for (let i = 0; i < results.length; i++) {
-    const d = results[i];
-    if (!d) continue;
-    const level = paths[i].split('/')[0]; // Extract level from path
-    if (Array.isArray(d)) {
-      d.forEach(item => {
-        if (!item._level) item._level = level; // tag with level if missing
-        items.push(item);
-      });
-    } else if (typeof d === 'object') {
-      // Some files might be {level, items:[...]} or similar
-      const arr = d.items || d.words || d.verbs || d.rules || d.chunks || d.exercises || [];
-      arr.forEach(item => {
-        if (!item._level) item._level = level;
-        items.push(item);
-      });
+// Load multiple files with robust extraction
+async function loadFiles(paths, silent = true, extractPath = null) {
+  const results = [];
+  
+  for (const path of paths) {
+    try {
+      const data = await fetchJson(path, true);
+      if (data) {
+        const items = extractItems(data, extractPath);
+        const level = path.split('/')[0]?.toUpperCase() || 'A1';
+        
+        items.forEach(item => {
+          if (item && typeof item === 'object') {
+            if (!item.level && !item._level) item._level = level;
+            // Handle nested exercise structure
+            if (item.options && item.correct) {
+              item.type = item.type || 'multiple_choice';
+            }
+          }
+        });
+        
+        results.push(...items);
+      }
+    } catch (e) {
+      if (!silent) console.warn(`⚠ Error loading ${path}:`, e.message);
     }
   }
-  return items;
+  
+  return results;
 }
 
 // ═══════════════════════════════════════════
-// MAIN DATA LOADING
+// MAIN DATA LOADING - ADAPTADO A TU ESTRUCTURA
 // ═══════════════════════════════════════════
 async function loadAllData() {
-  document.getElementById('errorState').style.display = 'none';
-  document.getElementById('loadingBanner').style.display = 'flex';
+  const errorState = document.getElementById('errorState');
+  const loadingBanner = document.getElementById('loadingBanner');
+  
+  errorState.style.display = 'none';
+  loadingBanner.style.display = 'flex';
+  setProgress(5, '🔍 Verificando conexión…');
 
-  // Try offline first if no network
-  if (!navigator.onLine) {
-    if (loadOffline()) {
-      finishLoading('📴 Datos offline cargados');
-      return;
-    }
+  // Try offline first
+  if (!navigator.onLine || loadOffline()) {
+    finishLoading('📴 Datos offline cargados');
+    return;
   }
 
-  setProgress(5, '🌐 Conectando al repositorio…');
-
   try {
-    // ─── STEP 1: Load vocabulary (all levels) ───
-    setProgress(12, '📖 Cargando vocabulario A1…');
-    const [vocabItems, adjItems, nounItems, topicItems] = await Promise.all([
+    // ─── PASO 1: Vocabulario ───
+    setProgress(15, '📖 Cargando vocabulario…');
+    const vocabPromises = [
       loadFiles(LEVEL_FILES.vocabulary),
-      loadFiles(LEVEL_FILES.adjectives),
-      loadFiles(LEVEL_FILES.nouns),
       loadFiles(TOPIC_FILES)
-    ]);
-    setProgress(35, '📖 Vocabulario cargado · procesando…');
-
-    // Merge all vocab, deduplicate by word
-    const allVocab = [...vocabItems, ...adjItems, ...nounItems, ...topicItems];
+    ];
+    const [vocabItems, topicItems] = await Promise.all(vocabPromises);
+    
+    // Merge and deduplicate
+    const allVocab = [...vocabItems, ...topicItems].filter(w => w);
     const vocabMap = new Map();
     allVocab.forEach(w => {
-      if (!w) return;
-      const key = (w.word || '').toLowerCase().trim();
-      if (key && !vocabMap.has(key)) {
-        // Normalize level field: prefer explicit level, fallback _level
+      const key = (w.word || w.lemma || '').toLowerCase().trim();
+      if (key && !vocabMap.has(key) && (w.es || w.meaning || w.definition || w.translation)) {
         if (!w.level && w._level) w.level = w._level;
         vocabMap.set(key, w);
       }
     });
-    VOCAB = Array.from(vocabMap.values()).filter(w => w.word && (w.es || w.meaning || w.definition));
+    VOCAB = Array.from(vocabMap.values());
+    setProgress(40, `✅ ${VOCAB.length} palabras`);
 
-    // ─── STEP 2: Verbs (irregular) ───
-    setProgress(50, '⚡ Cargando verbos irregulares…');
+    // ─── PASO 2: Verbos ───
+    setProgress(55, '⚡ Cargando verbos…');
     const verbItems = await loadFiles(LEVEL_FILES.irregular);
     const verbMap = new Map();
     verbItems.forEach(v => {
       if (!v) return;
-      const key = (v.base || v.verb || '').toLowerCase().trim();
+      const key = (v.base || v.verb || v.infinitive || '').toLowerCase().trim();
       if (key && !verbMap.has(key)) {
         if (!v.level && v._level) v.level = v._level;
-        // normalize base/past/participle
         if (!v.base && v.verb) v.base = v.verb;
+        if (!v.base && v.infinitive) v.base = v.infinitive;
         verbMap.set(key, v);
       }
     });
     VERBS_DATA = Array.from(verbMap.values()).filter(v => v.base);
+    setProgress(70, `✅ ${VERBS_DATA.length} verbos`);
 
-    // ─── STEP 3: Grammar ───
-    setProgress(65, '📐 Cargando gramática…');
+    // ─── PASO 3: Gramática ───
+    setProgress(80, '📐 Cargando gramática…');
     const grammarItems = await loadFiles(LEVEL_FILES.grammar);
-    GRAMMAR_DATA = grammarItems.filter(g => g && (g.title || g.rule));
+    GRAMMAR_DATA = grammarItems.filter(g => g && (g.title || g.rule || g.name || g.topic));
     GRAMMAR_DATA.forEach(g => { if (!g.level && g._level) g.level = g._level; });
+    setProgress(90, `✅ ${GRAMMAR_DATA.length} reglas`);
 
-    // ─── STEP 4: Audio (aud.json) ───
-    setProgress(80, '🎧 Cargando audio chunks…');
-    const audioItems = await loadFiles(LEVEL_FILES.audio);
-    AUDIO_DATA = audioItems.filter(a => a && (a.text || a.sentence || a.content));
-    AUDIO_DATA.forEach(a => {
-      if (!a.level && a._level) a.level = a._level;
-      // normalize text field
-      if (!a.text) a.text = a.sentence || a.content || a.phrase || '';
-      if (!a.id) a.id = `AUD_${Math.random().toString(36).substr(2,6)}`;
-    });
+    // ─── PASO 4: Audio (ADAPTADO A TU ESTRUCTURA NESTED) ───
+    setProgress(95, '🎧 Cargando audio…');
+    const audioFiles = await Promise.all(LEVEL_FILES.audio.map(p => fetchJson(p, true)));
+    
+    for (let i = 0; i < audioFiles.length; i++) {
+      const data = audioFiles[i];
+      if (!data) continue;
+      
+      const level = LEVEL_FILES.audio[i].split('/')[0].toUpperCase();
+      
+      // TU ESTRUCTURA: content.audio_chunks
+      const chunks = extractItems(data, 'content.audio_chunks') || [];
+      
+      chunks.forEach(chunk => {
+        if (!chunk) return;
+        chunk._level = level;
+        if (!chunk.text && chunk.audio_text) chunk.text = chunk.audio_text;
+        if (!chunk.id) chunk.id = `AUD_${Math.random().toString(36).substr(2,8)}`;
+        AUDIO_DATA.push(chunk);
+      });
+      
+      // Also extract exercises from the same file
+      const exercises = extractItems(data, 'exercises') || [];
+      exercises.forEach(ex => {
+        if (ex && (ex.question || ex.prompt)) {
+          ex._level = level;
+          EXERCISES_DATA.push(ex);
+        }
+      });
+    }
+    setProgress(100, `✅ ${AUDIO_DATA.length} audios · ${EXERCISES_DATA.length} ejercicios`);
 
-    // ─── STEP 5: Exercises ───
-    setProgress(90, '🎯 Cargando ejercicios…');
-    const exItems = await loadFiles(LEVEL_FILES.exercises);
-    EXERCISES_DATA = exItems.filter(e => e && (e.question || e.type));
-
-    // ─── DONE ───
+    // ─── GUARDAR Y FINALIZAR ───
     saveOffline();
     dataLoaded = true;
-    setProgress(100, '✅ ¡Todo cargado!');
-    setTimeout(() => document.getElementById('loadingBanner').style.display = 'none', 600);
-    updateUI();
-    initQQ();
-    toast(`✓ ${VOCAB.length} palabras · ${VERBS_DATA.length} verbos · ${AUDIO_DATA.length} audios`, 'var(--green)');
+    
+    setTimeout(() => {
+      loadingBanner.style.display = 'none';
+      updateUI();
+      initQQ();
+      toast(`✓ ${VOCAB.length} palabras · ${VERBS_DATA.length} verbos · ${GRAMMAR_DATA.length} reglas · ${AUDIO_DATA.length} audios`, 'var(--green)');
+    }, 400);
+
+    // Debug log
+    console.group('📊 LEXIS Data Loaded');
+    console.log('📖 VOCAB:', VOCAB.length);
+    console.log('⚡ VERBS:', VERBS_DATA.length);
+    console.log('📐 GRAMMAR:', GRAMMAR_DATA.length);
+    console.log('🎧 AUDIO:', AUDIO_DATA.length);
+    console.log('🎯 EXERCISES:', EXERCISES_DATA.length);
+    if (VOCAB.length) console.log('🔍 Sample:', VOCAB[0]);
+    if (AUDIO_DATA.length) console.log('🔊 Audio sample:', AUDIO_DATA[0]);
+    console.groupEnd();
 
   } catch(err) {
+    console.error('❌ Load error:', err);
     loadAttempts++;
+    
     if (loadOffline()) {
       finishLoading('⚠ Usando datos guardados');
       return;
     }
+    
     if (loadAttempts < MAX_ATTEMPTS) {
       setProgress(0, `↺ Reintentando (${loadAttempts}/${MAX_ATTEMPTS})…`);
-      setTimeout(loadAllData, 2000);
+      setTimeout(loadAllData, 2500);
       return;
     }
-    document.getElementById('errorState').style.display = 'block';
-    document.getElementById('loadingBanner').style.display = 'none';
-    toast('⚠ Error de conexión', 'var(--red)');
+    
+    loadingBanner.style.display = 'none';
+    errorState.style.display = 'block';
+    errorState.querySelector('p').textContent = `Error: ${err.message || 'Conexión fallida'}`;
+    toast('⚠ Error cargando datos', 'var(--red)');
   }
 }
 
 function finishLoading(msg) {
   dataLoaded = true;
   setProgress(100, msg);
-  setTimeout(() => document.getElementById('loadingBanner').style.display = 'none', 600);
-  updateUI(); initQQ();
+  setTimeout(() => {
+    document.getElementById('loadingBanner').style.display = 'none';
+    updateUI();
+    initQQ();
+  }, 500);
 }
 
 function setProgress(pct, text) {
@@ -943,10 +1058,10 @@ function renderVocab() {
   if (vocabSearch) {
     const q = vocabSearch.toLowerCase();
     words = words.filter(w =>
-      w.word.toLowerCase().includes(q) ||
-      (w.es && w.es.toLowerCase().includes(q)) ||
-      (w.meaning && w.meaning.toLowerCase().includes(q)) ||
-      (w.definition && w.definition.toLowerCase().includes(q))
+      w.word?.toLowerCase().includes(q) ||
+      w.es?.toLowerCase().includes(q) ||
+      w.meaning?.toLowerCase().includes(q) ||
+      w.definition?.toLowerCase().includes(q)
     );
   }
   const countEl = document.getElementById('vocabCount');
@@ -1061,7 +1176,7 @@ function renderGrammar() {
 }
 
 // ═══════════════════════════════════════════
-// RENDER: LISTENING (aud.json)
+// RENDER: LISTENING (ADAPTADO A TU ESTRUCTURA)
 // ═══════════════════════════════════════════
 function renderListening() {
   const g = document.getElementById('listenGrid');
@@ -1071,7 +1186,7 @@ function renderListening() {
   if (!items.length) { g.innerHTML = '<div class="no-words">Sin audio para este nivel.</div>'; return; }
   g.innerHTML = items.map((a, i) => {
     const lvl = a.level || a._level || '';
-    const text = a.text || '';
+    const text = a.text || a.audio_text || '';
     const spkr = a.speaker || 'male_1';
     const dur = a.duration_seconds || Math.max(2, Math.round(text.split(' ').length / 2.5));
     return `<div class="listen-card" data-idx="${i}">
@@ -1251,12 +1366,9 @@ function smartGenerate(text, level = 'A1') {
   if (nameM) reading.push({ id:`${level}_R_002`, question:'What is their name?', options:[nameM[1],'John','Maria'], correct:nameM[1] });
   const cityM = text.match(/(?:in|from|live in)\s+([A-Z][a-záéíóúñ]+(?:\s[A-Z][a-z]+)?)/);
   if (cityM) reading.push({ id:`${level}_R_003`, question:'Where does the person live?', options:[cityM[1],'London','Tokyo'], correct:cityM[1] });
-  const timeM = text.match(/at\s+(\d{1,2}[:.]\d{2}(?:\s*[aApP][mM])?)/);
-  if (timeM) reading.push({ id:`${level}_R_004`, question:'What time is mentioned?', options:[timeM[1],'8:00','10:00'], correct:timeM[1] });
 
-  // Grammar fill-in
   const grammar = [];
-  const verbs = ['am','is','are','was','were','have','has','do','does','go','goes','study','studies','like','likes','work','works','live','lives','eat','eats'];
+  const verbs = ['am','is','are','was','were','have','has','do','does','go','goes','study','studies','like','likes','work','works','live','lives'];
   sentences.slice(0, 6).forEach((s, i) => {
     const words = s.split(/\s+/);
     const found = words.findIndex(w => verbs.includes(w.toLowerCase().replace(/[.,!?]/g,'')));
@@ -1267,8 +1379,7 @@ function smartGenerate(text, level = 'A1') {
     }
   });
 
-  // Vocabulary from common words
-  const vocabMap = {breakfast:'desayuno',lunch:'almuerzo',dinner:'cena',family:'familia',school:'escuela',university:'universidad',student:'estudiante',teacher:'profesor',work:'trabajo',house:'casa',coffee:'café',book:'libro',friend:'amigo',city:'ciudad',country:'país',morning:'mañana',night:'noche',english:'inglés',travel:'viajar',learn:'aprender'};
+  const vocabMap = {breakfast:'desayuno',lunch:'almuerzo',dinner:'cena',family:'familia',school:'escuela',student:'estudiante',teacher:'profesor',work:'trabajo',house:'casa',coffee:'café',book:'libro',friend:'amigo',city:'ciudad',country:'país',morning:'mañana',night:'noche',english:'inglés',travel:'viajar',learn:'aprender'};
   const vocabulary = [];
   let vIdx = 1;
   for (const [word, es] of Object.entries(vocabMap)) {
@@ -1278,22 +1389,13 @@ function smartGenerate(text, level = 'A1') {
     }
   }
 
-  // Listening (select correct transcription)
-  const listening = audio_chunks.slice(0,5).map((chunk,i) => {
-    const words = chunk.text.split(' ');
-    const wrong1 = words.map((w,j) => j === Math.floor(words.length/2) ? 'something' : w).join(' ');
-    const wrong2 = words.slice(0,Math.max(2,words.length-2)).join(' ') + '…';
-    return { id:`${level}_L_${String(i+1).padStart(3,'0')}`, audio_id:chunk.id, question:'What did you hear?', options:shuffle([chunk.text,wrong1,wrong2]), correct:chunk.text };
-  });
-
   return {
     level, generated_at: new Date().toISOString(),
     audio_chunks,
-    exercises: { reading, grammar, vocabulary, listening },
+    exercises: { reading, grammar, vocabulary },
     metadata: {
       source_sentences: sentences.length,
-      total_audio: audio_chunks.length,
-      total_exercises: reading.length + grammar.length + vocabulary.length + listening.length
+      total_exercises: reading.length + grammar.length + vocabulary.length
     }
   };
 }
@@ -1344,12 +1446,10 @@ function showIsland(pageId, anchorEl) {
   document.getElementById('islandStat').textContent = data.statFn();
   const islandBtn = document.getElementById('islandBtn');
   islandBtn.onclick = () => { goPage(pageId); hideIsland(); };
-  // Position vertically centered on nav item
   const rect = anchorEl.getBoundingClientRect();
   popup.style.top = Math.min(window.innerHeight - 180, Math.max(10, rect.top + rect.height/2 - 60)) + 'px';
   popup.classList.add('visible');
 
-  // Mobile island (bottom)
   const mob = document.getElementById('mobileIsland');
   document.getElementById('mobileIslandTitle').textContent = `${data.icon} ${data.title}`;
   document.getElementById('mobileIslandSub').textContent = data.statFn();
@@ -1361,6 +1461,37 @@ function showIsland(pageId, anchorEl) {
 function hideIsland() {
   document.getElementById('islandPopup').classList.remove('visible');
   document.getElementById('mobileIsland').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════════
+// FILTER TOGGLE LOGIC
+// ═══════════════════════════════════════════
+function setupFilterToggle() {
+  const toggleBtn = document.getElementById('filterToggleBtn');
+  const filtersWrapper = document.getElementById('levelFilters');
+  if (!toggleBtn || !filtersWrapper) return;
+  
+  const isCollapsed = localStorage.getItem('lexis_filters_collapsed') === 'true';
+  if (isCollapsed) {
+    filtersWrapper.classList.remove('expanded');
+    filtersWrapper.classList.add('collapsed');
+    toggleBtn.classList.remove('active');
+  }
+  
+  toggleBtn.addEventListener('click', () => {
+    const isCollapsed = filtersWrapper.classList.contains('collapsed');
+    if (isCollapsed) {
+      filtersWrapper.classList.remove('collapsed');
+      filtersWrapper.classList.add('expanded');
+      toggleBtn.classList.add('active');
+      localStorage.setItem('lexis_filters_collapsed', 'false');
+    } else {
+      filtersWrapper.classList.remove('expanded');
+      filtersWrapper.classList.add('collapsed');
+      toggleBtn.classList.remove('active');
+      localStorage.setItem('lexis_filters_collapsed', 'true');
+    }
+  });
 }
 
 // ═══════════════════════════════════════════
@@ -1377,9 +1508,7 @@ function goPage(id) {
   const nav = document.querySelector(`.nav-item[data-page="${id}"]`);
   if (nav) nav.classList.add('active');
   document.getElementById('pageTitle').textContent = PAGE_TITLES[id] || id;
-  // Scroll to top on mobile
   document.getElementById('content').scrollTop = 0;
-  // Lazy render
   if (id === 'vocab') renderVocab();
   if (id === 'verbs') renderVerbs();
   if (id === 'grammar') renderGrammar();
@@ -1404,7 +1533,7 @@ function genChatReply(msg) {
     const wordM = m.match(/qué significa "?(\w+)"?|what does "?(\w+)"? mean|what is "?(\w+)"?/);
     if (wordM) {
       const q = wordM[1] || wordM[2] || wordM[3];
-      const found = VOCAB.find(w => w.word.toLowerCase() === q?.toLowerCase());
+      const found = VOCAB.find(w => w.word?.toLowerCase() === q?.toLowerCase());
       if (found) return `**${found.word}** ${found.ipa ? `(${found.ipa})` : ''}\n\n📖 *${found.meaning || found.definition || ''}*\n${found.es ? `🇪🇸 **${found.es}**` : ''}${found.example ? `\n\n💬 "${found.example}"` : ''}`;
     }
     return "Dime la palabra específica y te explico. Ejemplo: *¿Qué significa 'although'?*";
@@ -1470,7 +1599,6 @@ function speak(text) {
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US'; u.rate = 0.87;
-  // Pick a natural-sounding voice if available
   const voices = window.speechSynthesis.getVoices();
   const en = voices.find(v => v.lang === 'en-US' && !v.name.includes('Google')) || voices.find(v => v.lang.startsWith('en'));
   if (en) u.voice = en;
@@ -1528,27 +1656,25 @@ function startApp() {
   }
   updateUI();
   setupSmartGen();
+  setupFilterToggle(); // ← Toggle de filtros
 
-  // ── Nav items: click + island ──
+  // Nav items
   document.querySelectorAll('.nav-item[data-page]').forEach(n => {
     n.addEventListener('click', () => { goPage(n.dataset.page); hideIsland(); });
     n.addEventListener('mouseenter', () => { showIsland(n.dataset.page, n); });
     n.addEventListener('mouseleave', () => { if (islandTimer) clearTimeout(islandTimer); islandTimer = setTimeout(hideIsland, 300); });
-    // Mobile: long-press shows island
     let touchTimer;
     n.addEventListener('touchstart', () => { touchTimer = setTimeout(() => showIsland(n.dataset.page, n), 400); }, { passive:true });
     n.addEventListener('touchend', () => clearTimeout(touchTimer), { passive:true });
   });
 
-  // Island popup hover keep-alive
   const popup = document.getElementById('islandPopup');
   popup.addEventListener('mouseenter', () => { if (islandTimer) clearTimeout(islandTimer); });
   popup.addEventListener('mouseleave', () => { islandTimer = setTimeout(hideIsland, 200); });
 
-  // ── Mini cards ──
   document.querySelectorAll('.mini-card[data-page]').forEach(c => c.addEventListener('click', () => goPage(c.dataset.page)));
 
-  // ── Vocab filters ──
+  // Vocab filters
   document.querySelectorAll('#levelFilters .filter-chip').forEach(btn =>
     btn.addEventListener('click', () => {
       document.querySelectorAll('#levelFilters .filter-chip').forEach(b => b.classList.remove('active'));
@@ -1560,7 +1686,7 @@ function startApp() {
   });
   document.getElementById('vocabSearch')?.addEventListener('input', e => { vocabSearch = e.target.value; renderVocab(); });
 
-  // ── Verb filters ──
+  // Verb filters
   document.querySelectorAll('#verbLevelFilters .filter-chip').forEach(btn =>
     btn.addEventListener('click', () => {
       document.querySelectorAll('#verbLevelFilters .filter-chip').forEach(b => b.classList.remove('active'));
@@ -1569,10 +1695,10 @@ function startApp() {
   );
   document.getElementById('verbSearch')?.addEventListener('input', e => { verbSearch = e.target.value; renderVerbs(); });
 
-  // ── Grammar search ──
+  // Grammar search
   document.getElementById('grammarSearch')?.addEventListener('input', e => { grammarSearch = e.target.value; renderGrammar(); });
 
-  // ── Audio filters ──
+  // Audio filters
   document.querySelectorAll('#audLevelFilters .filter-chip').forEach(btn =>
     btn.addEventListener('click', () => {
       document.querySelectorAll('#audLevelFilters .filter-chip').forEach(b => b.classList.remove('active'));
@@ -1585,7 +1711,7 @@ function startApp() {
     document.querySelectorAll('.listen-text').forEach(el => el.classList.toggle('show', showTranscript));
   });
 
-  // ── Theme ──
+  // Theme
   document.getElementById('themeBtn')?.addEventListener('click', () => {
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
@@ -1593,7 +1719,7 @@ function startApp() {
     document.querySelector('#themeBtn .nav-emoji').textContent = isLight ? '🌙' : '🌓';
   });
 
-  // ── ES toggle ──
+  // ES toggle
   document.getElementById('langBtn')?.addEventListener('click', () => {
     showES = !showES;
     document.getElementById('langBtn').classList.toggle('on', showES);
@@ -1604,20 +1730,20 @@ function startApp() {
     toast(showES ? '🇪🇸 Español activado' : '🇬🇧 Español desactivado', '#7ecb9a');
   });
 
-  // ── Reset ──
+  // Reset
   document.getElementById('resetBtn')?.addEventListener('click', () => {
     if (!confirm(`¿Reiniciar progreso de ${userName}?`)) return;
     mastered = []; xp = 0; streak = 0; saveUser(); updateUI(); toast('Progreso reiniciado', 'var(--text2)');
   });
 
-  // ── Switch user ──
+  // Switch user
   document.getElementById('switchUserBtn')?.addEventListener('click', showLogin);
 
-  // ── Practice ──
+  // Practice
   document.getElementById('pracNextBtn')?.addEventListener('click', nextPrac);
   document.getElementById('qqNextBtn')?.addEventListener('click', nextQQ);
 
-  // ── Chat ──
+  // Chat
   document.getElementById('chatSendBtn')?.addEventListener('click', () => sendChat(document.getElementById('chatInput').value));
   document.getElementById('chatInput')?.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(e.target.value); } });
   document.querySelectorAll('.sugg-chip').forEach(btn => btn.addEventListener('click', () => {
@@ -1625,7 +1751,7 @@ function startApp() {
     if (input) { input.value = btn.textContent.trim(); sendChat(btn.textContent.trim()); }
   }));
 
-  // ── Retry ──
+  // Retry
   document.getElementById('retryLoadBtn')?.addEventListener('click', () => { loadAttempts = 0; loadAllData(); });
 
   initVoice();
