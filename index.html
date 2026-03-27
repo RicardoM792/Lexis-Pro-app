@@ -134,7 +134,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .tag-b1{background:rgba(232,184,109,0.12);color:var(--gold)}.tag-b2{background:rgba(255,154,60,0.12);color:var(--amber)}
 .tag-c1{background:rgba(255,90,31,0.12);color:var(--ember)}.tag-c2{background:rgba(255,71,87,0.12);color:var(--red)}
 .mastered-tag{background:rgba(61,220,132,0.12);color:var(--green);font-size:8px;padding:2px 6px;border-radius:20px;font-weight:700}
-.oxford-tag{background:rgba(94,174,255,0.12);color:var(--blue);font-size:8px;padding:2px 6px;border-radius:20px;font-weight:700}
 .wc-ipa{font-family:'Syne Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:5px}
 .wc-meaning{font-size:12px;color:var(--text2);margin-bottom:6px;line-height:1.5}
 .wc-es{font-size:11px;color:#7ecb9a;background:rgba(61,220,132,0.06);border:1px solid rgba(61,220,132,0.15);border-radius:7px;padding:5px 9px;margin-bottom:6px;display:none;line-height:1.5}
@@ -184,17 +183,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .gc-error{font-size:10px;color:var(--red);background:var(--red-dim);padding:6px 10px;border-radius:7px;margin-bottom:8px}
 .gc-tip{font-size:10px;color:var(--amber);background:rgba(255,154,60,0.08);padding:6px 10px;border-radius:7px;border-left:2px solid rgba(255,154,60,0.3)}
 
-.oxford-section{background:var(--card);border:1px solid rgba(94,174,255,0.2);border-radius:22px;padding:24px;margin-bottom:24px}
-.oxford-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.oxford-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--blue)}
-.oxford-sub{font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.7}
-.oxford-btns{display:flex;gap:10px;flex-wrap:wrap}
-.oxford-btn{padding:9px 18px;border-radius:40px;border:1px solid rgba(94,174,255,0.3);background:rgba(94,174,255,0.08);color:var(--blue);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:var(--t)}
-.oxford-btn:hover{background:rgba(94,174,255,0.16)}
-.oxford-btn:disabled{opacity:0.4;cursor:not-allowed}
-.oxford-progress{height:3px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:10px;display:none}
-.oxford-progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:4px;transition:width 0.3s ease;width:0%}
-.oxford-status{font-size:10px;color:var(--text3);margin-top:6px;display:none}
 .library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:24px}
 .book-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;transition:var(--t);position:relative}
 .book-card:hover{border-color:var(--border2);transform:translateY(-1px)}
@@ -206,7 +194,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .book-desc{font-size:10px;color:var(--text3);margin-bottom:12px;line-height:1.5}
 .book-btn{width:100%;padding:9px;border-radius:9px;border:1px solid rgba(232,184,109,0.25);background:rgba(232,184,109,0.06);color:var(--gold);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:var(--t)}
 .book-btn:hover{background:rgba(232,184,109,0.14)}
-.book-btn:disabled{opacity:0.5;cursor:not-allowed}
 
 .practice-shell{max-width:540px;margin:0 auto}
 .prac-progress{margin-bottom:24px}
@@ -229,7 +216,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .prac-feedback{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;font-size:12px;color:var(--text2);line-height:1.7;display:none;margin-top:12px}
 .prac-feedback.show{display:block}
 .prac-feedback strong{color:var(--gold)}
-.prac-feedback .why{color:var(--amber);font-size:11px;margin-top:6px;display:block}
 .prac-next-btn{width:100%;padding:13px;border-radius:11px;border:none;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--void);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:var(--t);margin-top:14px;display:none}
 .prac-next-btn.show{display:block}
 .prac-next-btn:hover{transform:scale(1.01);box-shadow:0 7px 20px rgba(232,184,109,0.3)}
@@ -240,6 +226,13 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .levelup-banner.show{display:block}
 .levelup-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--gold);margin-bottom:4px}
 .levelup-sub{font-size:12px;color:var(--text2)}
+
+.smart-gen-section{background:var(--card2);border:1px solid var(--border2);border-radius:22px;padding:24px;margin-bottom:24px}
+.smart-gen-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--gold);margin-bottom:12px}
+.smart-gen-textarea{width:100%;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'Syne Mono',monospace;font-size:12px;resize:vertical;margin-bottom:12px}
+.smart-gen-btn{padding:10px 22px;border-radius:40px;border:none;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--void);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:var(--t)}
+.smart-gen-btn:hover{transform:scale(1.02)}
+.smart-gen-output{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:16px;font-size:11px;color:var(--text2);max-height:400px;overflow:auto;white-space:pre-wrap;font-family:'Syne Mono',monospace}
 
 .chat-shell{display:flex;flex-direction:column;height:calc(100vh - 62px - 48px);max-height:800px}
 @media(max-width:768px){.chat-shell{height:calc(100svh - 52px - 56px - 24px);max-height:none}}
@@ -285,20 +278,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .user-pill:hover{border-color:rgba(232,184,109,0.3);color:var(--gold)}
 .user-pill-level{font-size:8px;color:var(--text3);padding:1px 5px;border-radius:9px;background:rgba(255,255,255,0.06)}
 
-.modal-overlay{position:fixed;inset:0;background:rgba(10,9,8,0.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:40000;animation:fadeUp 0.2s ease}
-.modal-box{background:var(--card2);border:1px solid var(--border2);border-radius:18px;padding:24px;max-width:480px;width:92%;max-height:82vh;overflow-y:auto}
-.modal-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--gold);margin-bottom:7px}
-.modal-sub{font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.6}
-.modal-close{float:right;background:transparent;border:none;color:var(--text3);font-size:17px;cursor:pointer;transition:var(--t)}
-.modal-close:hover{color:var(--text)}
-.word-preview-wrap{display:flex;flex-wrap:wrap;gap:6px;max-height:180px;overflow-y:auto;margin-bottom:18px}
-.word-pill{padding:3px 9px;border-radius:20px;border:1px solid var(--border);font-size:10px;color:var(--text2);background:rgba(255,255,255,0.03)}
-.word-pill.new{border-color:rgba(94,174,255,0.3);color:var(--blue);background:rgba(94,174,255,0.06)}
-.modal-btn{padding:9px 22px;border-radius:40px;border:none;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--void);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:var(--t)}
-.modal-btn:hover{transform:scale(1.02)}
-.modal-btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text2)}
-.modal-btn.ghost:hover{border-color:var(--border2);color:var(--text);transform:none}
-
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
@@ -312,24 +291,12 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 .error-state p{color:var(--text2);font-size:12px;margin-bottom:15px}
 .retry-btn{padding:8px 20px;border-radius:20px;border:1px solid var(--gold);background:rgba(232,184,109,0.1);color:var(--gold);cursor:pointer;font-size:11px;font-weight:600;transition:var(--t)}
 .retry-btn:hover{background:rgba(232,184,109,0.2)}
-
-@media(min-width:1024px){
-  .hero-section{grid-template-columns:1fr 380px!important;gap:32px!important}
-  .vocab-grid,.verbs-grid,.grammar-grid,.library-grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))!important;gap:24px!important}
-  .word-card,.verb-card,.gc-card,.book-card{padding:24px!important}
-  .topbar{padding:0 32px!important}
-  .q-opt,.prac-opt{padding:12px 16px!important;font-size:14px!important}
-  .wc-word{font-size:22px!important}
-  .section-title{font-size:12px!important;margin-bottom:20px!important}
-  .mini-card{padding:22px!important}
-}
 </style>
 </head>
 <body>
 
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
-    <div class="login-glow"></div>
     <div class="login-logo">lexis</div>
     <div class="login-tagline">English A1 → C2 · Offline Ready</div>
     <input class="login-input" id="loginName" placeholder="Tu nombre / Your name" autocomplete="off" spellcheck="false"/>
@@ -373,7 +340,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
       <div class="xp-pill">✦ <span id="xpDisplay">0</span> XP</div>
       <div class="lang-pill" id="langBtn">🇪🇸 ES</div>
       <button class="topbar-btn" id="resetBtn" title="Reset progress">↺</button>
-      <button class="topbar-btn" id="syncBtn" title="Sincronizar datos">…</button>
     </header>
 
     <div class="content" id="content">
@@ -435,7 +401,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
             <button class="filter-chip" data-lvl="C1">C1</button><button class="filter-chip" data-lvl="C2">C2</button>
           </div>
           <button class="filter-chip" id="masteredFilter">✓ Mastered</button>
-          <button class="filter-chip" id="oxfordFilter">📘 Oxford</button>
         </div>
         <div class="vocab-grid" id="vocabGrid"><div class="no-words">Cargando vocabulario…</div></div>
       </div>
@@ -449,16 +414,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
       </div>
 
       <div class="page" id="page-library">
-        <div class="oxford-section">
-          <div class="oxford-header"><div style="font-size:28px">📘</div><div><div class="oxford-title">Oxford Word Lists</div><div style="font-size:10px;color:var(--text3)">3,000 &amp; 5,000 palabras esenciales</div></div></div>
-          <div class="oxford-sub">Carga las listas oficiales Oxford para expandir tu vocabulario con las palabras más importantes del inglés.</div>
-          <div class="oxford-btns">
-            <button class="oxford-btn" id="loadOxford3000Btn">📖 Oxford 3000</button>
-            <button class="oxford-btn" id="loadOxford5000Btn">📗 Oxford 5000</button>
-          </div>
-          <div class="oxford-progress" id="oxfProgress"><div class="oxford-progress-fill" id="oxfFill"></div></div>
-          <div class="oxford-status" id="oxfStatus"></div>
-        </div>
         <div class="section-title">Clásicos — Project Gutenberg</div>
         <div class="library-grid" id="libraryGrid"></div>
       </div>
@@ -466,6 +421,22 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
       <div class="page" id="page-practice">
         <div class="practice-shell">
           <div class="levelup-banner" id="levelupBanner"><div class="levelup-title">🎉 Level Up!</div><div class="levelup-sub" id="levelupText">Has alcanzado el siguiente nivel</div></div>
+          
+          <div class="smart-gen-section">
+            <div class="smart-gen-title">🤖 Smart Generate - Create exercises from any text</div>
+            <textarea class="smart-gen-textarea" id="smartGenText" rows="6" placeholder="Paste any English text here...&#10;&#10;Example:&#10;My name is Daniel. I am 20 years old and I live in Bogotá, Colombia. I am a student and I study English every day because I want to travel. I wake up at 7:00 and I have breakfast with my family."></textarea>
+            <select id="smartGenLevel" class="smart-gen-textarea" style="width:auto;display:inline-block;margin-right:10px;padding:8px 12px;width:80px;">
+              <option value="A1">A1</option>
+              <option value="A2">A2</option>
+              <option value="B1">B1</option>
+              <option value="B2">B2</option>
+              <option value="C1">C1</option>
+              <option value="C2">C2</option>
+            </select>
+            <button class="smart-gen-btn" id="smartGenBtn">✨ Generate Exercises</button>
+            <div class="smart-gen-output" id="smartGenOutput">Generated exercises will appear here...</div>
+          </div>
+          
           <div class="prac-progress"><div class="prac-prog-row"><span>Practice Session</span><span id="pracCount">0 / 0</span></div><div class="prac-track"><div class="prac-fill" id="pracFill" style="width:0%"></div></div></div>
           <div class="prac-card">
             <div class="prac-type" id="pracType">WHAT DOES THIS MEAN?</div>
@@ -507,26 +478,254 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void)}
 <script>
 'use strict';
 
+// ==================== SMART GENERATE FUNCTION ====================
+function smartGenerate(text, level = "A1") {
+
+  const sentences = text.match(/[^.!?]+[.!?]+/g)?.map(s => s.trim()).filter(s => s.length > 0) || [];
+
+  if (sentences.length === 0) {
+    return {
+      level: level,
+      audio_chunks: [],
+      exercises: {
+        reading: [],
+        grammar: [],
+        vocabulary: [],
+        listening: []
+      }
+    };
+  }
+
+  // AUDIO CHUNKS (sin URLs)
+  const audio_chunks = sentences.map((s, i) => ({
+    id: `${level}_AUD_${String(i + 1).padStart(3, "0")}`,
+    text: s,
+    duration_seconds: Math.max(3, Math.floor(s.split(" ").length / 2.5)),
+    speaker: "male_1"
+  }));
+
+  // READING QUESTIONS
+  const reading = [];
+  const textLower = text.toLowerCase();
+
+  const cities = ["bogotá", "medellín", "cali", "mexico", "madrid", "buenos aires", "lima", "santiago", "new york", "london"];
+  const foundCity = cities.find(city => textLower.includes(city));
+  if (foundCity) {
+    reading.push({
+      id: `${level}_R_001`,
+      question: "Where does the person live?",
+      options: [
+        foundCity.charAt(0).toUpperCase() + foundCity.slice(1),
+        "New York",
+        "London"
+      ],
+      correct: foundCity.charAt(0).toUpperCase() + foundCity.slice(1)
+    });
+  }
+
+  const wakeTimeMatch = text.match(/wake up at (\d{1,2}:\d{2})/i);
+  if (wakeTimeMatch) {
+    reading.push({
+      id: `${level}_R_002`,
+      question: "What time does he wake up?",
+      options: [
+        wakeTimeMatch[1],
+        `${parseInt(wakeTimeMatch[1].split(":")[0]) + 1}:00`,
+        `${parseInt(wakeTimeMatch[1].split(":")[0]) - 1}:00`
+      ],
+      correct: wakeTimeMatch[1]
+    });
+  }
+
+  const studyMatch = text.match(/study (english|math|mathematics|science|history|engineering|spanish|french|german)/i);
+  if (studyMatch) {
+    const subject = studyMatch[1].toLowerCase();
+    reading.push({
+      id: `${level}_R_003`,
+      question: "What does he study?",
+      options: [
+        subject.charAt(0).toUpperCase() + subject.slice(1),
+        "Mathematics",
+        "Science"
+      ],
+      correct: subject.charAt(0).toUpperCase() + subject.slice(1)
+    });
+  }
+
+  const ageMatch = text.match(/(\d{1,2}) years? old/i);
+  if (ageMatch) {
+    reading.push({
+      id: `${level}_R_004`,
+      question: "How old is the person?",
+      options: [
+        `${ageMatch[1]} years old`,
+        `${parseInt(ageMatch[1]) + 5} years old`,
+        `${parseInt(ageMatch[1]) - 3} years old`
+      ],
+      correct: `${ageMatch[1]} years old`
+    });
+  }
+
+  const nameMatch = text.match(/my name is ([a-z]+ [a-z]+|[a-z]+)/i);
+  if (nameMatch) {
+    reading.push({
+      id: `${level}_R_005`,
+      question: "What is his name?",
+      options: [
+        nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1),
+        "John",
+        "Michael"
+      ],
+      correct: nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1)
+    });
+  }
+
+  // GRAMMAR
+  const grammar = [];
+  const grammarSentences = sentences.slice(0, Math.min(6, sentences.length));
+
+  grammarSentences.forEach((s, i) => {
+    const words = s.split(" ");
+    if (words.length < 3) return;
+
+    const verbIndices = [];
+    const commonVerbs = ["am", "is", "are", "study", "studies", "live", "lives", "wake", "wakes", "have", "has", "go", "goes", "eat", "eats"];
+    words.forEach((word, idx) => {
+      const cleanWord = word.toLowerCase().replace(/[.,!?;:()]/g, "");
+      if (commonVerbs.includes(cleanWord)) verbIndices.push(idx);
+    });
+
+    let idxToHide, correctWord;
+    if (verbIndices.length > 0) {
+      idxToHide = verbIndices[0];
+      correctWord = words[idxToHide].replace(/[.,!?;:()]/g, "");
+    } else {
+      const longWords = [];
+      words.forEach((word, idx) => {
+        const clean = word.replace(/[.,!?;:()]/g, "");
+        if (clean.length > 3 && !["the", "and", "for", "but", "with", "that"].includes(clean.toLowerCase())) {
+          longWords.push(idx);
+        }
+      });
+      if (longWords.length > 0) {
+        idxToHide = longWords[Math.floor(Math.random() * longWords.length)];
+        correctWord = words[idxToHide].replace(/[.,!?;:()]/g, "");
+      } else {
+        idxToHide = Math.floor(words.length / 2);
+        correctWord = words[idxToHide].replace(/[.,!?;:()]/g, "");
+      }
+    }
+
+    const questionWords = [...words];
+    questionWords[idxToHide] = "______";
+    grammar.push({
+      id: `${level}_G_${String(i + 1).padStart(3, "0")}`,
+      type: "fill",
+      question: questionWords.join(" "),
+      correct: correctWord
+    });
+  });
+
+  if (grammar.length < 3) {
+    const defaultGrammar = [
+      { question: "I ___ a student.", correct: "am" },
+      { question: "He ___ English every day.", correct: "studies" },
+      { question: "She ___ to school by bus.", correct: "goes" }
+    ];
+    defaultGrammar.forEach((g, i) => {
+      grammar.push({
+        id: `${level}_G_${String(grammar.length + 1).padStart(3, "0")}`,
+        type: "fill",
+        question: g.question,
+        correct: g.correct
+      });
+    });
+  }
+
+  // VOCABULARY
+  const vocabulary = [];
+  const commonVocab = {
+    breakfast: "desayuno", lunch: "almuerzo", dinner: "cena", school: "escuela",
+    university: "universidad", teacher: "profesor", student: "estudiante", family: "familia",
+    home: "casa", bus: "autobús", study: "estudiar", learn: "aprender", english: "inglés",
+    morning: "mañana", evening: "tarde", night: "noche", coffee: "café", water: "agua", book: "libro"
+  };
+
+  const foundWords = [];
+  for (const word in commonVocab) {
+    if (textLower.includes(word) && !foundWords.includes(word)) foundWords.push(word);
+  }
+
+  const vocabWordsToUse = foundWords.slice(0, 6);
+  if (vocabWordsToUse.length === 0) vocabWordsToUse.push("study", "family", "school");
+
+  vocabWordsToUse.forEach((word, i) => {
+    const translation = commonVocab[word] || "desconocido";
+    const wrongOptions = ["almuerzo", "cena", "escuela", "universidad", "casa", "trabajo"];
+    const filteredWrongs = wrongOptions.filter(opt => opt !== translation).slice(0, 2);
+    vocabulary.push({
+      id: `${level}_V_${String(i + 1).padStart(3, "0")}`,
+      question: `${word.charAt(0).toUpperCase() + word.slice(1)} = ?`,
+      options: [translation, filteredWrongs[0] || "comida", filteredWrongs[1] || "lugar"],
+      correct: translation
+    });
+  });
+
+  // LISTENING
+  const listening = [];
+  const listeningChunks = audio_chunks.slice(0, Math.min(5, audio_chunks.length));
+
+  listeningChunks.forEach((chunk, i) => {
+    const chunkText = chunk.text;
+    const words = chunkText.split(" ");
+    let wrongOption1 = chunkText;
+    let wrongOption2 = chunkText;
+
+    if (words.length > 3) {
+      const wrongWords = [...words];
+      const indexToChange = Math.floor(Math.random() * words.length);
+      wrongWords[indexToChange] = "something";
+      wrongOption1 = wrongWords.join(" ");
+    }
+    if (words.length > 5) {
+      wrongOption2 = words.slice(0, Math.floor(words.length / 2)).join(" ") + " ...";
+    }
+
+    listening.push({
+      id: `${level}_L_${String(i + 1).padStart(3, "0")}`,
+      audio_id: chunk.id,
+      audio_text: chunk.text,
+      question: "What did you hear?",
+      options: [chunk.text, wrongOption1, wrongOption2],
+      correct: chunk.text
+    });
+  });
+
+  return {
+    level: level,
+    audio_chunks: audio_chunks,
+    exercises: { reading, grammar, vocabulary, listening },
+    metadata: {
+      total_sentences: sentences.length,
+      total_audio_chunks: audio_chunks.length,
+      total_exercises: reading.length + grammar.length + vocabulary.length + listening.length
+    }
+  };
+}
+
 // CONSTANTS
 const CDN_SOURCES = ['https://cdn.jsdelivr.net/gh/RicardoM792/Lexis-data@main/', 'https://raw.githubusercontent.com/RicardoM792/Lexis-data/main/'];
-const OXFORD_URLS = {
-  '3000': ['https://raw.githubusercontent.com/ittuann/The-Oxford-5000-Word-Lists/main/The%20Oxford%203000.txt'],
-  '5000': ['https://raw.githubusercontent.com/ittuann/The-Oxford-5000-Word-Lists/main/The%20Oxford%205000.txt']
-};
-const CORS_PROXIES = ['', 'https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
 
 // STATE
 let VOCAB = [], VERBS_DATA = [], GRAMMAR_DATA = [], BOOKS_DATA = [], CONFIG = null;
 let userName = '', userLevel = 'A1';
 let mastered = [], xp = 0, streak = 0;
-let oxfordWords = [], oxford3000Loaded = false, oxford5000Loaded = false;
 let showES = false;
-let vocabLevelFilter = 'all', vocabSearch = '', showMasteredOnly = false, showOxfordOnly = false;
+let vocabLevelFilter = 'all', vocabSearch = '', showMasteredOnly = false;
 let qqCurrent = null, qqCorrect = 0, qqWrong = 0, qqStreak = 0, qqPool = [], qqIdx = 0;
 let pracQueue = [], pracIdx = 0, pracCurrent = null, pracCorrect = 0, pracWrong = 0, pracStreak = 0, pracTotal = 0, pracDone = 0;
 let dataLoaded = false, loadAttempts = 0;
 const MAX_LOAD_ATTEMPTS = 3;
-const dictionaryCache = new Map();
 
 // HELPERS
 async function fetchWithRetry(url, retries = 2) {
@@ -569,8 +768,8 @@ function speak(text) { if(window.speechSynthesis) { window.speechSynthesis.cance
 // USER PERSISTENCE
 function getAllUsers() { try { return JSON.parse(localStorage.getItem('lxp_users') || '{}'); } catch(e) { return {}; } }
 function saveAllUsers(u) { localStorage.setItem('lxp_users', JSON.stringify(u)); }
-function saveCurrentUser() { const users = getAllUsers(); users[userName] = { level: userLevel, mastered, xp, streak, oxford3000loaded: oxford3000Loaded, oxford5000loaded: oxford5000Loaded, oxfordWords, lastSeen: Date.now() }; saveAllUsers(users); localStorage.setItem('lxp_active_user', userName); }
-function loadUser(name) { const u = getAllUsers()[name]; if (!u) return false; userName = name; userLevel = u.level || 'A1'; mastered = u.mastered || []; xp = u.xp || 0; streak = u.streak || 0; oxford3000Loaded = u.oxford3000loaded || false; oxford5000Loaded = u.oxford5000loaded || false; oxfordWords = u.oxfordWords || []; return true; }
+function saveCurrentUser() { const users = getAllUsers(); users[userName] = { level: userLevel, mastered, xp, streak, lastSeen: Date.now() }; saveAllUsers(users); localStorage.setItem('lxp_active_user', userName); }
+function loadUser(name) { const u = getAllUsers()[name]; if (!u) return false; userName = name; userLevel = u.level || 'A1'; mastered = u.mastered || []; xp = u.xp || 0; streak = u.streak || 0; return true; }
 function getActiveUser() { return localStorage.getItem('lxp_active_user') || ''; }
 
 function checkLevelUp() {
@@ -609,9 +808,6 @@ function updateUI() {
   document.getElementById('mcGrammarSub').textContent = GRAMMAR_DATA.length + ' rules';
   const hour = new Date().getHours();
   document.getElementById('heroGreet').textContent = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  const b3 = document.getElementById('loadOxford3000Btn'), b5 = document.getElementById('loadOxford5000Btn');
-  if (b3) { b3.textContent = oxford3000Loaded ? '✅ Oxford 3000' : '📖 Oxford 3000'; b3.disabled = oxford3000Loaded; }
-  if (b5) { b5.textContent = oxford5000Loaded ? '✅ Oxford 5000' : '📗 Oxford 5000'; b5.disabled = oxford5000Loaded; }
 }
 
 function setLoadProgress(pct, text) {
@@ -641,7 +837,6 @@ async function loadAllData() {
     VOCAB = vocabResults.flat().filter(w => w?.word);
     setLoadProgress(85, '⚡ Verbos…'); try { VERBS_DATA = await (await ghFetch('irregular.json')).json(); } catch(e) { VERBS_DATA = []; }
     setLoadProgress(92, '📐 Gramática…'); try { GRAMMAR_DATA = await (await ghFetch('rules.json')).json(); } catch(e) { GRAMMAR_DATA = []; }
-    for (const w of oxfordWords) if (!VOCAB.some(v => v.word?.toLowerCase() === w.word?.toLowerCase())) VOCAB.push(w);
     saveDataForOffline();
     dataLoaded = true;
     setLoadProgress(100, '✅ ¡Listo!');
@@ -663,12 +858,11 @@ function renderVocab() {
   let words = VOCAB;
   if (vocabLevelFilter !== 'all') words = words.filter(w => w.level === vocabLevelFilter);
   if (showMasteredOnly) words = words.filter(w => mastered.includes(w.word));
-  if (showOxfordOnly) words = words.filter(w => w.source === 'oxford');
   if (vocabSearch) { const q = vocabSearch.toLowerCase(); words = words.filter(w => w.word.toLowerCase().includes(q) || (w.es && w.es.toLowerCase().includes(q)) || (w.meaning && w.meaning.toLowerCase().includes(q))); }
   const g = document.getElementById('vocabGrid');
   if (!words.length) { g.innerHTML = '<div class="no-words">No se encontraron palabras.</div>'; return; }
-  g.innerHTML = words.map(w => `<div class="word-card${mastered.includes(w.word)?' mastered-card':''}${w.source==='oxford'?' oxford-card':''}">
-    <div class="wc-top"><div class="wc-word speak-word" data-word="${w.word.replace(/"/g, '&quot;')}">${w.word}</div><div class="wc-badges">${w.level?`<span class="level-tag ${TAG_CLS[w.level]||''}">${w.level}</span>`:''}${w.source==='oxford'?'<span class="oxford-tag">Oxford</span>':''}${mastered.includes(w.word)?'<span class="mastered-tag">✓</span>':''}</div></div>
+  g.innerHTML = words.map(w => `<div class="word-card${mastered.includes(w.word)?' mastered-card':''}">
+    <div class="wc-top"><div class="wc-word speak-word" data-word="${w.word.replace(/"/g, '&quot;')}">${w.word}</div><div class="wc-badges">${w.level?`<span class="level-tag ${TAG_CLS[w.level]||''}">${w.level}</span>`:''}${mastered.includes(w.word)?'<span class="mastered-tag">✓</span>':''}</div></div>
     ${w.ipa?`<div class="wc-ipa">${w.ipa}</div>`:''}<div class="wc-meaning">${w.meaning||w.es||''}</div>
     ${w.es?`<div class="wc-es${showES?' show':''}"><span class="wc-es-lbl">🇪🇸 Español</span>${w.es}</div>`:''}
     ${w.example?`<div class="wc-example">"${w.example}"</div>`:''}
@@ -699,15 +893,14 @@ function renderLibrary() {
   if (!books.length) return;
   const levelColors = {A1:'#3ddc84',A2:'#3daade',B1:'#e8b86d',B2:'#ff9a3c',C1:'#ff5a1f',C2:'#ff4757'};
   document.getElementById('libraryGrid').innerHTML = books.map((b, i) => `<div class="book-card"><div class="book-spine" style="background:${b.color||'#888'}"></div><div class="book-title">${b.title}</div><div class="book-author">${b.author} · ${b.year}</div><div class="book-meta"><span class="book-tag" style="background:${b.color||'#888'}22;color:${b.color||'#888'}">CLASSIC</span><span class="book-tag" style="background:${levelColors[b.level]}22;color:${levelColors[b.level]}">${b.level}</span></div><div class="book-desc">${b.desc}</div><button class="book-btn" data-book-idx="${i}">📖 Extract vocabulary</button></div>`).join('');
-  document.querySelectorAll('#libraryGrid .book-btn').forEach(btn => btn.addEventListener('click', async function() { const book = books[parseInt(this.dataset.bookIdx)]; toast(`📖 Cargando "${book.title}"…`, 'var(--amber)'); try { const res = await ghFetch(book.url); const text = await res.text(); const start = text.indexOf('*** START OF'); const end = text.indexOf('*** END OF'); const content = start > -1 ? text.slice(start, end > -1 ? end : undefined) : text; const freq = {}; for (const w of (content.match(/\b[A-Za-z]{6,}\b/g) || [])) freq[w.toLowerCase()] = (freq[w.toLowerCase()] || 0) + 1; const existing = new Set(VOCAB.map(v => v.word.toLowerCase())); const words = Object.entries(freq).filter(([w,c]) => c >= 3 && c <= 25 && w.length >= 6 && !existing.has(w)).sort((a,b)=>b[1]-a[1]).slice(0,50).map(([w]) => ({ word: w[0].toUpperCase()+w.slice(1), level: w.length>10?'C1':w.length>8?'B2':'B1', ipa: '', meaning: 'Extracted from classic literature', es: 'Extraído de literatura clásica', example: `"${w[0].toUpperCase()+w.slice(1)}" appears in this classic text.`, source: 'gutenberg', topic: 'literature' })); let added = 0; for (const w of words) { if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) { VOCAB.push(w); added++; } } saveCurrentUser(); updateUI(); toast(`📚 +${added} palabras añadidas`, 'var(--amber)'); goPage('vocab'); } catch(e) { toast('Error al cargar el libro', 'var(--red)'); } })); }
+  document.querySelectorAll('#libraryGrid .book-btn').forEach(btn => btn.addEventListener('click', async function() { const book = books[parseInt(this.dataset.bookIdx)]; toast(`📖 Cargando "${book.title}"…`, 'var(--amber)'); try { const res = await ghFetch(book.url); const text = await res.text(); const start = text.indexOf('*** START OF'); const end = text.indexOf('*** END OF'); const content = start > -1 ? text.slice(start, end > -1 ? end : undefined) : text; const freq = {}; for (const w of (content.match(/\b[A-Za-z]{6,}\b/g) || [])) freq[w.toLowerCase()] = (freq[w.toLowerCase()] || 0) + 1; const existing = new Set(VOCAB.map(v => v.word.toLowerCase())); const words = Object.entries(freq).filter(([w,c]) => c >= 3 && c <= 25 && w.length >= 6 && !existing.has(w)).sort((a,b)=>b[1]-a[1]).slice(0,50).map(([w]) => ({ word: w[0].toUpperCase()+w.slice(1), level: w.length>10?'C1':w.length>8?'B2':'B1', ipa: '', meaning: 'Extracted from classic literature', es: 'Extraído de literatura clásica', example: `"${w[0].toUpperCase()+w.slice(1)}" appears in this classic text.`, source: 'gutenberg', topic: 'literature' })); let added = 0; for (const w of words) { if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) { VOCAB.push(w); added++; } } saveCurrentUser(); updateUI(); toast(`📚 +${added} palabras añadidas`, 'var(--amber)'); goPage('vocab'); } catch(e) { toast('Error al cargar el libro', 'var(--red'); } })); }
 
 // QUICK QUIZ
 function initQQ() {
   if (!VOCAB.length) return;
   const normalWords = VOCAB.filter(w => w.word && (w.es || w.meaning));
-  const oxfordWordsList = VOCAB.filter(w => w.source === 'oxford' && w.es);
-  qqPool = shuffle([...normalWords.slice(0,40), ...oxfordWordsList.slice(0,20)]);
-  if (qqPool.length < 20) qqPool = [...normalWords.slice(0,30), ...oxfordWordsList.slice(0,10)];
+  qqPool = shuffle([...normalWords.slice(0,40)]);
+  if (qqPool.length < 20) qqPool = [...normalWords.slice(0,30)];
   qqIdx = 0; qqCorrect = 0; qqWrong = 0; qqStreak = 0; nextQQ();
 }
 function nextQQ() {
@@ -774,37 +967,6 @@ function updatePracStats() {
   document.getElementById('pracFill').style.width = pct + '%'; document.getElementById('pracCount').textContent = pracDone + ' / ' + pracTotal;
 }
 
-// OXFORD LOADER
-async function loadOxfordList(version) {
-  const btn = document.getElementById(`loadOxford${version}Btn`), prog = document.getElementById('oxfProgress'), fill = document.getElementById('oxfFill'), status = document.getElementById('oxfStatus');
-  btn.disabled = true; btn.textContent = '⏳ Loading…'; prog.style.display = 'block'; status.style.display = 'block'; status.textContent = 'Conectando…'; fill.style.width = '10%';
-  try {
-    fill.style.width = '30%'; status.textContent = '📥 Descargando…';
-    let res = null;
-    for (const url of OXFORD_URLS[version]) { try { res = await ghFetch(url); break; } catch(e) {} }
-    if (!res) throw new Error('Failed');
-    const text = await res.text();
-    fill.style.width = '60%'; status.textContent = '🔍 Procesando…';
-    const lines = text.split('\n').filter(l => l.trim());
-    const validWords = [];
-    for (const line of lines) { let word = line.trim().replace(/^\d+\s*/, '').replace(/\([^)]*\)/, '').replace(/[^\w\s-]/g, '').trim().toLowerCase(); if (word && /^[a-z]{2,20}$/.test(word)) validWords.push(word); }
-    const uniqueWords = [...new Set(validWords)];
-    const newWords = [];
-    for (let i = 0; i < Math.min(uniqueWords.length, 500); i++) {
-      const word = uniqueWords[i]; const level = i < 300 ? (i<100?'A1':'A2') : (i<800?'B1':(i<1400?'B2':(i<2500?'C1':'C2')));
-      newWords.push({ word: word.charAt(0).toUpperCase() + word.slice(1), level, ipa: '', meaning: `Oxford ${version} word`, es: `palabra nivel ${level}`, example: `"${word}" is an important English word.`, source: 'oxford', topic: `Oxford ${version}` });
-    }
-    fill.style.width = '90%'; status.textContent = '💾 Guardando…';
-    let added = 0;
-    for (const w of newWords) { if (!VOCAB.some(v => v.word.toLowerCase() === w.word.toLowerCase())) { VOCAB.push(w); oxfordWords.push(w); added++; } }
-    fill.style.width = '100%';
-    if (version === '3000') oxford3000Loaded = true; else oxford5000Loaded = true;
-    saveCurrentUser(); updateUI();
-    status.textContent = `✅ +${added} palabras añadidas`; toast(`📚 Oxford ${version}: +${added} words!`, 'var(--blue)');
-    btn.textContent = `✅ Oxford ${version}`;
-  } catch(err) { fill.style.width = '0%'; status.textContent = '❌ Error'; btn.disabled = false; btn.textContent = `↻ Oxford ${version}`; toast('Error al cargar Oxford', 'var(--red)'); }
-}
-
 // NAVIGATION
 const PAGE_TITLES = { home:'Home', vocab:'Vocabulary', verbs:'Verbs', grammar:'Grammar', library:'Library', practice:'Practice', chat:'AI Tutor' };
 function goPage(id) {
@@ -850,22 +1012,40 @@ function renderSavedUsers() { const users = getAllUsers(); const keys = Object.k
 function continueAsUser(name) { if (!loadUser(name)) { toast('Usuario no encontrado', 'var(--red)'); return; } document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('app').style.display = 'block'; startApp(); toast(`¡Bienvenido de nuevo, ${name}! 🎉`, 'var(--gold)'); }
 function showLogin() { document.getElementById('app').style.display = 'none'; document.getElementById('loginOverlay').style.display = 'flex'; renderSavedUsers(); }
 
+// SMART GENERATE UI
+function setupSmartGenerate() {
+  const btn = document.getElementById('smartGenBtn');
+  const textarea = document.getElementById('smartGenText');
+  const levelSelect = document.getElementById('smartGenLevel');
+  const output = document.getElementById('smartGenOutput');
+  
+  if (!btn) return;
+  
+  btn.addEventListener('click', () => {
+    const text = textarea.value.trim();
+    if (!text) {
+      output.textContent = '⚠️ Please enter some text to generate exercises.';
+      return;
+    }
+    const level = levelSelect.value;
+    const result = smartGenerate(text, level);
+    output.textContent = JSON.stringify(result, null, 2);
+    toast(`✅ Generated ${result.metadata.total_exercises} exercises`, 'var(--green)');
+  });
+}
+
 // START APP
 function startApp() {
   if (localStorage.getItem('lexis_theme') === 'light') { document.body.classList.add('light'); document.getElementById('themeBtn').innerHTML = '🌙<span class="nav-tip">Theme</span>'; }
-  updateUI(); renderLibrary();
+  updateUI(); renderLibrary(); setupSmartGenerate();
   document.querySelectorAll('.nav-item[data-page]').forEach(n => n.addEventListener('click', () => goPage(n.dataset.page)));
   document.querySelectorAll('.mini-card[data-page]').forEach(c => c.addEventListener('click', () => goPage(c.dataset.page)));
   document.querySelectorAll('#levelFilters .filter-chip').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('#levelFilters .filter-chip').forEach(b => b.classList.remove('active')); btn.classList.add('active'); vocabLevelFilter = btn.dataset.lvl; renderVocab(); }));
   document.getElementById('masteredFilter')?.addEventListener('click', function() { showMasteredOnly = !showMasteredOnly; this.classList.toggle('active', showMasteredOnly); renderVocab(); });
-  document.getElementById('oxfordFilter')?.addEventListener('click', function() { showOxfordOnly = !showOxfordOnly; this.classList.toggle('active', showOxfordOnly); renderVocab(); });
   document.getElementById('vocabSearch')?.addEventListener('input', e => { vocabSearch = e.target.value.toLowerCase(); renderVocab(); });
-  document.getElementById('loadOxford3000Btn')?.addEventListener('click', () => loadOxfordList('3000'));
-  document.getElementById('loadOxford5000Btn')?.addEventListener('click', () => loadOxfordList('5000'));
   document.getElementById('themeBtn')?.addEventListener('click', () => { document.body.classList.toggle('light'); const isLight = document.body.classList.contains('light'); localStorage.setItem('lexis_theme', isLight ? 'light' : 'dark'); document.getElementById('themeBtn').innerHTML = (isLight ? '🌙' : '☀️') + '<span class="nav-tip">Theme</span>'; });
   document.getElementById('langBtn')?.addEventListener('click', () => { showES = !showES; document.getElementById('langBtn').classList.toggle('on', showES); const active = document.querySelector('.page.active'); if (active) { const id = active.id.replace('page-', ''); if (id === 'vocab') renderVocab(); if (id === 'grammar') renderGrammar(); } toast(showES ? '🇪🇸 Español activado' : '🇬🇧 Español desactivado', '#7ecb9a'); });
   document.getElementById('resetBtn')?.addEventListener('click', () => { if (!confirm(`¿Reiniciar progreso de ${userName}?`)) return; mastered = []; xp = 0; streak = 0; saveCurrentUser(); updateUI(); toast('Progreso reiniciado', 'var(--text2)'); });
-  document.getElementById('syncBtn')?.addEventListener('click', () => { if (!navigator.onLine) { toast('⚠ Sin conexión', 'var(--red)'); return; } localStorage.removeItem('lexis_offline_data'); toast('… Sincronizando…', 'var(--gold)'); loadAllData(); });
   document.getElementById('switchUserBtn')?.addEventListener('click', showLogin);
   document.getElementById('pracNextBtn')?.addEventListener('click', nextPrac);
   document.getElementById('qqNextBtn')?.addEventListener('click', nextQQ);
@@ -882,7 +1062,7 @@ function startApp() {
   if (localStorage.getItem('lexis_theme') === 'light') document.body.classList.add('light');
   const activeUser = getActiveUser();
   if (activeUser && loadUser(activeUser)) { document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('app').style.display = 'block'; startApp(); } else { renderSavedUsers(); }
-  document.getElementById('loginBtn')?.addEventListener('click', () => { const n = document.getElementById('loginName').value.trim(); const l = document.getElementById('loginLevel').value; if (!n) { toast('Ingresa tu nombre', 'var(--red)'); return; } if (getAllUsers()[n]) { continueAsUser(n); return; } userName = n; userLevel = l; mastered = []; xp = 0; streak = 0; oxford3000Loaded = false; oxford5000Loaded = false; oxfordWords = []; saveCurrentUser(); document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('app').style.display = 'block'; startApp(); toast(`¡Bienvenido, ${n}! 🚀`, 'var(--gold)'); });
+  document.getElementById('loginBtn')?.addEventListener('click', () => { const n = document.getElementById('loginName').value.trim(); const l = document.getElementById('loginLevel').value; if (!n) { toast('Ingresa tu nombre', 'var(--red)'); return; } if (getAllUsers()[n]) { continueAsUser(n); return; } userName = n; userLevel = l; mastered = []; xp = 0; streak = 0; saveCurrentUser(); document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('app').style.display = 'block'; startApp(); toast(`¡Bienvenido, ${n}! 🚀`, 'var(--gold)'); });
   document.getElementById('loginName')?.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginBtn').click(); });
 })();
 </script>
