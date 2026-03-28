@@ -836,7 +836,19 @@ async function loadData() {
     const vbm=new Map(); allV.forEach(v=>{const k=v.base.toLowerCase();if(!vbm.has(k))vbm.set(k,v);});
     VERBS=Array.from(vbm.values());
     updateLoadStatus('irregular_verbs', VERBS.length, VERBS.length>0);
-    GRAMMAR=grammarRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(g=>g&&(g.title||g.rule||g.topic));
+    // GRAMMAR - con asignación de nivel correcta
+    GRAMMAR = grammarRes.filter(r => r.status === 'fulfilled').flatMap((r, idx) => {
+    const level = LEVELS[idx]; // Asigna el nivel según el índice (A1, A2, etc.)
+    const items = r.value || [];
+    items.forEach(g => { 
+    if (g) {
+      g.level = level;
+      // Si no tiene topic, intenta usar title
+      if (!g.topic && g.title) g.topic = g.title;
+     }
+      });
+    return items;
+   }).filter(g => g && (g.topic || g.title || g.rule));
     updateLoadStatus('grammar', GRAMMAR.length, GRAMMAR.length>0);
     AUDIO=audioRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]);
     updateLoadStatus('audio', AUDIO.length, AUDIO.length>0);
@@ -950,14 +962,87 @@ function renderVerbs(){
   g.querySelectorAll('.vbcard').forEach(c=>c.addEventListener('click',()=>speak(c.querySelector('.vb-base')?.textContent||'')));
 }
 
-function renderGrammar(){
-  const g=$('grammarGrid'); if(!g) return;
-  if(!GRAMMAR.length){g.innerHTML='<div class="nodata">No grammar data.</div>';return;}
-  let rules=GRAMMAR;
-  if(gLvl!=='all') rules=rules.filter(r=>r.level===gLvl);
-  if(gSearch){const q=gSearch.toLowerCase();rules=rules.filter(r=>(r.title||'').toLowerCase().includes(q)||(r.explanation_en||r.explanation||'').toLowerCase().includes(q));}
-  if(!rules.length){g.innerHTML='<div class="nodata">No results.</div>';return;}
-  g.innerHTML=rules.map(gr=>{ const lvl=gr.level||'', expEN=gr.explanation_en||gr.explanation||gr.desc||'', expES=gr.explanation_es||gr.desc_es||''; return`<div class="gcard"><div class="gc-hd">${gr.tag?`<span class="gc-tag">${e(gr.tag)}</span>`:''}${lvl?`<span class="gc-lvl" style="background:${LVL_CLR[lvl]||'#888'}22;color:${LVL_CLR[lvl]||'#888'}">${lvl}</span>`:''}</div><div class="gc-title">${e(gr.title||gr.rule||'Grammar Rule')}</div>${gr.structure?`<div class="gc-str">${e(gr.structure)}</div>`:''}${expEN?`<div class="gc-exp">${e(expEN)}</div>`:''}${expES?`<div class="gc-exp-es${showES?' show':''}">🇪🇸 ${e(expES)}</div>`:''}<div class="gc-exs">${gr.affirmative?`<div class="gc-ex"><span class="gc-lbl aff">+</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.affirmative)}</div></div>`:''}${gr.negative?`<div class="gc-ex"><span class="gc-lbl neg">–</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.negative)}</div></div>`:''}${gr.question?`<div class="gc-ex"><span class="gc-lbl q">?</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.question)}</div></div>`:''}</div>${gr.signal_words?.length?`<div class="gc-sigs">${gr.signal_words.map(s=>`<span class="sig">${e(s)}</span>`).join('')}</div>`:''}${gr.common_error?`<div class="gc-err">⚠ ${e(gr.common_error)}</div>`:''}${gr.tip_es?`<div class="gc-tip">💡 ${e(gr.tip_es)}</div>`:''}</div>`; }).join('');
+function renderGrammar() {
+  const g = $('#grammarGrid');
+  if (!g) return;
+  if (!GRAMMAR.length) {
+    g.innerHTML = '<div class="nodata">No grammar data.</div>';
+    return;
+  }
+  
+  let rules = GRAMMAR;
+  if (gLvl !== 'all') rules = rules.filter(r => r.level === gLvl);
+  if (gSearch) {
+    const q = gSearch.toLowerCase();
+    rules = rules.filter(r => (r.topic || '').toLowerCase().includes(q) || 
+                              (r.use || '').toLowerCase().includes(q) ||
+                              (r.explanation_en || '').toLowerCase().includes(q));
+  }
+  
+  if (!rules.length) {
+    g.innerHTML = '<div class="nodata">No results.</div>';
+    return;
+  }
+  
+  g.innerHTML = rules.map(gr => {
+    const lvl = gr.level || '';
+    let structureHtml = '';
+    if (gr.structure) {
+      structureHtml = `<div class="gc-str">📐 ${e(gr.structure)}</div>`;
+    } else if (gr.structures) {
+      if (typeof gr.structures === 'object') {
+        structureHtml = `<div class="gc-str">📐 ${Object.entries(gr.structures).map(([k, v]) => `${k}: ${v}`).join(' · ')}</div>`;
+      } else if (Array.isArray(gr.structures)) {
+        structureHtml = `<div class="gc-str">📐 ${gr.structures.join(' · ')}</div>`;
+      }
+    }
+    const expEN = gr.use || gr.explanation_en || gr.explanation || gr.desc || '';
+    const expES = gr.use_es || gr.explanation_es || '';
+
+    let examplesHtml = '';
+    if (gr.examples && gr.examples.length) {
+      examplesHtml = `<div class="gc-examples" style="margin: 8px 0;">`;
+      gr.examples.forEach((ex, idx) => {
+        const esExample = gr.examples_es && gr.examples_es[idx] ? ` → ${e(gr.examples_es[idx])}` : '';
+        examplesHtml += `<div class="gc-example" style="font-size: 10px; color: var(--text2); margin-bottom: 4px;">📌 "${e(ex)}"${esExample}</div>`;
+      });
+      examplesHtml += `</div>`;
+    } else if (gr.examples_es && gr.examples_es.length) {
+      examplesHtml = `<div class="gc-examples" style="margin: 8px 0;">`;
+      gr.examples_es.forEach(ex => {
+        examplesHtml += `<div class="gc-example" style="font-size: 10px; color: var(--text2); margin-bottom: 4px;">🇪🇸 "${e(ex)}"</div>`;
+      });
+      examplesHtml += `</div>`;
+    }
+
+    let triggersHtml = '';
+    if (gr.triggers && gr.triggers.length) {
+      triggersHtml = `<div class="gc-sigs">🔑 ${gr.triggers.map(s => `<span class="sig">${e(s)}</span>`).join('')}</div>`;
+    } else if (gr.signal_words && gr.signal_words.length) {
+      triggersHtml = `<div class="gc-sigs">⏱️ ${gr.signal_words.map(s => `<span class="sig">${e(s)}</span>`).join('')}</div>`;
+    }
+    
+    let listHtml = '';
+    if (gr.list && gr.list.length) {
+      listHtml = `<div class="gc-list" style="display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0;">${gr.list.map(item => `<span class="sig" style="background: rgba(232,184,109,0.1);">${e(item)}</span>`).join('')}</div>`;
+    }
+    
+    return `<div class="gcard" data-level="${lvl}">
+      <div class="gc-hd">
+        <span class="gc-tag">📐 GRAMMAR</span>
+        ${lvl ? `<span class="gc-lvl" style="background: ${LVL_CLR[lvl] || '#888'}22; color: ${LVL_CLR[lvl] || '#888'}">${lvl}</span>` : ''}
+      </div>
+      <div class="gc-title">${e(gr.topic || gr.title || gr.rule || 'Grammar Rule')}</div>
+      ${structureHtml}
+      ${expEN ? `<div class="gc-exp">📖 ${e(expEN)}</div>` : ''}
+      ${expES ? `<div class="gc-exp-es${showES ? ' show' : ''}">🇪🇸 ${e(expES)}</div>` : ''}
+      ${examplesHtml}
+      ${triggersHtml}
+      ${listHtml}
+      ${gr.common_error ? `<div class="gc-err">⚠️ ${e(gr.common_error)}</div>` : ''}
+      ${gr.tip_es ? `<div class="gc-tip">💡 ${e(gr.tip_es)}</div>` : ''}
+    </div>`;
+  }).join('');
 }
 
 function renderListening(){
