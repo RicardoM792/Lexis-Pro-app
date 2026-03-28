@@ -31,11 +31,9 @@ body.light{
 html{background:var(--void);-webkit-text-size-adjust:100%}
 body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);overflow-x:hidden}
 
-/* SHELL */
 .shell{display:grid;grid-template-columns:var(--sw) 1fr;min-height:100vh;min-height:100svh}
 @media(max-width:768px){.shell{display:flex;flex-direction:column}}
 
-/* SIDEBAR */
 .sidebar{
   width:var(--sw);background:var(--surface);border-right:1px solid var(--border);
   display:flex;flex-direction:column;align-items:center;
@@ -75,11 +73,9 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
   .ntip{display:none}
 }
 
-/* MAIN */
 .main{margin-left:var(--sw);display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
 @media(max-width:768px){.main{margin-left:0;min-height:auto}}
 
-/* TOPBAR */
 .topbar{display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid var(--border);background:var(--surface);height:56px;position:sticky;top:0;z-index:100;flex-shrink:0;}
 @media(max-width:768px){.topbar{padding:0 12px;height:50px;gap:6px}}
 .tb-logo{font-family:'DM Serif Display',serif;font-size:19px;font-style:italic;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent;display:none}
@@ -95,7 +91,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .tbbtn:hover{border-color:var(--gold-dim);color:var(--gold)}
 @media(max-width:480px){.p-xp{display:none}}
 
-/* CONTENT */
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:24px 28px;scroll-behavior:smooth}
 @media(max-width:768px){.content{padding:12px;padding-bottom:68px}}
 @media(min-width:1400px){.content{padding:32px 52px}}
@@ -103,7 +98,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .page.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* LOAD / ERROR */
 .lbanner{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-bottom:18px;font-size:12px;color:var(--text2)}
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--border2);border-top-color:var(--gold);animation:spin 0.7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -115,7 +109,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .retrybtn{padding:7px 18px;border-radius:20px;border:1px solid var(--gold);background:rgba(232,184,109,0.08);color:var(--gold);cursor:pointer;font-size:11px;font-weight:700;transition:var(--t)}
 .retrybtn:hover{background:rgba(232,184,109,0.18)}
 
-/* LOAD STATUS TABLE */
 .load-status{background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:16px;display:none}
 .load-status.show{display:block}
 .ls-title{font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
@@ -129,7 +122,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .ls-name{color:var(--text2);flex:1}
 .ls-count{color:var(--text3);font-family:'Syne Mono',monospace;font-size:9px}
 
-/* HERO */
 .hero-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;margin-bottom:20px}
 @media(max-width:1100px){.hero-grid{grid-template-columns:1fr}}
 @media(max-width:768px){.hero-grid{gap:10px;margin-bottom:14px}}
@@ -139,8 +131,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .hname{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,36px);line-height:1.1;margin-bottom:7px}
 .hname em{font-style:italic;color:var(--gold)}
 .hsub{font-size:11px;color:var(--text2);max-width:400px;line-height:1.7;margin-bottom:18px}
-
-/* PROGRESS INTELIGENTE */
 .lvl-prog-wrap{margin-bottom:16px}
 .xp-row{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px}
 .xp-track{height:4px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
@@ -152,7 +142,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .hs-v{font-family:'DM Serif Display',serif;font-size:24px;color:var(--gold);line-height:1}
 .hs-l{font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-top:2px}
 
-/* QQ */
 .qq-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px}
 .qq-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text3);font-weight:700}
 .qq-word{font-family:'DM Serif Display',serif;font-size:28px;color:var(--gold);text-align:center;padding:8px 0;line-height:1}
@@ -167,7 +156,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .qq-next{padding:7px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;transition:var(--t);width:100%}
 .qq-next:hover{border-color:var(--gold-dim);color:var(--gold)}
 
-/* QUICK ACCESS */
 .stitle{font-size:9px;text-transform:uppercase;letter-spacing:0.13em;color:var(--text3);font-weight:700;margin-bottom:12px}
 .qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:20px}
 @media(max-width:768px){.qgrid{grid-template-columns:repeat(2,1fr);gap:8px}}
@@ -176,7 +164,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .qc-i{font-size:18px;margin-bottom:8px}.qc-t{font-size:11px;font-weight:700;margin-bottom:2px}.qc-s{font-size:9px;color:var(--text3)}
 .qc-b{display:inline-block;font-size:7px;padding:2px 6px;border-radius:20px;background:rgba(232,184,109,0.1);color:var(--gold);font-weight:700;margin-top:6px;letter-spacing:0.06em}
 
-/* TOOLBAR */
 .toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .sbox{flex:1;min-width:140px;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:40px;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;outline:none;transition:var(--t)}
 .sbox:focus{border-color:rgba(232,184,109,0.3);box-shadow:0 0 0 3px rgba(232,184,109,0.05)}
@@ -189,7 +176,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .chip:hover{border-color:var(--border2);color:var(--text)}
 .chip.on{background:rgba(232,184,109,0.09);border-color:rgba(232,184,109,0.28);color:var(--gold)}
 
-/* VOCAB GRID */
 .vcnt{font-size:10px;color:var(--text3);margin-bottom:10px;margin-top:10px}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
 @media(max-width:600px){.vgrid{grid-template-columns:1fr}}
@@ -220,7 +206,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .wbtn.esb.on{background:rgba(61,220,132,0.16);border-color:rgba(61,220,132,0.35)}
 .nodata{text-align:center;padding:40px;color:var(--text3);font-size:12px}
 
-/* VERBS */
 .vbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
 @media(max-width:600px){.vbgrid{grid-template-columns:1fr}}
 .vbcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;transition:var(--t);cursor:pointer}
@@ -233,7 +218,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .vb-f{padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);font-family:'Syne Mono',monospace;font-size:10px;color:var(--text2)}
 .vb-ex{font-size:9px;color:var(--text3);font-style:italic;margin-top:8px;border-left:2px solid rgba(232,184,109,0.18);padding-left:6px;line-height:1.5}
 
-/* GRAMMAR */
 .ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
 @media(max-width:600px){.ggrid{grid-template-columns:1fr}}
 .gcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;transition:var(--t)}
@@ -257,7 +241,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .gc-err{font-size:9px;color:var(--red);background:var(--red-dim);padding:5px 9px;border-radius:7px;margin-bottom:6px}
 .gc-tip{font-size:9px;color:var(--amber);background:rgba(255,154,60,0.07);padding:5px 9px;border-radius:7px;border-left:2px solid rgba(255,154,60,0.28)}
 
-/* LISTENING */
 .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
 @media(max-width:600px){.lgrid{grid-template-columns:1fr}}
 .lcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:var(--t)}
@@ -272,7 +255,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .lc-txt{font-size:11px;color:var(--text2);font-style:italic;line-height:1.6;display:none;border-left:2px solid rgba(232,184,109,0.18);padding-left:9px;margin-top:7px}
 .lc-txt.show{display:block}
 
-/* PRACTICE */
 .pshell{max-width:560px;margin:0 auto}
 .prog-row{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:6px}
 .prog-track{height:3px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;margin-bottom:20px}
@@ -333,7 +315,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .ptab:hover{border-color:var(--border2);color:var(--text)}
 .ptab.on{background:rgba(232,184,109,0.09);border-color:rgba(232,184,109,0.28);color:var(--gold)}
 
-/* SMART GENERATE MEJORADO */
 .smart{background:var(--card2);border:1px solid var(--border2);border-radius:18px;padding:20px;margin-bottom:20px}
 .smart-t{font-family:'DM Serif Display',serif;font-size:17px;color:var(--gold);margin-bottom:3px}
 .smart-s{font-size:10px;color:var(--text3);margin-bottom:12px}
@@ -349,11 +330,10 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .smart-exercises{display:flex;flex-direction:column;gap:8px}
 .smart-ex-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:12px;font-size:11px}
 .smart-ex-type{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:5px}
-.smart-ex-q{color:var(--text2);line-height:1.6;margin-bottom:4px}
+.smart-ex-q{color:var(--text2);line-height:1.6;margin-bottom:4px;white-space:pre-line}
 .smart-ex-a{color:var(--green);font-size:10px}
 .smart-ex-tip{color:var(--amber);font-size:9px;margin-top:3px;font-style:italic}
 
-/* CHAT */
 .chat-shell{display:flex;flex-direction:column;height:calc(100svh - 56px - 54px)}
 @media(min-width:769px){.chat-shell{height:calc(100svh - 56px)}}
 .chat-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 12px;-webkit-overflow-scrolling:touch}
@@ -382,7 +362,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .voicebtn.on{border-color:var(--red);color:var(--red);background:var(--red-dim);animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,71,87,0.35)}50%{box-shadow:0 0 0 7px rgba(255,71,87,0)}}
 
-/* LOGIN */
 .lwrap{position:fixed;inset:0;background:rgba(9,8,10,0.97);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:50000}
 .lbox{background:var(--card);border:1px solid var(--border2);border-radius:24px;padding:32px 28px;max-width:340px;width:92%;text-align:center}
 .llogo{font-family:'DM Serif Display',serif;font-size:42px;font-style:italic;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:2px}
@@ -397,191 +376,37 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 .upill:hover{border-color:rgba(232,184,109,0.28);color:var(--gold)}
 .uplvl{font-size:7px;color:var(--text3);padding:1px 4px;border-radius:8px;background:rgba(255,255,255,0.05)}
 
-/* TOAST & OFFLINE */
 .toast{position:fixed;bottom:66px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--border2);border-radius:40px;padding:8px 16px;font-size:10px;font-weight:700;z-index:99999;animation:fadeUp 0.2s ease;white-space:nowrap;box-shadow:0 6px 24px rgba(0,0,0,0.5)}
 @media(min-width:769px){.toast{bottom:20px}}
 .offbar{position:fixed;top:0;left:0;right:0;background:rgba(255,90,31,0.92);color:#fff;text-align:center;padding:4px;font-size:9px;z-index:50001;transform:translateY(-100%);transition:transform 0.3s}
 .offbar.show{transform:translateY(0)}
 ::-webkit-scrollbar{width:3px;height:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-/* VOICE MODAL STYLES */
-.voice-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(8px);
-  z-index: 100000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.2s ease;
-}
 
-.voice-modal-content {
-  background: var(--card);
-  border: 1px solid var(--border2);
-  border-radius: 24px;
-  max-width: 480px;
-  width: 90%;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  animation: slideUp 0.25s ease;
-}
-
-.voice-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 22px;
-  border-bottom: 1px solid var(--border);
-  font-family: 'DM Serif Display', serif;
-  font-size: 20px;
-  background: linear-gradient(135deg, var(--gold), var(--amber));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.voice-close {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  font-size: 16px;
-  color: var(--text2);
-  transition: var(--t);
-}
-
-.voice-close:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  transform: scale(1.05);
-}
-
-.voice-modal-body {
-  padding: 22px;
-}
-
-.voice-control-group {
-  margin-bottom: 20px;
-}
-
-.voice-control-group label {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text2);
-  margin-bottom: 8px;
-}
-
-.voice-select {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  cursor: pointer;
-  transition: var(--t);
-}
-
-.voice-select:hover {
-  border-color: var(--gold-dim);
-}
-
-.voice-control-group input[type="range"] {
-  width: 100%;
-  height: 4px;
-  -webkit-appearance: none;
-  background: var(--border);
-  border-radius: 4px;
-  outline: none;
-}
-
-.voice-control-group input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), var(--amber));
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.voice-value {
-  display: inline-block;
-  margin-left: 10px;
-  font-size: 11px;
-  font-family: 'Syne Mono', monospace;
-  color: var(--gold);
-  background: rgba(232,184,109,0.1);
-  padding: 2px 8px;
-  border-radius: 20px;
-}
-
-.voice-preview {
-  margin: 20px 0;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.voice-preview-btn {
-  padding: 10px 18px;
-  border-radius: 40px;
-  border: none;
-  background: linear-gradient(135deg, var(--gold), var(--amber));
-  color: var(--void);
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 12px;
-  cursor: pointer;
-  transition: var(--t);
-}
-
-.voice-preview-btn:hover {
-  transform: scale(1.02);
-}
-
-.voice-preview-input {
-  flex: 1;
-  padding: 10px 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 40px;
-  color: var(--text);
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  outline: none;
-}
-
-.voice-preview-input:focus {
-  border-color: var(--gold-dim);
-}
-
-.voice-info {
-  font-size: 10px;
-  color: var(--text3);
-  padding: 12px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 12px;
-  margin-top: 12px;
-  line-height: 1.6;
-}
+.voice-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:100000;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease}
+.voice-modal-content{background:var(--card);border:1px solid var(--border2);border-radius:24px;max-width:480px;width:90%;box-shadow:0 20px 40px rgba(0,0,0,0.4);animation:slideUp 0.25s ease}
+.voice-modal-header{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--border);font-family:'DM Serif Display',serif;font-size:20px;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+.voice-close{background:none;border:1px solid var(--border);border-radius:30px;width:30px;height:30px;cursor:pointer;font-size:16px;color:var(--text2);transition:var(--t)}
+.voice-close:hover{border-color:var(--gold);color:var(--gold);transform:scale(1.05)}
+.voice-modal-body{padding:22px}
+.voice-control-group{margin-bottom:20px}
+.voice-control-group label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:8px}
+.voice-select{width:100%;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;transition:var(--t)}
+.voice-select:hover{border-color:var(--gold-dim)}
+.voice-control-group input[type="range"]{width:100%;height:4px;-webkit-appearance:none;background:var(--border);border-radius:4px;outline:none}
+.voice-control-group input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--amber));cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.voice-value{display:inline-block;margin-left:10px;font-size:11px;font-family:'Syne Mono',monospace;color:var(--gold);background:rgba(232,184,109,0.1);padding:2px 8px;border-radius:20px}
+.voice-preview{margin:20px 0;display:flex;gap:10px;flex-wrap:wrap}
+.voice-preview-btn{padding:10px 18px;border-radius:40px;border:none;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--void);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:var(--t)}
+.voice-preview-btn:hover{transform:scale(1.02)}
+.voice-preview-input{flex:1;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:40px;color:var(--text);font-family:'Syne',sans-serif;font-size:11px;outline:none}
+.voice-preview-input:focus{border-color:var(--gold-dim)}
+.voice-info{font-size:10px;color:var(--text3);padding:12px;background:rgba(255,255,255,0.03);border-radius:12px;margin-top:12px;line-height:1.6}
 </style>
 </head>
 <body>
 
 <div class="offbar" id="offBar">📴 Offline mode — Cached data</div>
 
-<!-- LOGIN -->
 <div class="lwrap" id="loginWrap">
   <div class="lbox">
     <div class="llogo">lexis</div>
@@ -600,7 +425,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
   </div>
 </div>
 
-<!-- APP -->
 <div class="shell" id="app" style="display:none">
   <aside class="sidebar">
     <div class="sb-logo">L</div>
@@ -631,7 +455,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 
     <div class="content" id="content">
 
-      <!-- HOME -->
       <div class="page active" id="page-home">
         <div class="lbanner" id="loadBanner" style="display:none">
           <div class="spin"></div>
@@ -686,7 +509,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
         </div>
       </div>
 
-      <!-- VOCABULARY -->
       <div class="page" id="page-vocab">
         <div class="toolbar">
           <input class="sbox" id="vocabSearch" placeholder="🔍 Search words…"/>
@@ -703,7 +525,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
         <div class="vgrid" id="vocabGrid"><div class="nodata">Loading vocabulary…</div></div>
       </div>
 
-      <!-- VERBS -->
       <div class="page" id="page-verbs">
         <div class="toolbar">
           <input class="sbox" id="verbSearch" placeholder="🔍 Search verbs…"/>
@@ -718,7 +539,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
         <div style="margin-top:12px" class="vbgrid" id="verbGrid"><div class="nodata">Loading verbs…</div></div>
       </div>
 
-      <!-- GRAMMAR -->
       <div class="page" id="page-grammar">
         <div class="toolbar">
           <input class="sbox" id="grammarSearch" placeholder="🔍 Search grammar…"/>
@@ -733,7 +553,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
         <div style="margin-top:12px" class="ggrid" id="grammarGrid"><div class="nodata">Loading grammar…</div></div>
       </div>
 
-      <!-- LISTENING -->
       <div class="page" id="page-listen">
         <div class="toolbar">
           <span style="font-size:11px;font-weight:700;color:var(--text2)">Listening Exercises</span>
@@ -749,7 +568,6 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
         <div style="margin-top:12px" class="lgrid" id="listenGrid"><div class="nodata">Loading audio…</div></div>
       </div>
 
-      <!-- PRACTICE -->
       <div class="page" id="page-practice">
         <div class="pshell">
           <div class="lvlup" id="lvlupBanner"><div class="lvlup-t">🎉 Level Up!</div><div class="lvlup-s" id="lvlupTxt">You reached the next level!</div></div>
@@ -792,42 +610,41 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
         </div>
       </div>
 
-      <!-- VOICE SETTINGS MODAL -->
-     <div id="voiceModal" class="voice-modal" style="display:none">
-       <div class="voice-modal-content">
-       <div class="voice-modal-header">
-        <span>🎤 Voice Settings</span>
-        <button class="voice-close" id="closeVoiceModal">✕</button>
-       </div>
-      <div class="voice-modal-body">
-      <div class="voice-control-group">
-        <label>🗣️ Voice:</label>
-        <select id="voiceSelect" class="voice-select"></select>
+      <div id="voiceModal" class="voice-modal" style="display:none">
+        <div class="voice-modal-content">
+          <div class="voice-modal-header">
+            <span>🎤 Voice Settings</span>
+            <button class="voice-close" id="closeVoiceModal">✕</button>
+          </div>
+          <div class="voice-modal-body">
+            <div class="voice-control-group">
+              <label>🗣️ Voice:</label>
+              <select id="voiceSelect" class="voice-select"></select>
+            </div>
+            <div class="voice-control-group">
+              <label>⚡ Speed (0.5 - 2.0):</label>
+              <input type="range" id="voiceRate" min="0.5" max="2.0" step="0.05" value="0.92">
+              <span id="rateValue" class="voice-value">0.92</span>
+            </div>
+            <div class="voice-control-group">
+              <label>🎵 Pitch (0.5 - 2.0):</label>
+              <input type="range" id="voicePitch" min="0.5" max="2.0" step="0.05" value="1.05">
+              <span id="pitchValue" class="voice-value">1.05</span>
+            </div>
+            <div class="voice-control-group">
+              <label>📢 Volume (0 - 1):</label>
+              <input type="range" id="voiceVolume" min="0" max="1" step="0.05" value="1">
+              <span id="volumeValue" class="voice-value">1.0</span>
+            </div>
+            <div class="voice-preview">
+              <button class="voice-preview-btn" id="previewVoice">🔊 Preview voice</button>
+              <input type="text" id="previewText" class="voice-preview-input" placeholder="Preview text..." value="Hello! This is how my voice sounds.">
+            </div>
+            <div class="voice-info" id="voiceInfo"></div>
+          </div>
+        </div>
       </div>
-      <div class="voice-control-group">
-        <label>⚡ Speed (0.5 - 2.0):</label>
-        <input type="range" id="voiceRate" min="0.5" max="2.0" step="0.05" value="0.92">
-        <span id="rateValue" class="voice-value">0.92</span>
-      </div>
-      <div class="voice-control-group">
-        <label>🎵 Pitch (0.5 - 2.0):</label>
-        <input type="range" id="voicePitch" min="0.5" max="2.0" step="0.05" value="1.05">
-        <span id="pitchValue" class="voice-value">1.05</span>
-      </div>
-      <div class="voice-control-group">
-        <label>📢 Volume (0 - 1):</label>
-        <input type="range" id="voiceVolume" min="0" max="1" step="0.05" value="1">
-        <span id="volumeValue" class="voice-value">1.0</span>
-      </div>
-      <div class="voice-preview">
-        <button class="voice-preview-btn" id="previewVoice">🔊 Preview voice</button>
-        <input type="text" id="previewText" class="voice-preview-input" placeholder="Preview text..." value="Hello! This is how my voice sounds.">
-      </div>
-      <div class="voice-info" id="voiceInfo"></div>
-    </div>
-  </div>
-</div>
-      <!-- CHAT -->
+
       <div class="page" id="page-chat">
         <div class="chat-shell">
           <div class="chatsugg" id="chatSugg">
@@ -858,15 +675,12 @@ body{font-family:'Syne',sans-serif;color:var(--text);background:var(--void);over
 <script>
 'use strict';
 
-/* ══════════════════════════════════════
-   CONFIG
-══════════════════════════════════════ */
 const CDN = [
   'https://cdn.jsdelivr.net/gh/RicardoM792/Lexis-data@main/',
   'https://raw.githubusercontent.com/RicardoM792/Lexis-data/main/'
 ];
 const LEVELS = ['A1','A2','B1','B2','C1','C2'];
-const CACHE_KEY = 'lexis_v5';
+const CACHE_KEY = 'lexis_v6';
 const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
 
 const LEVEL_FILE_TYPES = {
@@ -878,16 +692,12 @@ const LEVEL_FILE_TYPES = {
 
 const ROOT_FILES = ['adjectives.json','nouns.json','colors.json','numbers.json','pronouns.json','time.json','seasons-weather.json'];
 
-// Palabras necesarias para subir de nivel (una por una)
 const LVL_WORDS_NEEDED = {A1:30, A2:60, B1:100, B2:150, C1:200, C2:300};
 const LVL_XP_MAX = {A1:100, A2:250, B1:500, B2:800, C1:1200, C2:2000};
 const LVL_XP_MIN = {A1:0, A2:100, B1:250, B2:500, C1:800, C2:1200};
 const LVL_NEXT = {A1:'A2', A2:'B1', B1:'B2', B2:'C1', C1:'C2', C2:'Master'};
 const LVL_CLR = {A1:'#3ddc84',A2:'#3daade',B1:'#e8b86d',B2:'#ff9a3c',C1:'#ff5a1f',C2:'#ff4757'};
 
-/* ══════════════════════════════════════
-   STATE
-══════════════════════════════════════ */
 let VOCAB=[], VERBS=[], GRAMMAR=[], AUDIO=[];
 let MISTAKES=[], EXERCISES=[], NEGATIONS=[], PHRASAL=[], PUNCTUATION=[], QUESTIONS=[], SLANG=[];
 let LOAD_STATUS = {};
@@ -898,18 +708,8 @@ let verbLvl='all', verbSearch='', gLvl='all', gSearch='', aLvl='all';
 let qqPool=[], qqIdx=0, qqC=0, qqW=0, qqS=0, qqCur=null;
 let pMode='all', pQueue=[], pIdx=0, pCur=null, pC=0, pW=0, pS=0, pTotal=50, pDone=0;
 let chatHistory=[];
-// Voice settings
-let voiceSettings = {
-  voice: null,
-  rate: 0.92,
-  pitch: 1.05,
-  volume: 1,
-  voiceName: 'Default'
-};
+let voiceSettings = { voice: null, rate: 0.92, pitch: 1.05, volume: 1, voiceName: 'Default' };
 
-/* ══════════════════════════════════════
-   FETCH — robusto con múltiples fallbacks
-══════════════════════════════════════ */
 async function fetchJ(path, silent=false) {
   for (const base of CDN) {
     try {
@@ -919,13 +719,8 @@ async function fetchJ(path, silent=false) {
       clearTimeout(t);
       if (!r.ok) continue;
       const text = await r.text();
-      try { return JSON.parse(text); } catch(pe) {
-        if (!silent) console.warn(`JSON parse error: ${path}`, pe.message);
-        continue;
-      }
-    } catch(e) {
-      if (!silent && e.name!=='AbortError') console.warn(`Fetch fail: ${path}`, e.message);
-    }
+      try { return JSON.parse(text); } catch(pe) { continue; }
+    } catch(e) { continue; }
   }
   return null;
 }
@@ -933,17 +728,9 @@ async function fetchJ(path, silent=false) {
 function extractArr(data) {
   if (!data) return [];
   if (Array.isArray(data)) return data;
-  // Buscar en keys conocidas
-  const keys = ['items','words','verbs','rules','entries','vocabulary','data','mistakes',
-                 'questions','exercises','list','grammar','irregulars','audio','content',
-                 'negations','phrasal_verbs','slang','punctuation'];
-  for (const k of keys) {
-    if (Array.isArray(data[k]) && data[k].length > 0) return data[k];
-  }
-  // Buscar recursivo en primer nivel
-  for (const val of Object.values(data)) {
-    if (Array.isArray(val) && val.length > 0 && val[0] && typeof val[0]==='object') return val;
-  }
+  const keys = ['items','words','verbs','rules','entries','vocabulary','data','mistakes','questions','exercises','list','grammar','irregulars','audio','content','negations','phrasal_verbs','slang','punctuation'];
+  for (const k of keys) if (Array.isArray(data[k]) && data[k].length) return data[k];
+  for (const val of Object.values(data)) if (Array.isArray(val) && val.length && val[0] && typeof val[0]==='object') return val;
   return [];
 }
 
@@ -958,9 +745,6 @@ function extractAudio(data) {
   return [];
 }
 
-/* ══════════════════════════════════════
-   LOAD STATUS UI
-══════════════════════════════════════ */
 function initLoadStatus() {
   LOAD_STATUS = {};
   Object.keys(LEVEL_FILE_TYPES).forEach(t=>{ LOAD_STATUS[t]={count:0,status:'loading'}; });
@@ -976,32 +760,12 @@ function updateLoadStatus(type, count, ok) {
 
 function renderLoadStatus() {
   const grid=$('loadStatusGrid'); if(!grid) return;
-  const names={
-    vocabulary:'📖 Vocabulary', grammar:'📐 Grammar', irregular_verbs:'⚡ Irregular Verbs',
-    audio:'🎧 Audio', common_mistakes:'⚠️ Common Mistakes', exercises:'✏️ Exercises',
-    negations:'🚫 Negations', phrasal_verbs:'🔗 Phrasal Verbs', punctuation:'✒️ Punctuation',
-    questions:'❓ Questions', slang:'😎 Slang', vocabulary_topics:'🌍 Topic Vocabulary'
-  };
-  grid.innerHTML = Object.entries(LOAD_STATUS).map(([k,v])=>`
-    <div class="ls-item">
-      <div class="ls-dot ${v.status}"></div>
-      <div class="ls-name">${names[k]||k}</div>
-      <div class="ls-count">${v.count>0?v.count:'…'}</div>
-    </div>`).join('');
+  const names={ vocabulary:'📖 Vocabulary', grammar:'📐 Grammar', irregular_verbs:'⚡ Irregular Verbs', audio:'🎧 Audio', common_mistakes:'⚠️ Common Mistakes', exercises:'✏️ Exercises', negations:'🚫 Negations', phrasal_verbs:'🔗 Phrasal Verbs', punctuation:'✒️ Punctuation', questions:'❓ Questions', slang:'😎 Slang', vocabulary_topics:'🌍 Topic Vocabulary' };
+  grid.innerHTML = Object.entries(LOAD_STATUS).map(([k,v])=>`<div class="ls-item"><div class="ls-dot ${v.status}"></div><div class="ls-name">${names[k]||k}</div><div class="ls-count">${v.count>0?v.count:'…'}</div></div>`).join('');
 }
 
-/* ══════════════════════════════════════
-   CACHE
-══════════════════════════════════════ */
 function saveCache() {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
-      vocab:VOCAB, verbs:VERBS, grammar:GRAMMAR, audio:AUDIO,
-      mistakes:MISTAKES, exercises:EXERCISES, negations:NEGATIONS,
-      phrasal:PHRASAL, punctuation:PUNCTUATION, questions:QUESTIONS, slang:SLANG,
-      ts:Date.now()
-    }));
-  } catch(e){ console.warn('Cache save failed',e); }
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ vocab:VOCAB, verbs:VERBS, grammar:GRAMMAR, audio:AUDIO, mistakes:MISTAKES, exercises:EXERCISES, negations:NEGATIONS, phrasal:PHRASAL, punctuation:PUNCTUATION, questions:QUESTIONS, slang:SLANG, ts:Date.now() })); } catch(e){}
 }
 
 function loadCache() {
@@ -1016,14 +780,11 @@ function loadCache() {
   } catch(e){ return false; }
 }
 
-/* ══════════════════════════════════════
-   MAIN LOAD
-══════════════════════════════════════ */
 async function loadData() {
   const banner=$('loadBanner'), errBox=$('errBox'), statusEl=$('loadStatus');
-  errBox.style.display='none';
-  banner.style.display='flex';
-  statusEl.classList.add('show');
+  if(errBox) errBox.style.display='none';
+  if(banner) banner.style.display='flex';
+  if(statusEl) statusEl.classList.add('show');
   initLoadStatus();
 
   if (loadCache() && VOCAB.length>0) {
@@ -1040,11 +801,7 @@ async function loadData() {
     updateLoadStatus('questions', QUESTIONS.length, QUESTIONS.length>0);
     updateLoadStatus('slang', SLANG.length, SLANG.length>0);
     updateLoadStatus('vocabulary_topics', 0, true);
-    setTimeout(()=>{
-      banner.style.display='none';
-      setTimeout(()=>statusEl.classList.remove('show'),5000);
-      finishUI();
-    }, 400);
+    setTimeout(()=>{ if(banner) banner.style.display='none'; if(statusEl) setTimeout(()=>statusEl.classList.remove('show'),5000); finishUI(); }, 400);
     if(navigator.onLine) setTimeout(bgRefresh, 2000);
     return;
   }
@@ -1052,170 +809,78 @@ async function loadData() {
   try {
     setP(5,'📡 Connecting to repository…');
     const fetchLvl = (fn, l) => fetchJ(`${l}/${fn}`, true);
-
-    const [
-      vocabRes, grammarRes, verbRes, audioRes,
-      mistakesRes, exercisesRes, negationsRes, phrasalRes,
-      punctRes, questionsRes, slangRes, topicRes
-    ] = await Promise.all([
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Vocabular.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(w=>w&&(w.level=l)); return {items,lvl:l};
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Grammar.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(g=>g&&(g.level=l)); return items;
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Irregular.json',l).then(d=>{
-        const items=extractArr(d);
-        items.forEach(v=>{if(v){v.level=l;v.base=v.base||v.verb||v.infinitive||'';}});
-        return items;
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Aud.json',l).then(d=>{
-        const chunks=extractAudio(d);
-        chunks.forEach(c=>{if(c){c.level=l;c.text=c.text||c.audio_text||'';c.id=c.id||`${l}_AUD_${Math.random().toString(36).substr(2,5)}`;}});
-        return chunks.filter(c=>c?.text);
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('CommonMistakes.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(m=>m&&(m.level=l)); return items;
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Exercis.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(e=>e&&(e.level=l)); return items;
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Negations.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(n=>n&&(n.level=l)); return items;
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('PhrasalVerbs.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(p=>p&&(p.level=l)); return items;
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Punctuation.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(p=>p&&(p.level=l)); return items;
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Questions.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(q=>q&&(q.level=l)); return items;
-      }))),
-      Promise.allSettled(LEVELS.map(l=>fetchLvl('Slang.json',l).then(d=>{
-        const items=extractArr(d); items.forEach(s=>s&&(s.level=l)); return items;
-      }))),
+    const [vocabRes, grammarRes, verbRes, audioRes, mistakesRes, exercisesRes, negationsRes, phrasalRes, punctRes, questionsRes, slangRes, topicRes] = await Promise.all([
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Vocabular.json',l).then(d=>{ const items=extractArr(d); items.forEach(w=>w&&(w.level=l)); return {items,lvl:l}; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Grammar.json',l).then(d=>{ const items=extractArr(d); items.forEach(g=>g&&(g.level=l)); return items; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Irregular.json',l).then(d=>{ const items=extractArr(d); items.forEach(v=>{if(v){v.level=l;v.base=v.base||v.verb||v.infinitive||'';}}); return items; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Aud.json',l).then(d=>{ const chunks=extractAudio(d); chunks.forEach(c=>{if(c){c.level=l;c.text=c.text||c.audio_text||'';c.id=c.id||`${l}_AUD_${Math.random().toString(36).substr(2,5)}`;}}); return chunks.filter(c=>c?.text); }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('CommonMistakes.json',l).then(d=>{ const items=extractArr(d); items.forEach(m=>m&&(m.level=l)); return items; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Exercis.json',l).then(d=>{ const items=extractArr(d); items.forEach(e=>e&&(e.level=l)); return items; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Negations.json',l).then(d=>{ const items=extractArr(d); items.forEach(n=>n&&(n.level=l)); return items; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('PhrasalVerbs.json',l).then(d=>{ const items=extractArr(d); items.forEach(p=>p&&(p.level=l)); return items; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Punctuation.json',l).then(d=>{ const items=extractArr(d); items.forEach(p=>p&&(p.level=l)); return items; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Questions.json',l).then(d=>{ const items=extractArr(d); items.forEach(q=>q&&(q.level=l)); return items; }))),
+      Promise.allSettled(LEVELS.map(l=>fetchLvl('Slang.json',l).then(d=>{ const items=extractArr(d); items.forEach(s=>s&&(s.level=l)); return items; }))),
       Promise.allSettled(ROOT_FILES.map(f=>fetchJ(f,true).then(d=>extractArr(d))))
     ]);
 
     setP(70,'🔧 Processing data…');
-
-    // VOCAB
     const lvlVocab=vocabRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value?.items||[]);
     const topicVocab=topicRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]);
     const allW=[...lvlVocab,...topicVocab].filter(w=>w?.word);
-    const vm=new Map();
-    allW.forEach(w=>{const k=w.word.toLowerCase().trim();if(!vm.has(k))vm.set(k,w);});
+    const vm=new Map(); allW.forEach(w=>{const k=w.word.toLowerCase().trim();if(!vm.has(k))vm.set(k,w);});
     VOCAB=Array.from(vm.values());
     updateLoadStatus('vocabulary', VOCAB.length, VOCAB.length>0);
     updateLoadStatus('vocabulary_topics', topicVocab.length, true);
-
-    // VERBS
     const allV=verbRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(v=>v?.base);
-    const vbm=new Map();
-    allV.forEach(v=>{const k=v.base.toLowerCase();if(!vbm.has(k))vbm.set(k,v);});
+    const vbm=new Map(); allV.forEach(v=>{const k=v.base.toLowerCase();if(!vbm.has(k))vbm.set(k,v);});
     VERBS=Array.from(vbm.values());
     updateLoadStatus('irregular_verbs', VERBS.length, VERBS.length>0);
-
-    // GRAMMAR
-    GRAMMAR=grammarRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[])
-      .filter(g=>g&&(g.title||g.rule||g.topic));
+    GRAMMAR=grammarRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(g=>g&&(g.title||g.rule||g.topic));
     updateLoadStatus('grammar', GRAMMAR.length, GRAMMAR.length>0);
-
-    // AUDIO
     AUDIO=audioRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]);
     updateLoadStatus('audio', AUDIO.length, AUDIO.length>0);
-
-    // EXTRA DATA — con mejores filtros
-    MISTAKES=mistakesRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[])
-      .filter(m=>m&&(m.wrong||m.incorrect||m.sentence||m.mistake||m.error||m.correct||m.right));
+    MISTAKES=mistakesRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(m=>m&&(m.wrong||m.incorrect||m.sentence||m.mistake||m.error||m.correct||m.right));
     updateLoadStatus('common_mistakes', MISTAKES.length, true);
-
-    EXERCISES=exercisesRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[])
-      .filter(e=>e&&(e.question||e.sentence||e.prompt||e.text||e.exercise));
+    EXERCISES=exercisesRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(e=>e&&(e.question||e.sentence||e.prompt||e.text||e.exercise));
     updateLoadStatus('exercises', EXERCISES.length, true);
-
     NEGATIONS=negationsRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(Boolean);
     updateLoadStatus('negations', NEGATIONS.length, true);
-
-    PHRASAL=phrasalRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[])
-      .filter(p=>p&&(p.verb||p.phrasal||p.base||p.word));
+    PHRASAL=phrasalRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(p=>p&&(p.verb||p.phrasal||p.base||p.word));
     updateLoadStatus('phrasal_verbs', PHRASAL.length, true);
-
     PUNCTUATION=punctRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(Boolean);
     updateLoadStatus('punctuation', PUNCTUATION.length, true);
-
-    QUESTIONS=questionsRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[])
-      .filter(q=>q&&(q.question||q.sentence||q.q||q.text));
+    QUESTIONS=questionsRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(q=>q&&(q.question||q.sentence||q.q||q.text));
     updateLoadStatus('questions', QUESTIONS.length, true);
-
-    SLANG=slangRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[])
-      .filter(s=>s&&(s.word||s.slang||s.term||s.expression));
+    SLANG=slangRes.filter(r=>r.status==='fulfilled').flatMap(r=>r.value||[]).filter(s=>s&&(s.word||s.slang||s.term||s.expression));
     updateLoadStatus('slang', SLANG.length, true);
-
     setP(100,'✅ All loaded!');
     saveCache();
-
-    console.group('🎉 LEXIS Data Loaded');
-    console.log(`📖 Vocab: ${VOCAB.length} | ⚡ Verbs: ${VERBS.length} | 📐 Grammar: ${GRAMMAR.length} | 🎧 Audio: ${AUDIO.length}`);
-    console.log(`⚠️ Mistakes: ${MISTAKES.length} | ✏️ Exercises: ${EXERCISES.length} | 🚫 Negations: ${NEGATIONS.length}`);
-    console.log(`🔗 Phrasal: ${PHRASAL.length} | ✒️ Punct: ${PUNCTUATION.length} | ❓ Questions: ${QUESTIONS.length} | 😎 Slang: ${SLANG.length}`);
-    console.groupEnd();
-
-    setTimeout(()=>{
-      banner.style.display='none';
-      setTimeout(()=>statusEl.classList.remove('show'),8000);
-      finishUI();
-      toast(`✓ ${VOCAB.length} words · ${VERBS.length} verbs · ${GRAMMAR.length} rules · ${AUDIO.length} audio`,'var(--green)');
-    },300);
-
+    setTimeout(()=>{ if(banner) banner.style.display='none'; if(statusEl) setTimeout(()=>statusEl.classList.remove('show'),8000); finishUI(); toast(`✓ ${VOCAB.length} words · ${VERBS.length} verbs · ${GRAMMAR.length} rules · ${AUDIO.length} audio`,'var(--green)'); },300);
   } catch(err) {
     console.error(err);
-    banner.style.display='none';
-    $('errBox').style.display='block';
-    $('errMsg').textContent=err.message||'Connection error';
+    if(banner) banner.style.display='none';
+    if(errBox) { errBox.style.display='block'; $('errMsg').textContent=err.message||'Connection error'; }
   }
 }
 
-async function bgRefresh() {
-  try {
-    const fetchLvl=(fn,l)=>fetchJ(`${l}/${fn}`,true);
-    await Promise.allSettled(LEVELS.flatMap(l=>Object.values(LEVEL_FILE_TYPES).map(fn=>fetchLvl(fn,l))));
-  } catch(e){}
-}
+async function bgRefresh() { try { const fetchLvl=(fn,l)=>fetchJ(`${l}/${fn}`,true); await Promise.allSettled(LEVELS.flatMap(l=>Object.values(LEVEL_FILE_TYPES).map(fn=>fetchLvl(fn,l)))); } catch(e){} }
 
-function setP(pct,txt){const f=$('loadFill'),t=$('loadTxt');if(f)f.style.width=pct+'%';if(t)t.textContent=txt;}
-function finishUI(){updateUI();initQQ();}
+function setP(pct,txt){ const f=$('loadFill'),t=$('loadTxt'); if(f)f.style.width=pct+'%'; if(t)t.textContent=txt; }
+function finishUI(){ updateUI(); initQQ(); }
 
-/* ══════════════════════════════════════
-   USERS
-══════════════════════════════════════ */
-function getUsers(){try{return JSON.parse(localStorage.getItem('lxp_u')||'{}');}catch{return {};}}
-function saveUser(){
-  const u=getUsers();
-  u[userName]={level:userLevel,mastered,xp,streak,ts:Date.now()};
-  localStorage.setItem('lxp_u',JSON.stringify(u));
-  localStorage.setItem('lxp_active',userName);
-}
-function loadUser(name){
-  const u=getUsers()[name]; if(!u) return false;
-  userName=name;userLevel=u.level||'A1';mastered=u.mastered||[];xp=u.xp||0;streak=u.streak||0;
-  return true;
-}
+function getUsers(){ try{ return JSON.parse(localStorage.getItem('lxp_u')||'{}'); }catch{ return {}; } }
+function saveUser(){ const u=getUsers(); u[userName]={level:userLevel,mastered,xp,streak,ts:Date.now()}; localStorage.setItem('lxp_u',JSON.stringify(u)); localStorage.setItem('lxp_active',userName); }
+function loadUser(name){ const u=getUsers()[name]; if(!u) return false; userName=name;userLevel=u.level||'A1';mastered=u.mastered||[];xp=u.xp||0;streak=u.streak||0; return true; }
 
-// Sistema de nivel INTELIGENTE — basado en palabras dominadas del nivel actual
 function getMasteredForLevel(level) {
-  // Filtrar palabras dominadas que son del nivel actual
   const levelWords = VOCAB.filter(w=>w.level===level).map(w=>w.word.toLowerCase());
-  if (levelWords.length === 0) {
-    // Si no hay palabras del nivel, usar mastered total proporcionalmente
-    return mastered.length;
-  }
+  if (levelWords.length === 0) return mastered.length;
   return mastered.filter(w=>levelWords.includes(w.toLowerCase())).length;
 }
 
 function checkLevelUp() {
-  if (LEVELS.indexOf(userLevel) >= 5) return; // C2 es el máximo
+  if (LEVELS.indexOf(userLevel) >= 5) return;
   const needed = LVL_WORDS_NEEDED[userLevel] || 30;
   const masteredInLevel = getMasteredForLevel(userLevel);
   if (masteredInLevel >= needed) {
@@ -1224,214 +889,100 @@ function checkLevelUp() {
     saveUser();
     updateUI();
     const b=$('lvlupBanner'),t=$('lvlupTxt');
-    if(b&&t){
-      t.textContent=`You went from ${prev} to ${userLevel}! 🎓 Mastered ${masteredInLevel} words!`;
-      b.classList.add('show');
-      setTimeout(()=>b.classList.remove('show'),5000);
-    }
+    if(b&&t){ t.textContent=`You went from ${prev} to ${userLevel}! 🎓 Mastered ${masteredInLevel} words!`; b.classList.add('show'); setTimeout(()=>b.classList.remove('show'),5000); }
     toast(`🎓 Level Up! ${prev} → ${userLevel}`,'var(--gold)');
   }
 }
 
-function addXP(n){xp+=n;streak++;checkLevelUp();saveUser();updateUI();}
+function addXP(n){ xp+=n; streak++; checkLevelUp(); saveUser(); updateUI(); }
+function masterWord(word){ if(mastered.includes(word)) return; mastered.push(word); xp+=15; checkLevelUp(); saveUser(); updateUI(); toast(`✦ "${word}" mastered +15 XP`,'var(--gold)'); }
 
-function masterWord(word){
-  if(mastered.includes(word)) return;
-  mastered.push(word);
-  xp+=15;
-  checkLevelUp();
-  saveUser();
-  updateUI();
-  toast(`✦ "${word}" mastered +15 XP`,'var(--gold)');
-}
-
-/* ══════════════════════════════════════
-   UPDATE UI — progreso inteligente
-══════════════════════════════════════ */
 function updateUI(){
   const min=LVL_XP_MIN[userLevel]||0, max=LVL_XP_MAX[userLevel]||100;
   const xpPct=Math.min(100,Math.max(0,Math.round(((xp-min)/(max-min))*100)));
-
-  // Progreso de palabras para subir de nivel
   const needed=LVL_WORDS_NEEDED[userLevel]||30;
   const masteredInLevel=getMasteredForLevel(userLevel);
   const wordsPct=Math.min(100,Math.round((masteredInLevel/needed)*100));
-
-  // Saludo en inglés según la hora
   const h=new Date().getHours();
   const greet=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
-
-  $('strDisp').textContent=streak;
-  $('xpDisp').textContent=xp;
-  $('hName').innerHTML=`${e(userName)} <em>.</em>`;
-  $('hLevel').textContent=userLevel;
-  $('hXPNext').textContent=`${xp}/${max} XP → ${LVL_NEXT[userLevel]||'Master'}`;
-  $('hXPFill').style.width=xpPct+'%';
-  $('hWordsNext').textContent=`${masteredInLevel} / ${needed} words`;
-  $('hWordsFill').style.width=wordsPct+'%';
-  $('hMastered').textContent=mastered.length;
-  $('hStreak').textContent=streak;
-  $('hTotal').textContent=VOCAB.length;
-  $('hGreet').textContent=greet;
-  $('qcVocab').textContent=VOCAB.length?`${VOCAB.length} words`:'Loading…';
-  $('qcVerbs').textContent=VERBS.length?`${VERBS.length} verbs`:'Loading…';
-  $('qcGrammar').textContent=GRAMMAR.length?`${GRAMMAR.length} rules`:'Loading…';
-  $('qcAudio').textContent=AUDIO.length?`${AUDIO.length} fragments`:'Loading…';
-  $('qcPrac').textContent=`${VOCAB.length+MISTAKES.length+PHRASAL.length} items available`;
+  if($('strDisp')) $('strDisp').textContent=streak;
+  if($('xpDisp')) $('xpDisp').textContent=xp;
+  if($('hName')) $('hName').innerHTML=`${e(userName)} <em>.</em>`;
+  if($('hLevel')) $('hLevel').textContent=userLevel;
+  if($('hXPNext')) $('hXPNext').textContent=`${xp}/${max} XP → ${LVL_NEXT[userLevel]||'Master'}`;
+  if($('hXPFill')) $('hXPFill').style.width=xpPct+'%';
+  if($('hWordsNext')) $('hWordsNext').textContent=`${masteredInLevel} / ${needed} words`;
+  if($('hWordsFill')) $('hWordsFill').style.width=wordsPct+'%';
+  if($('hMastered')) $('hMastered').textContent=mastered.length;
+  if($('hStreak')) $('hStreak').textContent=streak;
+  if($('hTotal')) $('hTotal').textContent=VOCAB.length;
+  if($('hGreet')) $('hGreet').textContent=greet;
+  if($('qcVocab')) $('qcVocab').textContent=VOCAB.length?`${VOCAB.length} words`:'Loading…';
+  if($('qcVerbs')) $('qcVerbs').textContent=VERBS.length?`${VERBS.length} verbs`:'Loading…';
+  if($('qcGrammar')) $('qcGrammar').textContent=GRAMMAR.length?`${GRAMMAR.length} rules`:'Loading…';
+  if($('qcAudio')) $('qcAudio').textContent=AUDIO.length?`${AUDIO.length} fragments`:'Loading…';
+  if($('qcPrac')) $('qcPrac').textContent=`${VOCAB.length+MISTAKES.length+PHRASAL.length} items available`;
 }
 
-/* ══════════════════════════════════════
-   RENDER: VOCABULARY
-══════════════════════════════════════ */
 function renderVocab(){
   let words=VOCAB;
   if(vLvl!=='all') words=words.filter(w=>w.level===vLvl);
   if(vMastered) words=words.filter(w=>mastered.includes(w.word));
   if(vSearch){const q=vSearch.toLowerCase();words=words.filter(w=>(w.word||'').toLowerCase().includes(q)||(w.es||'').toLowerCase().includes(q)||(w.meaning||w.definition||'').toLowerCase().includes(q));}
-  $('vocabCnt').textContent=`${words.length} words found`;
+  if($('vocabCnt')) $('vocabCnt').textContent=`${words.length} words found`;
   const g=$('vocabGrid');
+  if(!g) return;
   if(!words.length){g.innerHTML='<div class="nodata">No words found.</div>';return;}
-  g.innerHTML=words.slice(0,300).map(w=>{
-    const def=w.meaning||w.definition||'', es=w.es||w.translation||'', isM=mastered.includes(w.word), lvl=w.level||'';
-    return`<div class="wcard">
-<div class="wc-top">
-<div class="wc-w" data-w="${ea(w.word)}">${e(w.word)}</div>
-<div class="wc-bg">${lvl?`<span class="lvl l${lvl}">${lvl}</span>`:''} ${isM?'<span class="mb">✓</span>':''}</div>
-</div>
-${w.ipa?`<div class="wc-ipa">${e(w.ipa)}</div>`:''}
-${def?`<div class="wc-def">${e(def)}</div>`:''}
-${es?`<div class="wc-es${showES?' show':''}"><span class="wc-es-l">🇪🇸 Spanish</span>${e(es)}</div>`:''}
-${w.example?`<div class="wc-ex">"${e(w.example)}"</div>`:''}
-${w.category||w.topic?`<div class="wc-tag">${e(w.category||w.topic)}</div>`:''}
-<div class="wc-acts">
-<button class="wbtn" data-w="${ea(w.word)}">🔊</button>
-${es?`<button class="wbtn esb${showES?' on':''}">🇪🇸</button>`:''}
-${!isM?`<button class="wbtn gold" data-m="${ea(w.word)}">✦ Master</button>`:'<button class="wbtn" style="color:var(--green)" disabled>✓</button>'}
-</div></div>`;
-  }).join('');
+  g.innerHTML=words.slice(0,300).map(w=>{ const def=w.meaning||w.definition||'', es=w.es||w.translation||'', isM=mastered.includes(w.word), lvl=w.level||''; return`<div class="wcard"><div class="wc-top"><div class="wc-w" data-w="${ea(w.word)}">${e(w.word)}</div><div class="wc-bg">${lvl?`<span class="lvl l${lvl}">${lvl}</span>`:''} ${isM?'<span class="mb">✓</span>':''}</div></div>${w.ipa?`<div class="wc-ipa">${e(w.ipa)}</div>`:''}${def?`<div class="wc-def">${e(def)}</div>`:''}${es?`<div class="wc-es${showES?' show':''}"><span class="wc-es-l">🇪🇸 Spanish</span>${e(es)}</div>`:''}${w.example?`<div class="wc-ex">"${e(w.example)}"</div>`:''}${w.category||w.topic?`<div class="wc-tag">${e(w.category||w.topic)}</div>`:''}<div class="wc-acts"><button class="wbtn" data-w="${ea(w.word)}">🔊</button>${es?`<button class="wbtn esb${showES?' on':''}">🇪🇸</button>`:''}${!isM?`<button class="wbtn gold" data-m="${ea(w.word)}">✦ Master</button>`:'<button class="wbtn" style="color:var(--green)" disabled>✓</button>'}</div></div>`; }).join('');
   g.querySelectorAll('[data-w]').forEach(el=>el.addEventListener('click',ev=>{ev.stopPropagation();speak(el.dataset.w);}));
   g.querySelectorAll('[data-m]').forEach(el=>el.addEventListener('click',ev=>{ev.stopPropagation();masterWord(el.dataset.m);}));
-  g.querySelectorAll('.esb').forEach(btn=>btn.addEventListener('click',()=>{
-    const card=btn.closest('.wcard');
-    card.querySelectorAll('.wc-es').forEach(b=>b.classList.toggle('show'));
-    btn.classList.toggle('on');
-  }));
+  g.querySelectorAll('.esb').forEach(btn=>btn.addEventListener('click',()=>{ const card=btn.closest('.wcard'); card.querySelectorAll('.wc-es').forEach(b=>b.classList.toggle('show')); btn.classList.toggle('on'); }));
 }
 
-/* ══════════════════════════════════════
-   RENDER: VERBS
-══════════════════════════════════════ */
 function renderVerbs(){
-  const g=$('verbGrid');
+  const g=$('verbGrid'); if(!g) return;
   if(!VERBS.length){g.innerHTML='<div class="nodata">No verb data.</div>';return;}
   let verbs=VERBS;
   if(verbLvl!=='all') verbs=verbs.filter(v=>v.level===verbLvl);
   if(verbSearch){const q=verbSearch.toLowerCase();verbs=verbs.filter(v=>(v.base||'').toLowerCase().includes(q)||(v.es||'').toLowerCase().includes(q)||(v.past||'').toLowerCase().includes(q));}
   if(!verbs.length){g.innerHTML='<div class="nodata">No results.</div>';return;}
-  g.innerHTML=verbs.map(v=>`<div class="vbcard">
-<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px">
-<div class="vb-base">${e(v.base)}</div>
-${v.level?`<span class="lvl l${v.level}">${v.level}</span>`:''}
-</div>
-${v.es?`<div class="vb-es">${e(v.es)}</div>`:''}
-<div class="vb-forms">
-<div class="vb-fg"><div class="vb-fl">BASE</div><div class="vb-f">${e(v.base)}</div></div>
-${v.past?`<div class="vb-fg"><div class="vb-fl">PAST</div><div class="vb-f">${e(v.past)}</div></div>`:''}
-${(v.participle||v.past_participle)?`<div class="vb-fg"><div class="vb-fl">PART.</div><div class="vb-f">${e(v.participle||v.past_participle)}</div></div>`:''}
-${v.gerund?`<div class="vb-fg"><div class="vb-fl">-ING</div><div class="vb-f">${e(v.gerund)}</div></div>`:''}
-</div>
-${v.example?`<div class="vb-ex">"${e(v.example)}"</div>`:''}
-</div>`).join('');
+  g.innerHTML=verbs.map(v=>`<div class="vbcard"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px"><div class="vb-base">${e(v.base)}</div>${v.level?`<span class="lvl l${v.level}">${v.level}</span>`:''}</div>${v.es?`<div class="vb-es">${e(v.es)}</div>`:''}<div class="vb-forms"><div class="vb-fg"><div class="vb-fl">BASE</div><div class="vb-f">${e(v.base)}</div></div>${v.past?`<div class="vb-fg"><div class="vb-fl">PAST</div><div class="vb-f">${e(v.past)}</div></div>`:''}${(v.participle||v.past_participle)?`<div class="vb-fg"><div class="vb-fl">PART.</div><div class="vb-f">${e(v.participle||v.past_participle)}</div></div>`:''}${v.gerund?`<div class="vb-fg"><div class="vb-fl">-ING</div><div class="vb-f">${e(v.gerund)}</div></div>`:''}</div>${v.example?`<div class="vb-ex">"${e(v.example)}"</div>`:''}</div>`).join('');
   g.querySelectorAll('.vbcard').forEach(c=>c.addEventListener('click',()=>speak(c.querySelector('.vb-base')?.textContent||'')));
 }
 
-/* ══════════════════════════════════════
-   RENDER: GRAMMAR
-══════════════════════════════════════ */
 function renderGrammar(){
-  const g=$('grammarGrid');
+  const g=$('grammarGrid'); if(!g) return;
   if(!GRAMMAR.length){g.innerHTML='<div class="nodata">No grammar data.</div>';return;}
   let rules=GRAMMAR;
   if(gLvl!=='all') rules=rules.filter(r=>r.level===gLvl);
   if(gSearch){const q=gSearch.toLowerCase();rules=rules.filter(r=>(r.title||'').toLowerCase().includes(q)||(r.explanation_en||r.explanation||'').toLowerCase().includes(q));}
   if(!rules.length){g.innerHTML='<div class="nodata">No results.</div>';return;}
-  g.innerHTML=rules.map(gr=>{
-    const lvl=gr.level||'', expEN=gr.explanation_en||gr.explanation||gr.desc||'', expES=gr.explanation_es||gr.desc_es||'';
-    return`<div class="gcard">
-<div class="gc-hd">
-${gr.tag?`<span class="gc-tag">${e(gr.tag)}</span>`:''}
-${lvl?`<span class="gc-lvl" style="background:${LVL_CLR[lvl]||'#888'}22;color:${LVL_CLR[lvl]||'#888'}">${lvl}</span>`:''}
-</div>
-<div class="gc-title">${e(gr.title||gr.rule||'Grammar Rule')}</div>
-${gr.structure?`<div class="gc-str">${e(gr.structure)}</div>`:''}
-${expEN?`<div class="gc-exp">${e(expEN)}</div>`:''}
-${expES?`<div class="gc-exp-es${showES?' show':''}">🇪🇸 ${e(expES)}</div>`:''}
-<div class="gc-exs">
-${gr.affirmative?`<div class="gc-ex"><span class="gc-lbl aff">+</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.affirmative)}</div></div>`:''}
-${gr.negative?`<div class="gc-ex"><span class="gc-lbl neg">–</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.negative)}</div></div>`:''}
-${gr.question?`<div class="gc-ex"><span class="gc-lbl q">?</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.question)}</div></div>`:''}
-</div>
-${gr.signal_words?.length?`<div class="gc-sigs">${gr.signal_words.map(s=>`<span class="sig">${e(s)}</span>`).join('')}</div>`:''}
-${gr.common_error?`<div class="gc-err">⚠ ${e(gr.common_error)}</div>`:''}
-${gr.tip_es?`<div class="gc-tip">💡 ${e(gr.tip_es)}</div>`:''}
-</div>`;
-  }).join('');
+  g.innerHTML=rules.map(gr=>{ const lvl=gr.level||'', expEN=gr.explanation_en||gr.explanation||gr.desc||'', expES=gr.explanation_es||gr.desc_es||''; return`<div class="gcard"><div class="gc-hd">${gr.tag?`<span class="gc-tag">${e(gr.tag)}</span>`:''}${lvl?`<span class="gc-lvl" style="background:${LVL_CLR[lvl]||'#888'}22;color:${LVL_CLR[lvl]||'#888'}">${lvl}</span>`:''}</div><div class="gc-title">${e(gr.title||gr.rule||'Grammar Rule')}</div>${gr.structure?`<div class="gc-str">${e(gr.structure)}</div>`:''}${expEN?`<div class="gc-exp">${e(expEN)}</div>`:''}${expES?`<div class="gc-exp-es${showES?' show':''}">🇪🇸 ${e(expES)}</div>`:''}<div class="gc-exs">${gr.affirmative?`<div class="gc-ex"><span class="gc-lbl aff">+</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.affirmative)}</div></div>`:''}${gr.negative?`<div class="gc-ex"><span class="gc-lbl neg">–</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.negative)}</div></div>`:''}${gr.question?`<div class="gc-ex"><span class="gc-lbl q">?</span><div style="color:var(--text2);font-style:italic;line-height:1.5">${e(gr.question)}</div></div>`:''}</div>${gr.signal_words?.length?`<div class="gc-sigs">${gr.signal_words.map(s=>`<span class="sig">${e(s)}</span>`).join('')}</div>`:''}${gr.common_error?`<div class="gc-err">⚠ ${e(gr.common_error)}</div>`:''}${gr.tip_es?`<div class="gc-tip">💡 ${e(gr.tip_es)}</div>`:''}</div>`; }).join('');
 }
 
-/* ══════════════════════════════════════
-   RENDER: LISTENING
-══════════════════════════════════════ */
 function renderListening(){
-  const g=$('listenGrid');
+  const g=$('listenGrid'); if(!g) return;
   if(!AUDIO.length){g.innerHTML='<div class="nodata">No audio data.</div>';return;}
   let items=AUDIO;
   if(aLvl!=='all') items=items.filter(a=>a.level===aLvl);
   if(!items.length){g.innerHTML='<div class="nodata">No audio for this level.</div>';return;}
-  g.innerHTML=items.map((a,i)=>{
-    const lvl=a.level||''; const dur=a.duration_seconds||Math.max(2,Math.round((a.text||'').split(' ').length/2.5));
-    return`<div class="lcard">
-<div class="lc-hd">
-<button class="playbtn" data-t="${ea(a.text)}">▶</button>
-<div class="lc-meta">
-<div class="lc-id">${e(a.id||`AUD_${String(i+1).padStart(3,'0')}`)} · ${lvl}</div>
-<div class="lc-dur">~${dur}s · ${e(a.speaker||'neutral')}</div>
-</div>
-${lvl?`<span class="lvl l${lvl}">${lvl}</span>`:''}
-</div>
-${a.text?`<div class="lc-txt${showTranscript?' show':''}">${e(a.text)}</div>`:''}
-</div>`;
-  }).join('');
-  g.querySelectorAll('.playbtn').forEach(btn=>{
-    btn.addEventListener('click',ev=>{
-      ev.stopPropagation();
-      const card=btn.closest('.lcard');
-      document.querySelectorAll('.lcard.playing').forEach(c=>c.classList.remove('playing'));
-      card.classList.add('playing'); speak(btn.dataset.t); btn.textContent='⏸';
-      const wc=(btn.dataset.t||'').split(' ').length;
-      setTimeout(()=>{btn.textContent='▶';card.classList.remove('playing');},Math.max(1500,wc*420));
-    });
-  });
-  g.querySelectorAll('.lcard').forEach(c=>{
-    c.addEventListener('click',ev=>{
-      if(ev.target.closest('.playbtn')) return;
-      c.querySelector('.lc-txt')?.classList.toggle('show');
-    });
-  });
+  g.innerHTML=items.map((a,i)=>{ const lvl=a.level||''; const dur=a.duration_seconds||Math.max(2,Math.round((a.text||'').split(' ').length/2.5)); return`<div class="lcard"><div class="lc-hd"><button class="playbtn" data-t="${ea(a.text)}">▶</button><div class="lc-meta"><div class="lc-id">${e(a.id||`AUD_${String(i+1).padStart(3,'0')}`)} · ${lvl}</div><div class="lc-dur">~${dur}s · ${e(a.speaker||'neutral')}</div></div>${lvl?`<span class="lvl l${lvl}">${lvl}</span>`:''}</div>${a.text?`<div class="lc-txt${showTranscript?' show':''}">${e(a.text)}</div>`:''}</div>`; }).join('');
+  g.querySelectorAll('.playbtn').forEach(btn=>{ btn.addEventListener('click',ev=>{ ev.stopPropagation(); const card=btn.closest('.lcard'); document.querySelectorAll('.lcard.playing').forEach(c=>c.classList.remove('playing')); card.classList.add('playing'); speak(btn.dataset.t); btn.textContent='⏸'; const wc=(btn.dataset.t||'').split(' ').length; setTimeout(()=>{btn.textContent='▶';card.classList.remove('playing');},Math.max(1500,wc*420)); }); });
+  g.querySelectorAll('.lcard').forEach(c=>{ c.addEventListener('click',ev=>{ if(ev.target.closest('.playbtn')) return; c.querySelector('.lc-txt')?.classList.toggle('show'); }); });
 }
 
-/* ══════════════════════════════════════
-   QUICK QUIZ
-══════════════════════════════════════ */
 function initQQ(){
   if(!VOCAB.length) return;
   qqPool=shuffle(VOCAB.filter(w=>w.word&&(w.es||w.meaning||w.definition))).slice(0,80);
   qqIdx=qqC=qqW=qqS=0; qqCur=null; nextQQ();
 }
+
 function nextQQ(){
   if(!qqPool.length) return;
   if(qqIdx>=qqPool.length){qqIdx=0;qqPool=shuffle(qqPool);}
   qqCur=qqPool[qqIdx++];
-  $('qqWord').textContent=qqCur.word; $('qqIpa').textContent=qqCur.ipa||'';
+  if($('qqWord')) $('qqWord').textContent=qqCur.word;
+  if($('qqIpa')) $('qqIpa').textContent=qqCur.ipa||'';
   const correct=qqCur.es||qqCur.meaning||qqCur.definition||'';
   if(!correct){setTimeout(nextQQ,50);return;}
   const wrongs=[];
@@ -1439,23 +990,23 @@ function nextQQ(){
   for(let item of pool){const d=item.es||item.meaning||item.definition;if(d&&d!==correct&&!wrongs.includes(d))wrongs.push(d);if(wrongs.length>=3)break;}
   while(wrongs.length<3) wrongs.push(['Run fast','Big house','Happy day','Write now'][wrongs.length%4]);
   const opts=shuffle([correct,...wrongs]);
-  $('qqOpts').innerHTML=opts.map((o,i)=>`<button class="qo" data-m="${ea(o)}"><span class="qo-ltr">${['A','B','C','D'][i]}</span>${e(o)}</button>`).join('');
+  if($('qqOpts')) $('qqOpts').innerHTML=opts.map((o,i)=>`<button class="qo" data-m="${ea(o)}"><span class="qo-ltr">${['A','B','C','D'][i]}</span>${e(o)}</button>`).join('');
   document.querySelectorAll('#qqOpts .qo').forEach(el=>el.addEventListener('click',()=>checkQQ(el.dataset.m)));
   speak(qqCur.word);
 }
+
 function checkQQ(sel){
   const correct=qqCur.es||qqCur.meaning||qqCur.definition||''; const ok=sel===correct;
   document.querySelectorAll('#qqOpts .qo').forEach(el=>{el.disabled=true;if(el.dataset.m===correct)el.classList.add('correct');else if(el.dataset.m===sel&&!ok)el.classList.add('wrong');});
   if(ok){qqC++;qqS++;addXP(10);if(!mastered.includes(qqCur.word))mastered.push(qqCur.word);toast('✓ +10 XP','var(--green)');}
   else{qqW++;qqS=0;toast('✗ Incorrect','var(--red)');}
   saveUser();
-  $('qqC').textContent=qqC; $('qqW').textContent=qqW; $('qqS').textContent=qqS;
+  if($('qqC')) $('qqC').textContent=qqC;
+  if($('qqW')) $('qqW').textContent=qqW;
+  if($('qqS')) $('qqS').textContent=qqS;
   setTimeout(nextQQ,1300);
 }
 
-/* ══════════════════════════════════════
-   PRACTICE — 5 TIPOS DE EJERCICIOS
-══════════════════════════════════════ */
 function buildPracticeQueue(mode) {
   const TOTAL=50;
   let items=[];
@@ -1464,13 +1015,11 @@ function buildPracticeQueue(mode) {
   const fillItems=shuffle([...VOCAB.filter(w=>w.example&&w.word),...PHRASAL.filter(p=>p.example&&(p.verb||p.phrasal))]);
   const listenItems=shuffle(AUDIO.filter(a=>a.text&&a.text.length>10));
   const mistakeItems=shuffle(MISTAKES.filter(m=>m.wrong||m.incorrect||m.mistake||m.sentence||m.correct||m.right));
-
   if(mode==='mc') return mcItems.slice(0,TOTAL).map(w=>({type:'mc',data:w}));
   if(mode==='tf') return tfItems.slice(0,TOTAL).map(w=>({type:'tf',data:w}));
   if(mode==='fill') return fillItems.slice(0,TOTAL).map(w=>({type:'fill',data:w}));
   if(mode==='listen') return listenItems.slice(0,TOTAL).map(a=>({type:'listen',data:a}));
   if(mode==='mistake') return mistakeItems.slice(0,TOTAL).map(m=>({type:'mistake',data:m}));
-
   const types=['mc','tf','fill'];
   if(listenItems.length>0) types.push('listen');
   if(mistakeItems.length>0) types.push('mistake');
@@ -1488,27 +1037,32 @@ function initPractice(){
   pQueue=buildPracticeQueue(pMode);
   pIdx=pC=pW=pS=pDone=0;
   pTotal=Math.max(1,pQueue.length);
-  $('lvlupBanner').classList.remove('show');
-  $('pFeedback').classList.remove('show');
-  $('pNext').classList.remove('show');
+  if($('lvlupBanner')) $('lvlupBanner').classList.remove('show');
+  if($('pFeedback')) $('pFeedback').classList.remove('show');
+  if($('pNext')) $('pNext').classList.remove('show');
   updatePStats(); nextPrac();
 }
 
 function nextPrac(){
-  $('pFeedback').classList.remove('show'); $('pNext').classList.remove('show');
+  if($('pFeedback')) $('pFeedback').classList.remove('show');
+  if($('pNext')) $('pNext').classList.remove('show');
   if(pIdx>=pQueue.length){
-    $('pTypeBadge').innerHTML='<div class="p-type-badge type-mc">🎉 COMPLETED</div>';
-    $('pWord').textContent='🎉'; $('pIpa').textContent='';
-    $('pCtx').classList.remove('show'); $('pEs').classList.remove('show');
-    $('pExtraContent').innerHTML='';
-    $('pOptsWrap').innerHTML=`<button class="popt" style="grid-column:1/-1;text-align:center;padding:13px;border-color:var(--gold);color:var(--gold)" onclick="initPractice()">↻ New session (${pTotal} exercises)</button>`;
+    if($('pTypeBadge')) $('pTypeBadge').innerHTML='<div class="p-type-badge type-mc">🎉 COMPLETED</div>';
+    if($('pWord')) $('pWord').textContent='🎉';
+    if($('pIpa')) $('pIpa').textContent='';
+    if($('pCtx')) $('pCtx').classList.remove('show');
+    if($('pEs')) $('pEs').classList.remove('show');
+    if($('pExtraContent')) $('pExtraContent').innerHTML='';
+    if($('pOptsWrap')) $('pOptsWrap').innerHTML=`<button class="popt" style="grid-column:1/-1;text-align:center;padding:13px;border-color:var(--gold);color:var(--gold)" onclick="initPractice()">↻ New session (${pTotal} exercises)</button>`;
     return;
   }
   pCur=pQueue[pIdx++]; pDone++;
   updatePStats();
   const {type,data}=pCur;
-  $('pCtx').classList.remove('show'); $('pEs').classList.remove('show');
-  $('pExtraContent').innerHTML=''; $('pOptsWrap').innerHTML='';
+  if($('pCtx')) $('pCtx').classList.remove('show');
+  if($('pEs')) $('pEs').classList.remove('show');
+  if($('pExtraContent')) $('pExtraContent').innerHTML='';
+  if($('pOptsWrap')) $('pOptsWrap').innerHTML='';
   if(type==='mc') renderMC(data);
   else if(type==='tf') renderTF(data);
   else if(type==='fill') renderFill(data);
@@ -1517,122 +1071,83 @@ function nextPrac(){
 }
 
 function renderMC(w){
-  $('pTypeBadge').innerHTML='<div class="p-type-badge type-mc">📝 Multiple choice</div>';
-  $('pWord').textContent=w.word||w.phrasal||w.verb||'';
-  $('pIpa').textContent=w.ipa||'';
-  if(w.example){$('pCtx').textContent=`"${w.example}"`;$('pCtx').classList.add('show');}
-  if(showES&&(w.es||w.translation)){$('pEs').textContent='🇪🇸 '+(w.es||w.translation);$('pEs').classList.add('show');}
+  if($('pTypeBadge')) $('pTypeBadge').innerHTML='<div class="p-type-badge type-mc">📝 Multiple choice</div>';
+  if($('pWord')) $('pWord').textContent=w.word||w.phrasal||w.verb||'';
+  if($('pIpa')) $('pIpa').textContent=w.ipa||'';
+  if(w.example && $('pCtx')){ $('pCtx').textContent=`"${w.example}"`; $('pCtx').classList.add('show'); }
+  if(showES&&(w.es||w.translation) && $('pEs')){ $('pEs').textContent='🇪🇸 '+(w.es||w.translation); $('pEs').classList.add('show'); }
   const correct=w.es||w.meaning||w.definition||w.translation||'';
   const wrongs=[];
   const pool=shuffle(VOCAB.filter(x=>x.word!==(w.word||'')&&(x.es||x.meaning||x.definition))).slice(0,15);
   for(let item of pool){const d=item.es||item.meaning||item.definition;if(d&&d!==correct&&!wrongs.includes(d))wrongs.push(d);if(wrongs.length>=3)break;}
   const opts=shuffle([correct,...wrongs.slice(0,3)]);
-  $('pOptsWrap').innerHTML=`<div class="popts">${opts.map(o=>`<button class="popt" data-m="${ea(o)}">${e(o)}</button>`).join('')}</div>`;
-  document.querySelectorAll('.popt').forEach(el=>el.addEventListener('click',()=>{
-    const ok=el.dataset.m===correct;
-    document.querySelectorAll('.popt').forEach(b=>{b.disabled=true;if(b.dataset.m===correct)b.classList.add('correct');else if(b.dataset.m===el.dataset.m&&!ok)b.classList.add('wrong');});
-    showFeedback(ok,correct,w.example);
-    speak(w.word||'');
-  }));
+  if($('pOptsWrap')) $('pOptsWrap').innerHTML=`<div class="popts">${opts.map(o=>`<button class="popt" data-m="${ea(o)}">${e(o)}</button>`).join('')}</div>`;
+  document.querySelectorAll('.popt').forEach(el=>el.addEventListener('click',()=>{ const ok=el.dataset.m===correct; document.querySelectorAll('.popt').forEach(b=>{b.disabled=true;if(b.dataset.m===correct)b.classList.add('correct');else if(b.dataset.m===el.dataset.m&&!ok)b.classList.add('wrong');}); showFeedback(ok,correct,w.example); speak(w.word||''); }));
   speak(w.word||'');
 }
 
 function renderTF(w){
-  $('pTypeBadge').innerHTML='<div class="p-type-badge type-tf">✓✗ True or False</div>';
+  if($('pTypeBadge')) $('pTypeBadge').innerHTML='<div class="p-type-badge type-tf">✓✗ True or False</div>';
   const word=w.word||w.phrasal||w.verb||'';
   const realDef=w.es||w.meaning||w.definition||w.translation||'';
   const showFake=Math.random()>0.5;
   let shownDef=realDef;
-  if(showFake){
-    const rand=shuffle(VOCAB.filter(x=>x.word!==word&&(x.es||x.meaning||x.definition))).slice(0,3);
-    if(rand.length) shownDef=rand[0].es||rand[0].meaning||rand[0].definition;
-  }
+  if(showFake){ const rand=shuffle(VOCAB.filter(x=>x.word!==word&&(x.es||x.meaning||x.definition))).slice(0,3); if(rand.length) shownDef=rand[0].es||rand[0].meaning||rand[0].definition; }
   const isTrue=shownDef===realDef;
-  $('pWord').textContent=word; $('pIpa').textContent=w.ipa||'';
-  $('pExtraContent').innerHTML=`<div style="font-size:13px;color:var(--text2);background:rgba(255,255,255,0.04);padding:12px;border-radius:10px;margin:8px 0;line-height:1.6">"${e(shownDef)}"</div>`;
-  $('pOptsWrap').innerHTML=`<div class="tf-opts"><button class="tf-opt" data-v="true">✓ True</button><button class="tf-opt" data-v="false">✗ False</button></div>`;
-  document.querySelectorAll('.tf-opt').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const userSaysTrue=btn.dataset.v==='true';
-      const ok=userSaysTrue===isTrue;
-      document.querySelectorAll('.tf-opt').forEach(b=>{
-        b.disabled=true;
-        if((b.dataset.v==='true'&&isTrue)||(b.dataset.v==='false'&&!isTrue)) b.classList.add('correct');
-        else b.classList.add('wrong');
-      });
-      showFeedback(ok,`"${realDef}"`,null,`Correct definition: <strong class="correct-ans">"${e(realDef)}"</strong>`);
-      speak(word);
-    });
-  });
+  if($('pWord')) $('pWord').textContent=word;
+  if($('pIpa')) $('pIpa').textContent=w.ipa||'';
+  if($('pExtraContent')) $('pExtraContent').innerHTML=`<div style="font-size:13px;color:var(--text2);background:rgba(255,255,255,0.04);padding:12px;border-radius:10px;margin:8px 0;line-height:1.6">"${e(shownDef)}"</div>`;
+  if($('pOptsWrap')) $('pOptsWrap').innerHTML=`<div class="tf-opts"><button class="tf-opt" data-v="true">✓ True</button><button class="tf-opt" data-v="false">✗ False</button></div>`;
+  document.querySelectorAll('.tf-opt').forEach(btn=>{ btn.addEventListener('click',()=>{ const userSaysTrue=btn.dataset.v==='true'; const ok=userSaysTrue===isTrue; document.querySelectorAll('.tf-opt').forEach(b=>{ b.disabled=true; if((b.dataset.v==='true'&&isTrue)||(b.dataset.v==='false'&&!isTrue)) b.classList.add('correct'); else b.classList.add('wrong'); }); showFeedback(ok,`"${realDef}"`,null,`Correct definition: <strong class="correct-ans">"${e(realDef)}"</strong>`); speak(word); }); });
   speak(word);
 }
 
 function renderFill(w){
-  $('pTypeBadge').innerHTML='<div class="p-type-badge type-fill">✏️ Fill in the blank</div>';
+  if($('pTypeBadge')) $('pTypeBadge').innerHTML='<div class="p-type-badge type-fill">✏️ Fill in the blank</div>';
   const word=w.word||w.verb||w.phrasal||'';
   const example=w.example||'';
   if(!example){renderMC(w);return;}
   const blanked=example.replace(new RegExp(`\\b${word}\\b`,'gi'),'_____');
-  $('pWord').textContent='What word is missing?'; $('pIpa').textContent='';
-  $('pCtx').textContent=blanked; $('pCtx').classList.add('show');
-  if(showES&&(w.es||w.translation)){$('pEs').textContent='🇪🇸 '+(w.es||w.translation);$('pEs').classList.add('show');}
-  $('pOptsWrap').innerHTML=`<div class="fill-wrap"><input class="fill-in" id="fillIn" placeholder="Type the word…" autocomplete="off"/><button class="fill-submit" id="fillSub">Check →</button></div>`;
+  if($('pWord')) $('pWord').textContent='What word is missing?';
+  if($('pIpa')) $('pIpa').textContent='';
+  if($('pCtx')){ $('pCtx').textContent=blanked; $('pCtx').classList.add('show'); }
+  if(showES&&(w.es||w.translation) && $('pEs')){ $('pEs').textContent='🇪🇸 '+(w.es||w.translation); $('pEs').classList.add('show'); }
+  if($('pOptsWrap')) $('pOptsWrap').innerHTML=`<div class="fill-wrap"><input class="fill-in" id="fillIn" placeholder="Type the word…" autocomplete="off"/><button class="fill-submit" id="fillSub">Check →</button></div>`;
   const inp=$('fillIn'),sub=$('fillSub');
-  const check=()=>{
-    const val=(inp.value||'').trim().toLowerCase();
-    const ok=val===word.toLowerCase();
-    inp.classList.add(ok?'correct':'wrong');
-    inp.disabled=true; sub.disabled=true;
-    showFeedback(ok,word,example);
-    if(ok) speak(word);
-  };
-  sub.addEventListener('click',check);
-  inp.addEventListener('keydown',ev=>{if(ev.key==='Enter')check();});
-  setTimeout(()=>inp.focus(),100);
+  const check=()=>{ const val=(inp.value||'').trim().toLowerCase(); const ok=val===word.toLowerCase(); inp.classList.add(ok?'correct':'wrong'); inp.disabled=true; sub.disabled=true; showFeedback(ok,word,example); if(ok) speak(word); };
+  if(sub) sub.addEventListener('click',check);
+  if(inp) inp.addEventListener('keydown',ev=>{if(ev.key==='Enter')check();});
+  if(inp) setTimeout(()=>inp.focus(),100);
 }
 
 function renderListenQ(a){
-  $('pTypeBadge').innerHTML='<div class="p-type-badge type-listen">🎧 Listen and choose</div>';
-  $('pWord').textContent='Listen and select'; $('pIpa').textContent='';
+  if($('pTypeBadge')) $('pTypeBadge').innerHTML='<div class="p-type-badge type-listen">🎧 Listen and choose</div>';
+  if($('pWord')) $('pWord').textContent='Listen and select';
+  if($('pIpa')) $('pIpa').textContent='';
   const words=a.text.split(/\s+/).filter(w=>w.length>4);
   const keyWord=shuffle(words)[0]||'';
-  $('pExtraContent').innerHTML=`<div class="listen-play-wrap"><button class="big-play" id="bigPlay">▶ Listen</button></div>`;
-  $('bigPlay').addEventListener('click',()=>speak(a.text));
+  if($('pExtraContent')) $('pExtraContent').innerHTML=`<div class="listen-play-wrap"><button class="big-play" id="bigPlay">▶ Listen</button></div>`;
+  const bigPlay=$('bigPlay');
+  if(bigPlay) bigPlay.addEventListener('click',()=>speak(a.text));
   const correct=keyWord.replace(/[^a-zA-Z]/g,'');
-  if(!correct){renderMC(shuffle(VOCAB.filter(w=>w.word&&(w.es||w.meaning)))[0]||VOCAB[0]);return;}
+  if(!correct){renderMC(shuffle(VOCAB.filter(v=>v.word&&(v.es||v.meaning)))[0]||VOCAB[0]);return;}
   const distract=shuffle(VOCAB.filter(v=>v.word&&v.word.toLowerCase()!==correct.toLowerCase())).slice(0,3).map(v=>v.word);
   const opts=shuffle([correct,...distract.slice(0,3)]);
-  $('pOptsWrap').innerHTML=`<div class="popts">${opts.map(o=>`<button class="popt" data-m="${ea(o)}">${e(o)}</button>`).join('')}</div>`;
-  document.querySelectorAll('.popt').forEach(el=>el.addEventListener('click',()=>{
-    const ok=el.dataset.m.toLowerCase()===correct.toLowerCase();
-    document.querySelectorAll('.popt').forEach(b=>{b.disabled=true;if(b.dataset.m.toLowerCase()===correct.toLowerCase())b.classList.add('correct');else if(b.dataset.m===el.dataset.m&&!ok)b.classList.add('wrong');});
-    $('pCtx').textContent=`"${a.text}"`;$('pCtx').classList.add('show');
-    showFeedback(ok,correct,a.text);
-  }));
+  if($('pOptsWrap')) $('pOptsWrap').innerHTML=`<div class="popts">${opts.map(o=>`<button class="popt" data-m="${ea(o)}">${e(o)}</button>`).join('')}</div>`;
+  document.querySelectorAll('.popt').forEach(el=>el.addEventListener('click',()=>{ const ok=el.dataset.m.toLowerCase()===correct.toLowerCase(); document.querySelectorAll('.popt').forEach(b=>{b.disabled=true;if(b.dataset.m.toLowerCase()===correct.toLowerCase())b.classList.add('correct');else if(b.dataset.m===el.dataset.m&&!ok)b.classList.add('wrong');}); if($('pCtx')){ $('pCtx').textContent=`"${a.text}"`; $('pCtx').classList.add('show'); } showFeedback(ok,correct,a.text); }));
   speak(a.text);
 }
 
 function renderMistakeQ(m){
-  $('pTypeBadge').innerHTML='<div class="p-type-badge type-mistake">⚠️ Spot the error</div>';
-  $('pWord').textContent='Identify the error';
-  $('pIpa').textContent='';
+  if($('pTypeBadge')) $('pTypeBadge').innerHTML='<div class="p-type-badge type-mistake">⚠️ Spot the error</div>';
+  if($('pWord')) $('pWord').textContent='Identify the error';
+  if($('pIpa')) $('pIpa').textContent='';
   const wrong=m.wrong||m.incorrect||m.mistake||m.sentence||'Incorrect sentence';
   const correct=m.correct||m.right||m.correction||'';
   if(!correct){renderMC(shuffle(VOCAB.filter(w=>w.word&&(w.es||w.definition)))[0]||VOCAB[0]);return;}
-  $('pExtraContent').innerHTML=`<div class="mistake-sentence">"${e(wrong)}"</div><div class="mistake-q">Is this sentence correct or incorrect?</div>`;
-  $('pOptsWrap').innerHTML=`<div class="tf-opts"><button class="tf-opt" data-v="ok">✓ Correct</button><button class="tf-opt" data-v="wrong">✗ Has error</button></div>`;
-  document.querySelectorAll('.tf-opt').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const ok=btn.dataset.v==='wrong';
-      document.querySelectorAll('.tf-opt').forEach(b=>{
-        b.disabled=true;
-        if(b.dataset.v==='wrong') b.classList.add('correct');
-        else b.classList.add('wrong');
-      });
-      $('pCtx').textContent=`✓ Correct: "${correct}"`;$('pCtx').classList.add('show');
-      showFeedback(ok,correct,null,m.explanation||m.tip||'');
-    });
-  });
+  if($('pExtraContent')) $('pExtraContent').innerHTML=`<div class="mistake-sentence">"${e(wrong)}"</div><div class="mistake-q">Is this sentence correct or incorrect?</div>`;
+  if($('pOptsWrap')) $('pOptsWrap').innerHTML=`<div class="tf-opts"><button class="tf-opt" data-v="ok">✓ Correct</button><button class="tf-opt" data-v="wrong">✗ Has error</button></div>`;
+  document.querySelectorAll('.tf-opt').forEach(btn=>{ btn.addEventListener('click',()=>{ const ok=btn.dataset.v==='wrong'; document.querySelectorAll('.tf-opt').forEach(b=>{ b.disabled=true; if(b.dataset.v==='wrong') b.classList.add('correct'); else b.classList.add('wrong'); }); if($('pCtx')){ $('pCtx').textContent=`✓ Correct: "${correct}"`; $('pCtx').classList.add('show'); } showFeedback(ok,correct,null,m.explanation||m.tip||''); }); });
 }
 
 function showFeedback(ok,correct,example,extra=''){
@@ -1640,48 +1155,42 @@ function showFeedback(ok,correct,example,extra=''){
   else{pW++;pS=0;}
   saveUser(); updatePStats();
   const fb=$('pFeedback');
-  let html=ok?`✅ <strong>Correct!</strong> "${e(correct)}"`:
-    `❌ The answer is: <span class="correct-ans">"${e(correct)}"</span>`;
+  if(!fb) return;
+  let html=ok?`✅ <strong>Correct!</strong> "${e(correct)}"`:`❌ The answer is: <span class="correct-ans">"${e(correct)}"</span>`;
   if(example) html+=`<br><em style="color:var(--text3);font-size:10px">"${e(example)}"</em>`;
   if(extra) html+=`<br><span style="font-size:10px;color:var(--text3)">${extra}</span>`;
   fb.innerHTML=html; fb.classList.add('show');
-  $('pNext').classList.add('show');
+  if($('pNext')) $('pNext').classList.add('show');
 }
 
 function updatePStats(){
-  $('psC').textContent=pC; $('psW').textContent=pW; $('psS').textContent=pS;
+  if($('psC')) $('psC').textContent=pC;
+  if($('psW')) $('psW').textContent=pW;
+  if($('psS')) $('psS').textContent=pS;
   const pct=pTotal?Math.round((pDone/pTotal)*100):0;
-  $('pFill').style.width=pct+'%'; $('pCount').textContent=`${pDone} / ${pTotal}`;
+  if($('pFill')) $('pFill').style.width=pct+'%';
+  if($('pCount')) $('pCount').textContent=`${pDone} / ${pTotal}`;
 }
 
-/* ══════════════════════════════════════
-   SMART GENERATE — COMPLETAMENTE REHECHO
-══════════════════════════════════════ */
 function setupSmartGen(){
   const btn=$('smartBtn'), out=$('smartOut');
   if(!btn) return;
   btn.addEventListener('click',()=>{
-    const text=$('smartTxt').value.trim();
+    const text=$('smartTxt')?.value.trim();
     if(!text){toast('⚠ Enter some text first','var(--red)');return;}
-    const lvl=$('smartLvl').value;
+    const lvl=$('smartLvl')?.value;
     btn.disabled=true; btn.textContent='⏳ Analyzing…';
     setTimeout(()=>{
       const exercises=generateSmartExercises(text, lvl);
-      if(!exercises.length){
-        out.innerHTML='<div style="color:var(--text3);font-size:11px;padding:8px">Not enough content to analyze. Try longer text.</div>';
-      } else {
-        out.innerHTML=`<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px">
-          ✨ ${exercises.length} exercises generated from your text (${lvl})
-        </div><div class="smart-exercises">${exercises.map(renderSmartExercise).join('')}</div>`;
-      }
-      out.classList.add('show');
+      if(!exercises.length && out){ out.innerHTML='<div style="color:var(--text3);font-size:11px;padding:8px">Not enough content to analyze. Try longer text.</div>'; }
+      else if(out){ out.innerHTML=`<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px">✨ ${exercises.length} exercises generated from your text (${lvl})</div><div class="smart-exercises">${exercises.map(renderSmartExercise).join('')}</div>`; }
+      if(out) out.classList.add('show');
       toast(`✅ ${exercises.length} exercises generated`,'var(--green)');
       btn.disabled=false; btn.textContent='✨ Analyze & Generate';
     },300);
   });
 }
 
-// Detectar tiempos verbales en texto
 function detectTense(text) {
   const t = text.toLowerCase();
   if(/\b(will|going to|shall|'ll)\b/.test(t)) return 'future';
@@ -1693,289 +1202,74 @@ function detectTense(text) {
   return 'present';
 }
 
-const TENSE_LABELS = {
-  present:'Simple Present', past:'Simple Past', future:'Future',
-  present_perfect:'Present Perfect', present_continuous:'Present Continuous',
-  past_continuous:'Past Continuous'
-};
+const TENSE_LABELS = { present:'Simple Present', past:'Simple Past', future:'Future', present_perfect:'Present Perfect', present_continuous:'Present Continuous', past_continuous:'Past Continuous' };
 
 function generateSmartExercises(text, lvl) {
   const exercises = [];
   const sentences = (text.match(/[^.!?]+[.!?]+/g) || [text]).map(s => s.trim()).filter(s => s.length > 5 && s.split(' ').length > 2);
-  
-  // 1. Análisis de tiempo verbal con EXPLICACIÓN MEJORADA
-  sentences.slice(0, 4).forEach(sent => {
-    const tense = detectTense(sent);
-    const tenseLabel = TENSE_LABELS[tense] || tense;
-    
-    exercises.push({
-      type: 'tense',
-      sentence: sent,
-      tense: tenseLabel,
-      question: `⏱ TENSE ANALYSIS\nWhat tense is used in this sentence?`,
-      answer: `✓ ${tenseLabel}`,
-      tip: getTenseTipWithExamples(tense, sent),
-      translation: translateSimple(sent) // Traducción al español
-    });
-  });
-  
-  // 2. Fill-in-the-blank con CONTEXTO MEJORADO
-  sentences.slice(0, 4).forEach(sent => {
-    const words = sent.split(' ').filter(w => w.replace(/[^a-zA-Z]/g, '').length > 3);
-    if (!words.length) return;
-    
-    const targetWord = words[Math.floor(Math.random() * words.length)];
-    const clean = targetWord.replace(/[^a-zA-Z]/g, '');
-    if (!clean) return;
-    
-    const blanked = sent.replace(new RegExp(`\\b${clean}\\b`, 'i'), '_____');
-    
-    exercises.push({
-      type: 'fill',
-      question: `✏️ FILL IN THE BLANK\n${blanked}`,
-      answer: clean,
-      tip: `💡 From level ${lvl} vocabulary\n📝 Complete the sentence with the correct word.`,
-      translation: translateSimple(sent)
-    });
-  });
-  
-  // 3. Vocabulario con TRADUCCIÓN COMPLETA
+  sentences.slice(0, 4).forEach(sent => { const tense = detectTense(sent); const tenseLabel = TENSE_LABELS[tense] || tense; exercises.push({ type: 'tense', sentence: sent, tense: tenseLabel, question: `⏱ TENSE ANALYSIS\nWhat tense is used in this sentence?`, answer: `✓ ${tenseLabel}`, tip: `📚 ${tenseLabel} tense detected in your text.` }); });
+  sentences.slice(0, 4).forEach(sent => { const words = sent.split(' ').filter(w => w.replace(/[^a-zA-Z]/g, '').length > 3); if (!words.length) return; const targetWord = words[Math.floor(Math.random() * words.length)]; const clean = targetWord.replace(/[^a-zA-Z]/g, ''); if (!clean) return; const blanked = sent.replace(new RegExp(`\\b${clean}\\b`, 'i'), '_____'); exercises.push({ type: 'fill', question: `✏️ FILL IN THE BLANK\n${blanked}`, answer: clean, tip: `💡 From level ${lvl} vocabulary\n📝 Complete the sentence with the correct word.` }); });
   const textWords = [...new Set(text.toLowerCase().match(/[a-z]{4,}/g) || [])];
   const matchedVocab = textWords.slice(0, 8).map(w => VOCAB.find(v => v.word && v.word.toLowerCase() === w)).filter(Boolean);
-  
-  matchedVocab.slice(0, 4).forEach(w => {
-    const spanishMeaning = w.es || w.meaning || w.definition || '';
-    exercises.push({
-      type: 'vocabulary',
-      question: `📖 VOCABULARY\nWhat does "${w.word}" mean?`,
-      answer: `✓ ${spanishMeaning}`,
-      example: w.example ? `"${w.example}"` : '',
-      tip: w.ipa ? `🔊 Pronunciation: ${w.ipa}\n💡 ${w.example ? `Example: "${w.example}"` : ''}` : (w.example ? `💡 Example: "${w.example}"` : ''),
-      translation: spanishMeaning ? `🇪🇸 Traducción: ${spanishMeaning}` : ''
-    });
-  });
-  
-  // 4. Gramática con EXPLICACIÓN DE MEJORA
+  matchedVocab.slice(0, 4).forEach(w => { const spanishMeaning = w.es || w.meaning || w.definition || ''; exercises.push({ type: 'vocabulary', question: `📖 VOCABULARY\nWhat does "${w.word}" mean?`, answer: `✓ ${spanishMeaning}`, example: w.example ? `"${w.example}"` : '', tip: w.ipa ? `🔊 Pronunciation: ${w.ipa}\n💡 ${w.example ? `Example: "${w.example}"` : ''}` : (w.example ? `💡 Example: "${w.example}"` : '') }); });
   const grammarIssues = detectGrammarIssuesAdvanced(text);
-  grammarIssues.slice(0, 3).forEach(issue => {
-    exercises.push({
-      type: 'grammar',
-      question: `📐 GRAMMAR ANALYSIS\n${issue.question}`,
-      answer: `✓ ${issue.answer}`,
-      tip: issue.tip,
-      improvement: issue.improvement || `💡 ${issue.tip}`,
-      beforeAfter: issue.beforeAfter || ''
-    });
-  });
-  
-  // 5. Comprensión con EXPLICACIÓN DETALLADA
-  sentences.slice(0, 3).forEach(sent => {
-    const issues = detectGrammarIssuesAdvanced(sent);
-    const isCorrect = issues.length === 0;
-    const explanation = isCorrect 
-      ? '✅ The sentence structure is correct.' 
-      : `⚠️ ${issues[0]?.question} → ${issues[0]?.answer}`;
-    
-    exercises.push({
-      type: 'comprehension',
-      question: `✓✗ COMPREHENSION\nTrue or False: "${sent.substring(0, 70)}${sent.length > 70 ? '…' : ''}" is grammatically correct.`,
-      answer: isCorrect ? '✓ True — grammatically correct' : '✗ False — needs correction',
-      tip: explanation,
-      translation: translateSimple(sent)
-    });
-  });
-  
+  grammarIssues.slice(0, 3).forEach(issue => { exercises.push({ type: 'grammar', question: `📐 GRAMMAR ANALYSIS\n${issue.question}`, answer: `✓ ${issue.answer}`, tip: issue.tip, improvement: issue.improvement || `💡 ${issue.tip}`, beforeAfter: issue.beforeAfter || '' }); });
+  sentences.slice(0, 3).forEach(sent => { const issues = detectGrammarIssuesAdvanced(sent); const isCorrect = issues.length === 0; const explanation = isCorrect ? '✅ The sentence structure is correct.' : `⚠️ ${issues[0]?.question} → ${issues[0]?.answer}`; exercises.push({ type: 'comprehension', question: `✓✗ COMPREHENSION\nTrue or False: "${sent.substring(0, 70)}${sent.length > 70 ? '…' : ''}" is grammatically correct.`, answer: isCorrect ? '✓ True — grammatically correct' : '✗ False — needs correction', tip: explanation }); });
   return exercises.slice(0, 12);
 }
 
-// Función de traducción simple (puedes expandirla)
-function translateSimple(text) {
-  // Diccionario básico para traducciones comunes
-  const dict = {
-    'house': 'casa', 'my': 'mi', 'is': 'es/está',
-    'it': 'ello', 'the': 'el/la', 'a': 'un/una',
-    'this': 'esto', 'that': 'eso', 'yes': 'sí', 'no': 'no'
-  };
-  
-  let translated = text.toLowerCase();
-  for (const [en, es] of Object.entries(dict)) {
-    translated = translated.replace(new RegExp(`\\b${en}\\b`, 'gi'), es);
-  }
-  
-  // Capitalizar primera letra
-  return translated.charAt(0).toUpperCase() + translated.slice(1);
-}
-
-// Versión mejorada de getTenseTip con ejemplos
-function getTenseTipWithExamples(tense, originalSentence = '') {
-  const tips = {
-    present: `📚 Simple Present: subject + verb(s)\n✓ Example: She works every day.\n📝 In your text: "${originalSentence.substring(0, 60)}${originalSentence.length > 60 ? '…' : ''}"`,
-    past: `📚 Simple Past: subject + verb-ed / irregular form\n✓ Example: He went to school yesterday.\n📝 In your text: "${originalSentence.substring(0, 60)}${originalSentence.length > 60 ? '…' : ''}"`,
-    future: `📚 Future: will + infinitive / going to + infinitive\n✓ Example: It will rain tomorrow.\n📝 In your text: "${originalSentence.substring(0, 60)}${originalSentence.length > 60 ? '…' : ''}"`,
-    present_perfect: `📚 Present Perfect: have/has + past participle\n✓ Example: I have visited London.\n📝 In your text: "${originalSentence.substring(0, 60)}${originalSentence.length > 60 ? '…' : ''}"`,
-    present_continuous: `📚 Present Continuous: am/is/are + verb-ing\n✓ Example: She is reading now.\n📝 In your text: "${originalSentence.substring(0, 60)}${originalSentence.length > 60 ? '…' : ''}"`,
-    past_continuous: `📚 Past Continuous: was/were + verb-ing\n✓ Example: They were playing football.\n📝 In your text: "${originalSentence.substring(0, 60)}${originalSentence.length > 60 ? '…' : ''}"`
-  };
-  return tips[tense] || `📚 ${tense} tense detected in your text.`;
-}
-
-// Detección avanzada de errores gramaticales
 function detectGrammarIssuesAdvanced(text) {
-  const issues = [];
-  const t = text.toLowerCase();
-  
-  const rules = [
-    { pattern: /\bi goes?\b/, question: 'Subject-verb agreement', answer: '"I go" is correct', tip: 'First person singular uses base form (go), not "goes"', improvement: 'I go → Yo voy' },
-    { pattern: /\bhe don't\b/, question: 'Negative form error', answer: '"He doesn\'t" is correct', tip: 'Third person singular: doesn\'t (not don\'t)', improvement: 'He doesn\'t → Él no' },
-    { pattern: /\bshe don't\b/, question: 'Negative form error', answer: '"She doesn\'t" is correct', tip: 'Third person singular: doesn\'t (not don\'t)', improvement: 'She doesn\'t → Ella no' },
-    { pattern: /\bshe have\b/, question: 'Subject-verb agreement', answer: '"She has" is correct', tip: 'Third person singular: has (not have)', improvement: 'She has → Ella tiene' },
-    { pattern: /\bi has\b/, question: 'Subject-verb agreement', answer: '"I have" is correct', tip: 'First person: have (not has)', improvement: 'I have → Yo tengo' },
-    { pattern: /\byesterday i \w+[^ed]\b/, question: 'Past tense needed', answer: 'Use Simple Past with "yesterday"', tip: 'Yesterday indicates past → use verb in past form', improvement: 'Yesterday I went → Ayer fui' }
-  ];
-  
-  for (const rule of rules) {
-    if (rule.pattern.test(t)) {
-      issues.push({
-        ...rule,
-        beforeAfter: rule.improvement ? `✗ ${t.match(rule.pattern)[0]} → ✓ ${rule.improvement}` : ''
-      });
-    }
-  }
-  
+  const issues = []; const t = text.toLowerCase();
+  const rules = [ { pattern: /\bi goes?\b/, question: 'Subject-verb agreement', answer: '"I go" is correct', tip: 'First person singular uses base form (go), not "goes"', improvement: 'I go → Yo voy' }, { pattern: /\bhe don't\b/, question: 'Negative form error', answer: '"He doesn\'t" is correct', tip: 'Third person singular: doesn\'t (not don\'t)', improvement: 'He doesn\'t → Él no' }, { pattern: /\bshe don't\b/, question: 'Negative form error', answer: '"She doesn\'t" is correct', tip: 'Third person singular: doesn\'t (not don\'t)', improvement: 'She doesn\'t → Ella no' }, { pattern: /\bshe have\b/, question: 'Subject-verb agreement', answer: '"She has" is correct', tip: 'Third person singular: has (not have)', improvement: 'She has → Ella tiene' }, { pattern: /\bi has\b/, question: 'Subject-verb agreement', answer: '"I have" is correct', tip: 'First person: have (not has)', improvement: 'I have → Yo tengo' }, { pattern: /\byesterday i \w+[^ed]\b/, question: 'Past tense needed', answer: 'Use Simple Past with "yesterday"', tip: 'Yesterday indicates past → use verb in past form', improvement: 'Yesterday I went → Ayer fui' } ];
+  rules.forEach(rule=>{ if(rule.pattern.test(t)) { issues.push({ ...rule, beforeAfter: rule.improvement ? `✗ ${t.match(rule.pattern)[0]} → ✓ ${rule.improvement}` : '' }); } });
   return issues;
 }
+
 function renderSmartExercise(ex) {
-  const typeColors = {
-    tense: 'var(--violet)',
-    fill: 'var(--green)',
-    vocabulary: 'var(--gold)',
-    grammar: 'var(--red)',
-    comprehension: 'var(--blue)'
-  };
-  const typeLabels = {
-    tense: '⏱ TENSE ANALYSIS',
-    fill: '✏️ FILL IN THE BLANK',
-    vocabulary: '📖 VOCABULARY',
-    grammar: '📐 GRAMMAR',
-    comprehension: '✓✗ COMPREHENSION'
-  };
-  return `<div class="smart-ex-item" style="border-left: 3px solid ${typeColors[ex.type] || 'var(--gold)'}">
-    <div class="smart-ex-type" style="color:${typeColors[ex.type] || 'var(--gold)'}">${typeLabels[ex.type] || ex.type.toUpperCase()}</div>
-    <div class="smart-ex-q" style="white-space: pre-line;">${e(ex.question)}</div>
-    ${ex.translation ? `<div style="font-size: 9px; color: var(--text3); margin-top: 4px; margin-bottom: 6px;">🌎 ${e(ex.translation)}</div>` : ''}
-    <div class="smart-ex-a">✓ ${e(ex.answer)}</div>
-    ${ex.tip ? `<div class="smart-ex-tip">💡 ${e(ex.tip)}</div>` : ''}
-    ${ex.example ? `<div style="font-size: 9px; color: var(--text3); font-style: italic; margin-top: 4px;">📌 "${e(ex.example)}"</div>` : ''}
-    ${ex.improvement ? `<div style="font-size: 9px; color: var(--green); margin-top: 4px;">✨ ${e(ex.improvement)}</div>` : ''}
-  </div>`;
+  const typeColors = { tense: 'var(--violet)', fill: 'var(--green)', vocabulary: 'var(--gold)', grammar: 'var(--red)', comprehension: 'var(--blue)' };
+  const typeLabels = { tense: '⏱ TENSE ANALYSIS', fill: '✏️ FILL IN THE BLANK', vocabulary: '📖 VOCABULARY', grammar: '📐 GRAMMAR', comprehension: '✓✗ COMPREHENSION' };
+  return `<div class="smart-ex-item" style="border-left: 3px solid ${typeColors[ex.type] || 'var(--gold)'}"><div class="smart-ex-type" style="color:${typeColors[ex.type] || 'var(--gold)'}">${typeLabels[ex.type] || ex.type.toUpperCase()}</div><div class="smart-ex-q" style="white-space: pre-line;">${e(ex.question)}</div><div class="smart-ex-a">✓ ${e(ex.answer)}</div>${ex.tip ? `<div class="smart-ex-tip">💡 ${e(ex.tip)}</div>` : ''}${ex.example ? `<div style="font-size: 9px; color: var(--text3); font-style: italic; margin-top: 4px;">📌 "${e(ex.example)}"</div>` : ''}${ex.improvement ? `<div style="font-size: 9px; color: var(--green); margin-top: 4px;">✨ ${e(ex.improvement)}</div>` : ''}</div>`;
 }
 
-/* ══════════════════════════════════════
-   CHAT — IA LOCAL INTELIGENTE
-══════════════════════════════════════ */
 function sendChat(msg) {
   if (!msg.trim()) return;
   appendMsg('user', msg);
-  $('chatIn').value='';
+  if($('chatIn')) $('chatIn').value='';
   const typing = appendTyping();
   chatHistory.push({role:'user', content:msg});
-  // Simular delay natural
-  setTimeout(()=>{
-    const reply = generateLocalReply(msg);
-    chatHistory.push({role:'assistant', content:reply});
-    typing.remove();
-    appendMsg('ai', reply);
-  }, 400 + Math.random()*400);
+  setTimeout(()=>{ const reply = generateLocalReply(msg); chatHistory.push({role:'assistant', content:reply}); typing.remove(); appendMsg('ai', reply); }, 400 + Math.random()*400);
 }
 
 function generateLocalReply(msg) {
   const m = msg.toLowerCase().trim();
-
-  // ── Corrección de oraciones ──
-  if (/correct|fix|check|corrige|corrección|is this right|is this correct/.test(m)) {
-    return correctSentence(msg);
-  }
-
-  // ── Gramática específica ──
+  if (/correct|fix|check|corrige|corrección|is this right|is this correct/.test(m)) { return correctSentence(msg); }
   if (/present perfect/.test(m)) return `**Present Perfect** 📚\n\n🔧 *Structure:* **have/has + past participle**\n\n✓ I **have visited** Colombia.\n✓ She **has lived** here for 3 years.\n✓ They **have never eaten** sushi.\n\n⚠️ Use for: experiences, recent actions, actions with present relevance.\n\n💡 Signal words: **already, yet, ever, never, just, since, for**`;
-
   if (/simple past|past tense|pasado simple/.test(m)) return `**Simple Past** 📚\n\n🔧 *Structure:* **subject + verb-ed (or irregular)**\n\n✓ I **worked** yesterday.\n✓ She **went** to school. (irregular)\n✓ They **didn't eat** dinner.\n\n💡 Signal words: **yesterday, last week, ago, in 2020, when**`;
-
   if (/present continuous|present progressive/.test(m)) return `**Present Continuous** 📚\n\n🔧 *Structure:* **am/is/are + verb-ing**\n\n✓ I **am studying** English now.\n✓ She **is working** at home.\n✓ They **are playing** football.\n\n💡 Use for: actions happening right now, temporary situations`;
-
   if (/future|will|going to/.test(m)) return `**Future Tenses** 📚\n\n🔧 **Will:** *subject + will + infinitive*\n✓ It **will rain** tomorrow.\n✓ I **will call** you later.\n\n🔧 **Going to:** *subject + am/is/are going to + infinitive*\n✓ She **is going to** study medicine.\n\n💡 Will = spontaneous decisions. Going to = planned intentions.`;
-
   if (/make vs do|make or do/.test(m)) return `**Make vs Do** ✏️\n\n🔨 **MAKE** — create, produce, construct:\n• make coffee / a cake / a mistake / money / friends / a decision\n\n📋 **DO** — activities, tasks, chores:\n• do homework / exercise / business / research / the dishes\n\n💡 Tip: **Make** = creating something. **Do** = performing an action.`;
-
   if (/since vs for|since or for/.test(m)) return `**Since vs For** ⏰\n\n📅 **SINCE** — from a specific point in time:\n• I have lived here **since 2018**.\n• She has been sick **since Monday**.\n\n⏱ **FOR** — duration of time:\n• I have lived here **for 6 years**.\n• She has been sick **for 3 days**.\n\n💡 Since = starting point. For = length of time.`;
-
   if (/a vs an|a or an/.test(m)) return `**A vs An** 🔤\n\n📌 **A** — before consonant sounds:\n• a **c**at, a **u**niversity (u sounds like "you"), a **h**ouse\n\n📌 **AN** — before vowel sounds:\n• an **a**pple, an **e**gg, an **h**our (h is silent!)\n\n💡 Rule is about **sound**, not spelling!`;
-
   if (/preposition|in on at/.test(m)) return `**Prepositions: IN / ON / AT** 📍\n\n🕐 **Time:**\n• **at** 3pm, at night\n• **on** Monday, on March 27\n• **in** 2024, in January, in the morning\n\n📍 **Place:**\n• **at** school, at home, at the bus stop\n• **on** the street, on the floor\n• **in** the room, in Colombia, in a box`;
-
-  // ── Vocabulario ──
-  if (/5 (new )?words|give me words|palabras nuevas|new vocabulary/.test(m)) {
-    const lvlWords=VOCAB.filter(w=>w.level===userLevel&&!mastered.includes(w.word)&&(w.es||w.meaning));
-    const words=shuffle(lvlWords.length>5?lvlWords:VOCAB.filter(w=>!mastered.includes(w.word)&&(w.es||w.meaning))).slice(0,5);
-    if(!words.length) return "🎉 You've mastered many words! Check the **Vocabulary** section for more.";
-    return `📚 **5 new ${userLevel} words for you:**\n\n${words.map(w=>`• **${w.word}** ${w.ipa?`(${w.ipa})`:''}→ ${w.es||w.meaning||w.definition}${w.example?`\n  _"${w.example}"_`:''}`).join('\n\n')}`;
-  }
-
-  // ── Búsqueda de palabra específica ──
+  if (/5 (new )?words|give me words|palabras nuevas|new vocabulary/.test(m)) { const lvlWords=VOCAB.filter(w=>w.level===userLevel&&!mastered.includes(w.word)&&(w.es||w.meaning)); const words=shuffle(lvlWords.length>5?lvlWords:VOCAB.filter(w=>!mastered.includes(w.word)&&(w.es||w.meaning))).slice(0,5); if(!words.length) return "🎉 You've mastered many words! Check the **Vocabulary** section for more."; return `📚 **5 new ${userLevel} words for you:**\n\n${words.map(w=>`• **${w.word}** ${w.ipa?`(${w.ipa})`:''}→ ${w.es||w.meaning||w.definition}${w.example?`\n  _"${w.example}"_`:''}`).join('\n\n')}`; }
   const wordMatch = m.match(/(?:what does|what is|define|significa|qué es|qué significa|meaning of|definition of)\s+["']?([a-z]+)["']?/i);
-  if (wordMatch) {
-    const query = wordMatch[1].toLowerCase();
-    const found = VOCAB.find(w=>w.word&&w.word.toLowerCase()===query) || VOCAB.find(w=>w.word&&w.word.toLowerCase().startsWith(query));
-    if (found) {
-      return `📖 **${found.word}** ${found.ipa?`*(${found.ipa})*`:''}\n\n${found.es||found.meaning||found.definition||'—'}${found.level?` *(${found.level})*`:''}\n\n${found.example?`💬 _"${found.example}"_\n\n`:''}${found.category?`🏷️ Category: ${found.category}`:'' }`;
-    }
-    return `I don't have "${query}" in the database. Try searching in the **Vocabulary** section.`;
-  }
-
-  // ── Corregir oraciones específicas ──
-  if (m.length > 5 && /[a-z]/.test(m) && (m.includes(' i ') || m.startsWith('i ') || /\b(he|she|they|we|you)\b/.test(m))) {
-    return correctSentence(msg);
-  }
-
-  // ── Saludos ──
-  if (/^(hi|hello|hey|hola|buenos|good (morning|evening|afternoon))/.test(m)) {
-    return `Hello! 👋 Welcome to **LEXIS AI**.\n\nYou're at level **${userLevel}** and have mastered **${mastered.length}** words.\n\nI can help you with:\n• 📖 Vocabulary (ask "what does ___ mean?")\n• ✏️ Grammar (ask about Present Perfect, tenses, etc.)\n• 🔧 Sentence correction (type any sentence)\n• 📚 New words (ask "give me 5 new words")\n\nWhat would you like to practice?`;
-  }
-
-  // ── Progreso ──
-  if (/progress|progreso|how am i|my level|my stats/.test(m)) {
-    const needed=LVL_WORDS_NEEDED[userLevel]||30;
-    const masteredInLevel=getMasteredForLevel(userLevel);
-    return `📊 **Your progress:**\n\n• Level: **${userLevel}**\n• XP: **${xp}**\n• Words mastered: **${mastered.length}** total\n• Level progress: **${masteredInLevel}/${needed}** words for ${LVL_NEXT[userLevel]||'Mastery'}\n• Streak: **${streak}** 🔥\n\n${masteredInLevel>=needed*0.8?'🎯 Almost there! Keep going!':'💪 Keep practicing to reach '+LVL_NEXT[userLevel]+'!'}`;
-  }
-
-  // ── Respuesta por defecto inteligente ──
-  // Buscar en vocabulario cualquier palabra del mensaje
+  if (wordMatch) { const query = wordMatch[1].toLowerCase(); const found = VOCAB.find(w=>w.word&&w.word.toLowerCase()===query) || VOCAB.find(w=>w.word&&w.word.toLowerCase().startsWith(query)); if (found) { return `📖 **${found.word}** ${found.ipa?`*(${found.ipa})*`:''}\n\n${found.es||found.meaning||found.definition||'—'}${found.level?` *(${found.level})*`:''}\n\n${found.example?`💬 _"${found.example}"_\n\n`:''}${found.category?`🏷️ Category: ${found.category}`:'' }`; } return `I don't have "${query}" in the database. Try searching in the **Vocabulary** section.`; }
+  if (m.length > 5 && /[a-z]/.test(m) && (m.includes(' i ') || m.startsWith('i ') || /\b(he|she|they|we|you)\b/.test(m))) { return correctSentence(msg); }
+  if (/^(hi|hello|hey|hola|buenos|good (morning|evening|afternoon))/.test(m)) { return `Hello! 👋 Welcome to **LEXIS AI**.\n\nYou're at level **${userLevel}** and have mastered **${mastered.length}** words.\n\nI can help you with:\n• 📖 Vocabulary (ask "what does ___ mean?")\n• ✏️ Grammar (ask about Present Perfect, tenses, etc.)\n• 🔧 Sentence correction (type any sentence)\n• 📚 New words (ask "give me 5 new words")\n\nWhat would you like to practice?`; }
+  if (/progress|progreso|how am i|my level|my stats/.test(m)) { const needed=LVL_WORDS_NEEDED[userLevel]||30; const masteredInLevel=getMasteredForLevel(userLevel); return `📊 **Your progress:**\n\n• Level: **${userLevel}**\n• XP: **${xp}**\n• Words mastered: **${mastered.length}** total\n• Level progress: **${masteredInLevel}/${needed}** words for ${LVL_NEXT[userLevel]||'Mastery'}\n• Streak: **${streak}** 🔥\n\n${masteredInLevel>=needed*0.8?'🎯 Almost there! Keep going!':'💪 Keep practicing to reach '+LVL_NEXT[userLevel]+'!'}`; }
   const msgWords = m.match(/[a-z]{3,}/g)||[];
-  for (const w of msgWords) {
-    const found = VOCAB.find(v=>v.word&&v.word.toLowerCase()===w);
-    if (found && (found.es||found.meaning||found.definition)) {
-      return `📖 **${found.word}** ${found.ipa?`*(${found.ipa})*`:''}\n\n${found.es||found.meaning||found.definition}${found.level?` *(level ${found.level})*`:''}\n\n${found.example?`💬 _"${found.example}"_\n\n`:''}\nWant me to give you exercises with this word? Just ask!`;
-    }
-  }
-
+  for (const w of msgWords) { const found = VOCAB.find(v=>v.word&&v.word.toLowerCase()===w); if (found && (found.es||found.meaning||found.definition)) { return `📖 **${found.word}** ${found.ipa?`*(${found.ipa})*`:''}\n\n${found.es||found.meaning||found.definition}${found.level?` *(level ${found.level})*`:''}\n\n${found.example?`💬 _"${found.example}"_\n\n`:''}\nWant me to give you exercises with this word? Just ask!`; } }
   return `I'm not sure I understood. Here's what I can help you with:\n\n• 🔧 **Sentence correction**: type any sentence\n• 📖 **Word lookup**: "What does ___ mean?"\n• 📚 **New words**: "Give me 5 new words"\n• 📐 **Grammar**: "Explain Present Perfect", "make vs do"\n• 📊 **Progress**: "Show my progress"\n\nYou currently have **${VOCAB.length}** words available in level **${userLevel}**.`;
 }
 
-// ── Corrector de oraciones inteligente ──
 function correctSentence(msg) {
-  // Extraer la oración del mensaje
   const sentMatch = msg.match(/["']([^"']+)["']/) || msg.match(/[Cc]orrect[e]?\s*:?\s*(.+)/) || msg.match(/[Ff]ix\s*:?\s*(.+)/);
   const sentence = sentMatch ? sentMatch[1] : msg.replace(/correct|fix|check|corrige|corrección/gi,'').trim();
   if (!sentence || sentence.length < 3) return "Please write a full sentence for me to correct. Example:\n\n*\"I go to school yesterday\"*";
   const corrections = findCorrections(sentence);
-  if (corrections.length === 0) {
-    return `✅ Your sentence looks good!\n\n*"${sentence}"*\n\n${detectTense(sentence)?`**Tense:** ${TENSE_LABELS[detectTense(sentence)]}`:''}\n\nKeep it up! 🎉`;
-  }
+  if (corrections.length === 0) { return `✅ Your sentence looks good!\n\n*"${sentence}"*\n\n${detectTense(sentence)?`**Tense:** ${TENSE_LABELS[detectTense(sentence)]}`:''}\n\nKeep it up! 🎉`; }
   let reply = `🔍 **Analyzing:** *"${sentence}"*\n\n`;
-  corrections.forEach(c => {
-    reply += `✗ "${c.wrong}" → ✓ "${c.right}"\n📌 ${c.reason}\n\n`;
-  });
+  corrections.forEach(c => { reply += `✗ "${c.wrong}" → ✓ "${c.right}"\n📌 ${c.reason}\n\n`; });
   const corrected = applyCorrections(sentence, corrections);
   reply += `✅ **Corrected:** *"${corrected}"*`;
   return reply;
@@ -1983,140 +1277,74 @@ function correctSentence(msg) {
 
 function findCorrections(text) {
   const corrections = [];
-  const rules = [
-    {pattern:/\byesterday\s+i\s+(am|is|are|go|come|eat|drink|see|do|have)\b/gi, wrong:(m)=>m, right:(m)=>m.replace(/\b(am|is|are)\b/,'was').replace(/\bgo\b/,'went').replace(/\bcome\b/,'came').replace(/\beat\b/,'ate').replace(/\bdrink\b/,'drank').replace(/\bsee\b/,'saw').replace(/\bdo\b/,'did').replace(/\bhave\b/,'had'), reason:'With "yesterday" use Simple Past'},
-    {pattern:/\bhe don't\b/gi, wrong:'he don\'t', right:'he doesn\'t', reason:'Third person singular: doesn\'t (not don\'t)'},
-    {pattern:/\bshe don't\b/gi, wrong:'she don\'t', right:'she doesn\'t', reason:'Third person singular: doesn\'t (not don\'t)'},
-    {pattern:/\bit don't\b/gi, wrong:'it don\'t', right:'it doesn\'t', reason:'Third person singular: doesn\'t (not don\'t)'},
-    {pattern:/\bi goes\b/gi, wrong:'i goes', right:'I go', reason:'First person singular: go (not goes)'},
-    {pattern:/\bshe have\b/gi, wrong:'she have', right:'she has', reason:'Third person singular: has (not have)'},
-    {pattern:/\bhe have\b/gi, wrong:'he have', right:'he has', reason:'Third person singular: has (not have)'},
-    {pattern:/\bi has\b/gi, wrong:'i has', right:'I have', reason:'First person: have (not has)'},
-    {pattern:/\bmore better\b/gi, wrong:'more better', right:'better', reason:'No double comparison: "better" not "more better"'},
-    {pattern:/\bmore taller\b/gi, wrong:'more taller', right:'taller', reason:'No double comparison: "taller" not "more taller"'},
-    {pattern:/\ba\s+([aeiou])/gi, wrong:(m,p1)=>`a ${p1}`, right:(m,p1)=>`an ${p1}`, reason:`Use "an" before vowel sounds`},
-  ];
-  rules.forEach(rule=>{
-    const match=text.match(rule.pattern);
-    if(match){
-      const wrong=typeof rule.wrong==='function'?rule.wrong(match[0]):rule.wrong;
-      const right=typeof rule.right==='function'?rule.right(match[0],match[1]||''):rule.right;
-      if(wrong!==right) corrections.push({wrong,right,reason:rule.reason});
-    }
-  });
+  const rules = [ {pattern:/\byesterday\s+i\s+(am|is|are|go|come|eat|drink|see|do|have)\b/gi, wrong:(m)=>m, right:(m)=>m.replace(/\b(am|is|are)\b/,'was').replace(/\bgo\b/,'went').replace(/\bcome\b/,'came').replace(/\beat\b/,'ate').replace(/\bdrink\b/,'drank').replace(/\bsee\b/,'saw').replace(/\bdo\b/,'did').replace(/\bhave\b/,'had'), reason:'With "yesterday" use Simple Past'}, {pattern:/\bhe don't\b/gi, wrong:'he don\'t', right:'he doesn\'t', reason:'Third person singular: doesn\'t (not don\'t)'}, {pattern:/\bshe don't\b/gi, wrong:'she don\'t', right:'she doesn\'t', reason:'Third person singular: doesn\'t (not don\'t)'}, {pattern:/\bit don't\b/gi, wrong:'it don\'t', right:'it doesn\'t', reason:'Third person singular: doesn\'t (not don\'t)'}, {pattern:/\bi goes\b/gi, wrong:'i goes', right:'I go', reason:'First person singular: go (not goes)'}, {pattern:/\bshe have\b/gi, wrong:'she have', right:'she has', reason:'Third person singular: has (not have)'}, {pattern:/\bhe have\b/gi, wrong:'he have', right:'he has', reason:'Third person singular: has (not have)'}, {pattern:/\bi has\b/gi, wrong:'i has', right:'I have', reason:'First person: have (not has)'}, {pattern:/\bmore better\b/gi, wrong:'more better', right:'better', reason:'No double comparison: "better" not "more better"'}, {pattern:/\bmore taller\b/gi, wrong:'more taller', right:'taller', reason:'No double comparison: "taller" not "more taller"'}, {pattern:/\ba\s+([aeiou])/gi, wrong:(m,p1)=>`a ${p1}`, right:(m,p1)=>`an ${p1}`, reason:`Use "an" before vowel sounds`}, ];
+  rules.forEach(rule=>{ const match=text.match(rule.pattern); if(match){ const wrong=typeof rule.wrong==='function'?rule.wrong(match[0]):rule.wrong; const right=typeof rule.right==='function'?rule.right(match[0],match[1]||''):rule.right; if(wrong!==right) corrections.push({wrong,right,reason:rule.reason}); } });
   return corrections;
 }
 
 function applyCorrections(text, corrections) {
   let result = text;
-  corrections.forEach(c=>{
-    if(typeof c.wrong==='string') result=result.replace(new RegExp(c.wrong.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),c.right);
-  });
-  // Capitalizar primera letra
+  corrections.forEach(c=>{ if(typeof c.wrong==='string') result=result.replace(new RegExp(c.wrong.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),c.right); });
   return result.charAt(0).toUpperCase()+result.slice(1);
 }
 
 function appendMsg(role,text){
-  const msgs=$('chatMsgs'),d=document.createElement('div');
+  const msgs=$('chatMsgs'); if(!msgs) return;
+  const d=document.createElement('div');
   d.className='msg '+role;
   const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
   d.innerHTML=`<div class="mav ${role}">${role==='ai'?'🤖':'👤'}</div><div class="mbub">${fmt}</div>`;
   msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
 }
 function appendTyping(){
-  const msgs=$('chatMsgs'),d=document.createElement('div');
+  const msgs=$('chatMsgs'); if(!msgs) return;
+  const d=document.createElement('div');
   d.className='msg ai';
   d.innerHTML='<div class="mav ai">🤖</div><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>';
   msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; return d;
 }
 
-/* ══════════════════════════════════════
-   VOICE
-══════════════════════════════════════ */
 function initVoice(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   const btn=$('voiceBtn');
   if(!SR){if(btn)btn.style.display='none';return;}
   let rec=null,active=false;
-  btn.addEventListener('click',()=>{
-    if(!rec){
-      rec=new SR(); rec.lang='en-US'; rec.interimResults=false;
-      rec.onresult=ev=>{$('chatIn').value=ev.results[0][0].transcript;active=false;btn.classList.remove('on');};
-      rec.onend=()=>{active=false;btn.classList.remove('on');};
-    }
-    if(!active){try{rec.start();active=true;btn.classList.add('on');}catch(e){}}
-    else rec.stop();
+  if(btn) btn.addEventListener('click',()=>{
+    if(!rec){ rec=new SR(); rec.lang='en-US'; rec.interimResults=false; rec.onresult=ev=>{ if($('chatIn')) $('chatIn').value=ev.results[0][0].transcript; active=false; if(btn) btn.classList.remove('on'); }; rec.onend=()=>{ active=false; if(btn) btn.classList.remove('on'); }; }
+    if(!active){ try{ rec.start(); active=true; if(btn) btn.classList.add('on'); } catch(e){} } else rec.stop();
   });
 }
 
-/* ══════════════════════════════════════
-   HELPERS
-══════════════════════════════════════ */
 function speak(text) {
   if (!text || !window.speechSynthesis) return;
-  
   window.speechSynthesis.cancel();
-  
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'en-US';
   utterance.rate = voiceSettings.rate;
   utterance.pitch = voiceSettings.pitch;
   utterance.volume = voiceSettings.volume;
-  
   const getVoiceToUse = (voices) => {
-    // 1. Usar la voz guardada (por nombre)
     if (voiceSettings.voiceName && voiceSettings.voiceName !== 'Default') {
       const saved = voices.find(v => v.name === voiceSettings.voiceName);
       if (saved) return saved;
-      console.warn(`Saved voice "${voiceSettings.voiceName}" not found, falling back.`);
     }
-    
-    // 2. Lista de voces premium conocidas (naturales)
-    const preferred = [
-      'Google UK English Female', 'Google US English Female',
-      'Samantha', 'Victoria', 'Karen', 'Moira', 'Rishi',
-      'Google UK English Male', 'Google US English Male',
-      'Microsoft Zira', 'Microsoft David', 'Alex'
-    ];
-    
-    for (const name of preferred) {
-      const found = voices.find(v => v.name === name);
-      if (found) return found;
-    }
-    
-    // 3. Cualquier voz inglesa
+    const preferred = ['Google UK English Female', 'Google US English Female', 'Samantha', 'Victoria', 'Karen', 'Moira', 'Rishi', 'Google UK English Male', 'Google US English Male', 'Microsoft Zira', 'Microsoft David', 'Alex'];
+    for (const name of preferred) { const found = voices.find(v => v.name === name); if (found) return found; }
     const english = voices.find(v => v.lang.startsWith('en'));
     if (english) return english;
-    
-    // 4. Primera disponible
     return voices[0];
   };
-  
   const trySpeak = () => {
     const voices = window.speechSynthesis.getVoices();
-    if (voices.length === 0) {
-      setTimeout(trySpeak, 200);
-      return;
-    }
-    
+    if (voices.length === 0) { setTimeout(trySpeak, 200); return; }
     const selectedVoice = getVoiceToUse(voices);
-    if (selectedVoice) {
-      utterance.voice = selectedVoice;
-      console.log(`🔊 Usando voz: ${selectedVoice.name} (${selectedVoice.lang})`);
-    } else {
-      console.warn('No voice found, using default');
-    }
-    
+    if (selectedVoice) utterance.voice = selectedVoice;
     window.speechSynthesis.speak(utterance);
   };
-  
-  if (window.speechSynthesis.getVoices().length > 0) {
-    trySpeak();
-  } else {
-    window.speechSynthesis.onvoiceschanged = trySpeak;
-    setTimeout(trySpeak, 500);
-  }
+  if (window.speechSynthesis.getVoices().length > 0) { trySpeak(); }
+  else { window.speechSynthesis.onvoiceschanged = trySpeak; setTimeout(trySpeak, 500); }
 }
+
 function toast(msg,color='var(--gold)'){
   document.querySelectorAll('.toast').forEach(t=>t.remove());
   const t=document.createElement('div'); t.className='toast'; t.style.color=color; t.textContent=msg;
@@ -2129,16 +1357,9 @@ function $(id){return document.getElementById(id);}
 
 function filterToggle(btnId,rowId){
   const btn=$(btnId),row=$(rowId); if(!btn||!row) return;
-  btn.addEventListener('click',()=>{
-    const open=row.classList.toggle('open');
-    btn.classList.toggle('on',open);
-    btn.textContent=(open?'▲':'▼')+' Filters';
-  });
+  btn.addEventListener('click',()=>{ const open=row.classList.toggle('open'); btn.classList.toggle('on',open); btn.textContent=(open?'▲':'▼')+' Filters'; });
 }
 
-/* ══════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════ */
 const PNAMES={home:'Home',vocab:'Vocabulary',verbs:'Verbs',grammar:'Grammar',listen:'Listening',practice:'Practice',chat:'AI Tutor'};
 function goPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -2146,7 +1367,7 @@ function goPage(id){
   const page=$('page-'+id); if(!page) return;
   page.classList.add('active');
   document.querySelector(`.nb[data-page="${id}"]`)?.classList.add('active');
-  $('pageTitle').textContent=PNAMES[id]||id;
+  if($('pageTitle')) $('pageTitle').textContent=PNAMES[id]||id;
   const c=$('content'); if(c)c.scrollTop=0; window.scrollTo(0,0);
   if(id==='vocab') renderVocab();
   if(id==='verbs') renderVerbs();
@@ -2155,10 +1376,6 @@ function goPage(id){
   if(id==='practice') initPractice();
 }
 
-/* ══════════════════════════════════════
-   LOGIN
-══════════════════════════════════════ */
-// Voice settings functions
 function loadVoiceSettings() {
   try {
     const saved = localStorage.getItem('lexis_voice_settings');
@@ -2173,133 +1390,55 @@ function loadVoiceSettings() {
 }
 
 function saveVoiceSettings() {
-  try {
-    localStorage.setItem('lexis_voice_settings', JSON.stringify({
-      rate: voiceSettings.rate,
-      pitch: voiceSettings.pitch,
-      volume: voiceSettings.volume,
-      voiceName: voiceSettings.voiceName
-    }));
-  } catch(e) {}
+  try { localStorage.setItem('lexis_voice_settings', JSON.stringify({ rate: voiceSettings.rate, pitch: voiceSettings.pitch, volume: voiceSettings.volume, voiceName: voiceSettings.voiceName })); } catch(e) {}
 }
 
 function loadVoicesIntoSelect() {
   const voiceSelect = document.getElementById('voiceSelect');
   if (!voiceSelect) return;
-  
   const populateVoices = () => {
     const voices = window.speechSynthesis.getVoices();
     const englishVoices = voices.filter(v => v.lang.startsWith('en'));
-    
     voiceSelect.innerHTML = '<option value="Default">🌐 Default (Automático)</option>';
-    
     englishVoices.forEach(voice => {
       const option = document.createElement('option');
       option.value = voice.name;
-      
-      let region = '';
-      if (voice.lang.includes('NZ')) region = '🇳🇿 NZ';
-      else if (voice.lang.includes('AU')) region = '🇦🇺 AU';
-      else if (voice.lang.includes('GB')) region = '🇬🇧 UK';
-      else if (voice.lang.includes('US')) region = '🇺🇸 US';
-      else region = '🌍';
-      
-      // Detectar calidad natural
+      let region = ''; if (voice.lang.includes('NZ')) region = '🇳🇿 NZ'; else if (voice.lang.includes('AU')) region = '🇦🇺 AU'; else if (voice.lang.includes('GB')) region = '🇬🇧 UK'; else if (voice.lang.includes('US')) region = '🇺🇸 US'; else region = '🌍';
       const premiumNames = ['Google', 'Samantha', 'Victoria', 'Karen', 'Moira', 'Rishi', 'Zira', 'Alex', 'David', 'Daniel', 'Oliver', 'Amelia'];
       const isPremium = premiumNames.some(name => voice.name.includes(name));
       const premiumMark = isPremium ? ' ⭐' : '';
-      
       option.textContent = `${region} ${voice.name} (${voice.lang})${voice.localService ? ' ✓' : ''}${premiumMark}`;
-      if (voiceSettings.voiceName === voice.name) {
-        option.selected = true;
-      }
+      if (voiceSettings.voiceName === voice.name) option.selected = true;
       voiceSelect.appendChild(option);
     });
   };
-  
-  if (window.speechSynthesis.getVoices().length) {
-    populateVoices();
-  } else {
-    window.speechSynthesis.onvoiceschanged = populateVoices;
-    setTimeout(populateVoices, 1000);
-  }
+  if (window.speechSynthesis.getVoices().length) { populateVoices(); }
+  else { window.speechSynthesis.onvoiceschanged = populateVoices; setTimeout(populateVoices, 1000); }
 }
+
 function updateVoiceInfo() {
   const infoDiv = document.getElementById('voiceInfo');
   if (!infoDiv) return;
   const currentVoice = voiceSettings.voiceName === 'Default' ? 'Automática (según el navegador)' : voiceSettings.voiceName;
-  infoDiv.innerHTML = `🎤 Voz actual: <strong>${currentVoice}</strong><br>
-  💡 Si la pronunciación no es natural, prueba seleccionando otra voz de la lista. Las voces con ⭐ suelen ser las mejores.<br>
-  🔍 También puedes ajustar velocidad y tono para mejorar la naturalidad.`;
+  infoDiv.innerHTML = `🎤 Voz actual: <strong>${currentVoice}</strong><br>💡 Si la pronunciación no es natural, prueba seleccionando otra voz de la lista. Las voces con ⭐ suelen ser las mejores.<br>🔍 También puedes ajustar velocidad y tono para mejorar la naturalidad.`;
 }
-// Selecciona automáticamente la mejor voz nativa disponible
+
 function selectBestNaturalVoice() {
   if (!window.speechSynthesis) return;
   const voices = window.speechSynthesis.getVoices();
-  if (!voices.length) {
-    window.speechSynthesis.onvoiceschanged = () => selectBestNaturalVoice();
-    return;
-  }
-
-  // Lista ampliada de voces premium conocidas (las más naturales)
-  const premiumNames = [
-    // UK English Female (muy natural)
-    'Google UK English Female', 'Victoria', 'Moira', 'Karen (Australia)', 'Samantha',
-    // US English Female
-    'Google US English Female', 'Samantha (Enhanced)', 'Microsoft Zira',
-    // UK English Male
-    'Google UK English Male', 'Daniel', 'Oliver',
-    // US English Male
-    'Google US English Male', 'Microsoft David', 'Alex',
-    // Australian / NZ
-    'Karen', 'Amelia', 'Rishi'
-  ];
-
-  // Primero intentar coincidencia exacta con nombres premium
+  if (!voices.length) { window.speechSynthesis.onvoiceschanged = () => selectBestNaturalVoice(); return; }
+  const premiumNames = ['Google UK English Female', 'Victoria', 'Moira', 'Karen', 'Samantha', 'Google US English Female', 'Microsoft Zira', 'Google UK English Male', 'Daniel', 'Oliver', 'Google US English Male', 'Microsoft David', 'Alex', 'Amelia', 'Rishi'];
   let selected = null;
-  for (const name of premiumNames) {
-    const voice = voices.find(v => v.name === name);
-    if (voice) {
-      selected = voice;
-      break;
-    }
-  }
-
-  // Si no, buscar por región: prioridad NZ > AU > UK > US, y femenino > masculino
+  for (const name of premiumNames) { const voice = voices.find(v => v.name === name); if (voice) { selected = voice; break; } }
   if (!selected) {
-    const priority = [
-      { lang: 'en-NZ', gender: 'female' },
-      { lang: 'en-AU', gender: 'female' },
-      { lang: 'en-GB', gender: 'female' },
-      { lang: 'en-US', gender: 'female' },
-      { lang: 'en-NZ', gender: 'male' },
-      { lang: 'en-AU', gender: 'male' },
-      { lang: 'en-GB', gender: 'male' },
-      { lang: 'en-US', gender: 'male' }
-    ];
-    for (const p of priority) {
-      const voice = voices.find(v => v.lang.startsWith(p.lang) &&
-        (p.gender === 'female' ? /female|zira|samantha|victoria|karen|moira|amelia/i.test(v.name) : /male|david|alex|rishi|daniel/i.test(v.name)));
-      if (voice) {
-        selected = voice;
-        break;
-      }
-    }
+    const priority = [{ lang: 'en-NZ', gender: 'female' }, { lang: 'en-AU', gender: 'female' }, { lang: 'en-GB', gender: 'female' }, { lang: 'en-US', gender: 'female' }, { lang: 'en-NZ', gender: 'male' }, { lang: 'en-AU', gender: 'male' }, { lang: 'en-GB', gender: 'male' }, { lang: 'en-US', gender: 'male' }];
+    for (const p of priority) { const voice = voices.find(v => v.lang.startsWith(p.lang) && (p.gender === 'female' ? /female|zira|samantha|victoria|karen|moira|amelia/i.test(v.name) : /male|david|alex|rishi|daniel/i.test(v.name))); if (voice) { selected = voice; break; } }
   }
-
-  // Último recurso: cualquier voz inglesa
-  if (!selected) {
-    selected = voices.find(v => v.lang.startsWith('en'));
-  }
-
-  if (selected) {
-    voiceSettings.voiceName = selected.name;
-    voiceSettings.voice = selected;
-    saveVoiceSettings();
-    console.log(`✅ Voz seleccionada: ${selected.name} (${selected.lang})`);
-    toast(`🎙️ Voz activa: ${selected.name} (${selected.lang})`, 'var(--green)');
-  } 
+  if (!selected) selected = voices.find(v => v.lang.startsWith('en'));
+  if (selected) { voiceSettings.voiceName = selected.name; voiceSettings.voice = selected; saveVoiceSettings(); toast(`🎙️ Voz activa: ${selected.name} (${selected.lang})`, 'var(--green)'); }
+  else { toast('⚠️ No se encontró una voz nativa de calidad. Abre el panel de voz (🎙️) y elige una manualmente.', 'var(--amber)'); }
 }
+
 function initVoiceSettings() {
   const voiceBtn = document.getElementById('voiceSettingsBtn');
   const modal = document.getElementById('voiceModal');
@@ -2313,85 +1452,32 @@ function initVoiceSettings() {
   const volumeValue = document.getElementById('volumeValue');
   const previewBtn = document.getElementById('previewVoice');
   const previewText = document.getElementById('previewText');
-  
   if (!voiceBtn || !modal) return;
-  
   loadVoiceSettings();
-  
   if (rateSlider) rateSlider.value = voiceSettings.rate;
   if (pitchSlider) pitchSlider.value = voiceSettings.pitch;
   if (volumeSlider) volumeSlider.value = voiceSettings.volume;
   if (rateValue) rateValue.textContent = voiceSettings.rate.toFixed(2);
   if (pitchValue) pitchValue.textContent = voiceSettings.pitch.toFixed(2);
   if (volumeValue) volumeValue.textContent = voiceSettings.volume.toFixed(2);
-  
-voiceBtn.addEventListener('click', () => {
-  modal.style.display = 'flex';
-  loadVoicesIntoSelect();
-  setTimeout(() => updateVoiceInfo(), 100); // Actualizar info después de cargar
-});
-  
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-  }
-  
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.style.display = 'none';
-  });
-  
-  if (rateSlider) {
-    rateSlider.addEventListener('input', (e) => {
-      voiceSettings.rate = parseFloat(e.target.value);
-      if (rateValue) rateValue.textContent = voiceSettings.rate.toFixed(2);
-      saveVoiceSettings();
-    });
-  }
-  
-  if (pitchSlider) {
-    pitchSlider.addEventListener('input', (e) => {
-      voiceSettings.pitch = parseFloat(e.target.value);
-      if (pitchValue) pitchValue.textContent = voiceSettings.pitch.toFixed(2);
-      saveVoiceSettings();
-    });
-  }
-  
-  if (volumeSlider) {
-    volumeSlider.addEventListener('input', (e) => {
-      voiceSettings.volume = parseFloat(e.target.value);
-      if (volumeValue) volumeValue.textContent = voiceSettings.volume.toFixed(2);
-      saveVoiceSettings();
-    });
-  }
-  
-  if (previewBtn && previewText) {
-    previewBtn.addEventListener('click', () => {
-      const textToSpeak = previewText.value.trim() || "Hello! This is how my voice sounds with your selected settings.";
-      speak(textToSpeak);
-    });
-  }
-if (window.speechSynthesis) {
-  if (window.speechSynthesis.getVoices().length) {
-    selectBestNaturalVoice();
-  } else {
-    window.speechSynthesis.onvoiceschanged = selectBestNaturalVoice;
-  }
+  voiceBtn.addEventListener('click', () => { modal.style.display = 'flex'; loadVoicesIntoSelect(); setTimeout(() => updateVoiceInfo(), 100); });
+  if (closeBtn) closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+  if (rateSlider) rateSlider.addEventListener('input', (e) => { voiceSettings.rate = parseFloat(e.target.value); if (rateValue) rateValue.textContent = voiceSettings.rate.toFixed(2); saveVoiceSettings(); });
+  if (pitchSlider) pitchSlider.addEventListener('input', (e) => { voiceSettings.pitch = parseFloat(e.target.value); if (pitchValue) pitchValue.textContent = voiceSettings.pitch.toFixed(2); saveVoiceSettings(); });
+  if (volumeSlider) volumeSlider.addEventListener('input', (e) => { voiceSettings.volume = parseFloat(e.target.value); if (volumeValue) volumeValue.textContent = voiceSettings.volume.toFixed(2); saveVoiceSettings(); });
+  if (previewBtn && previewText) previewBtn.addEventListener('click', () => { const textToSpeak = previewText.value.trim() || "Hello! This is how my voice sounds with your selected settings."; speak(textToSpeak); });
+  if (window.speechSynthesis) { if (window.speechSynthesis.getVoices().length) { selectBestNaturalVoice(); } else { window.speechSynthesis.onvoiceschanged = selectBestNaturalVoice; } }
+  if (voiceSelect) voiceSelect.addEventListener('change', (e) => { voiceSettings.voiceName = e.target.value; saveVoiceSettings(); updateVoiceInfo(); });
 }
-if (voiceSelect) {
-  voiceSelect.addEventListener('change', (e) => {
-    voiceSettings.voiceName = e.target.value;
-    saveVoiceSettings();
-    updateVoiceInfo();
-  });
-}
-}
+
 function loginAs(name){
   if(!loadUser(name)){toast('User not found','var(--red)');return;}
-  $('loginWrap').style.display='none'; $('app').style.display='block';
+  if($('loginWrap')) $('loginWrap').style.display='none';
+  if($('app')) $('app').style.display='block';
   startApp(); toast(`Welcome back, ${name}! 🎉`,'var(--gold)');
 }
-function showLogin(){$('app').style.display='none';$('loginWrap').style.display='flex';renderSaved();}
+function showLogin(){ if($('app')) $('app').style.display='none'; if($('loginWrap')) $('loginWrap').style.display='flex'; renderSaved(); }
 
 function toggleTheme(){
   document.body.classList.toggle('light');
@@ -2399,125 +1485,74 @@ function toggleTheme(){
   localStorage.setItem('lexis_theme',isL?'light':'dark');
   const icon=isL?'🌙':'🌓';
   const nb=document.querySelector('#themeBtn .ni'); if(nb)nb.textContent=icon;
-  $('themeTopBtn').textContent=icon;
+  if($('themeTopBtn')) $('themeTopBtn').textContent=icon;
 }
 
-/* ══════════════════════════════════════
-   START APP
-══════════════════════════════════════ */
 function startApp(){
-  if(localStorage.getItem('lexis_theme')==='light'){document.body.classList.add('light');const nb=document.querySelector('#themeBtn .ni');if(nb)nb.textContent='🌙';$('themeTopBtn').textContent='🌙';}
-
-  filterToggle('vocabFBtn','vocabFRow');
-  filterToggle('verbFBtn','verbFRow');
-  filterToggle('grammarFBtn','grammarFRow');
-  filterToggle('audFBtn','audFRow');
-
+  if(localStorage.getItem('lexis_theme')==='light'){document.body.classList.add('light');const nb=document.querySelector('#themeBtn .ni');if(nb)nb.textContent='🌙';if($('themeTopBtn')) $('themeTopBtn').textContent='🌙';}
+  filterToggle('vocabFBtn','vocabFRow'); filterToggle('verbFBtn','verbFRow'); filterToggle('grammarFBtn','grammarFRow'); filterToggle('audFBtn','audFRow');
   document.querySelectorAll('.nb[data-page]').forEach(n=>n.addEventListener('click',()=>goPage(n.dataset.page)));
   document.querySelectorAll('.qcard[data-page]').forEach(c=>c.addEventListener('click',()=>goPage(c.dataset.page)));
-
-  // Vocab filters
-  document.querySelectorAll('#vocabFRow .chip').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('#vocabFRow .chip').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); vLvl=b.dataset.lvl; renderVocab();
-  }));
-  $('masteredChip')?.addEventListener('click',function(){vMastered=!vMastered;this.classList.toggle('on',vMastered);renderVocab();});
-  $('vocabSearch')?.addEventListener('input',ev=>{vSearch=ev.target.value;renderVocab();});
-
-  // Verb filters
-  document.querySelectorAll('#verbFRow .chip').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('#verbFRow .chip').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); verbLvl=b.dataset.vlvl; renderVerbs();
-  }));
-  $('verbSearch')?.addEventListener('input',ev=>{verbSearch=ev.target.value;renderVerbs();});
-
-  // Grammar filters
-  document.querySelectorAll('#grammarFRow .chip').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('#grammarFRow .chip').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); gLvl=b.dataset.glvl; renderGrammar();
-  }));
-  $('grammarSearch')?.addEventListener('input',ev=>{gSearch=ev.target.value;renderGrammar();});
-
-  // Audio filters
-  document.querySelectorAll('#audFRow .chip').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('#audFRow .chip').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); aLvl=b.dataset.alvl; renderListening();
-  }));
-  $('transcriptChip')?.addEventListener('click',function(){
-    showTranscript=!showTranscript; this.classList.toggle('on',showTranscript);
-    document.querySelectorAll('.lc-txt').forEach(el=>el.classList.toggle('show',showTranscript));
-  });
-
-  // Practice mode tabs
-  document.querySelectorAll('.ptab').forEach(tab=>{
-    tab.addEventListener('click',()=>{
-      document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));
-      tab.classList.add('on');
-      pMode=tab.dataset.mode;
-      initPractice();
-    });
-  });
-
-  $('themeBtn')?.addEventListener('click',toggleTheme);
-  $('themeTopBtn')?.addEventListener('click',toggleTheme);
-  $('switchBtn')?.addEventListener('click',showLogin);
-
-  $('langBtn')?.addEventListener('click',()=>{
-    showES=!showES; $('langBtn').classList.toggle('on',showES);
-    const active=document.querySelector('.page.active')?.id?.replace('page-','');
-    if(active==='vocab')renderVocab();
-    if(active==='grammar')renderGrammar();
-    toast(showES?'🇪🇸 Spanish translations ON':'🇬🇧 English only','#6ecb94');
-  });
-
-  $('resetBtn')?.addEventListener('click',()=>{
-    if(!confirm(`Reset progress for ${userName}?\n\nThis will delete:\n• XP and mastered words\n• Data cache\n\n⚠️ Cannot be undone.`)) return;
-    ['lxp_u','lxp_active',CACHE_KEY,'lexis_theme'].forEach(k=>localStorage.removeItem(k));
-    mastered=[];xp=0;streak=0;userLevel='A1';
-    toast('Resetting…','var(--text2)');
-    setTimeout(()=>location.reload(),600);
-  });
-
-  $('pNext')?.addEventListener('click',nextPrac);
-  $('qqNext')?.addEventListener('click',nextQQ);
-  $('retryBtn')?.addEventListener('click',loadData);
-
-  $('sendBtn')?.addEventListener('click',()=>sendChat($('chatIn').value));
-  $('chatIn')?.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();sendChat(ev.target.value);}});
+  document.querySelectorAll('#vocabFRow .chip').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('#vocabFRow .chip').forEach(x=>x.classList.remove('on')); b.classList.add('on'); vLvl=b.dataset.lvl; renderVocab(); }));
+  if($('masteredChip')) $('masteredChip').addEventListener('click',function(){vMastered=!vMastered;this.classList.toggle('on',vMastered);renderVocab();});
+  if($('vocabSearch')) $('vocabSearch').addEventListener('input',ev=>{vSearch=ev.target.value;renderVocab();});
+  document.querySelectorAll('#verbFRow .chip').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('#verbFRow .chip').forEach(x=>x.classList.remove('on')); b.classList.add('on'); verbLvl=b.dataset.vlvl; renderVerbs(); }));
+  if($('verbSearch')) $('verbSearch').addEventListener('input',ev=>{verbSearch=ev.target.value;renderVerbs();});
+  document.querySelectorAll('#grammarFRow .chip').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('#grammarFRow .chip').forEach(x=>x.classList.remove('on')); b.classList.add('on'); gLvl=b.dataset.glvl; renderGrammar(); }));
+  if($('grammarSearch')) $('grammarSearch').addEventListener('input',ev=>{gSearch=ev.target.value;renderGrammar();});
+  document.querySelectorAll('#audFRow .chip').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('#audFRow .chip').forEach(x=>x.classList.remove('on')); b.classList.add('on'); aLvl=b.dataset.alvl; renderListening(); }));
+  if($('transcriptChip')) $('transcriptChip').addEventListener('click',function(){ showTranscript=!showTranscript; this.classList.toggle('on',showTranscript); document.querySelectorAll('.lc-txt').forEach(el=>el.classList.toggle('show',showTranscript)); });
+  document.querySelectorAll('.ptab').forEach(tab=>{ tab.addEventListener('click',()=>{ document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on')); tab.classList.add('on'); pMode=tab.dataset.mode; initPractice(); }); });
+  if($('themeBtn')) $('themeBtn').addEventListener('click',toggleTheme);
+  if($('themeTopBtn')) $('themeTopBtn').addEventListener('click',toggleTheme);
+  if($('switchBtn')) $('switchBtn').addEventListener('click',showLogin);
+  if($('langBtn')) $('langBtn').addEventListener('click',()=>{ showES=!showES; if($('langBtn')) $('langBtn').classList.toggle('on',showES); const active=document.querySelector('.page.active')?.id?.replace('page-',''); if(active==='vocab')renderVocab(); if(active==='grammar')renderGrammar(); toast(showES?'🇪🇸 Spanish translations ON':'🇬🇧 English only','#6ecb94'); });
+  if($('resetBtn')) $('resetBtn').addEventListener('click',()=>{ if(!confirm(`Reset progress for ${userName}?\n\nThis will delete:\n• XP and mastered words\n• Data cache\n\n⚠️ Cannot be undone.`)) return; ['lxp_u','lxp_active',CACHE_KEY,'lexis_theme'].forEach(k=>localStorage.removeItem(k)); mastered=[];xp=0;streak=0;userLevel='A1'; toast('Resetting…','var(--text2)'); setTimeout(()=>location.reload(),600); });
+  if($('pNext')) $('pNext').addEventListener('click',nextPrac);
+  if($('qqNext')) $('qqNext').addEventListener('click',nextQQ);
+  if($('retryBtn')) $('retryBtn').addEventListener('click',loadData);
+  if($('sendBtn')) $('sendBtn').addEventListener('click',()=>sendChat($('chatIn')?.value||''));
+  if($('chatIn')) $('chatIn').addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();sendChat(ev.target.value);}});
   document.querySelectorAll('.sugg').forEach(b=>b.addEventListener('click',()=>{goPage('chat');sendChat(b.textContent.trim());}));
-
   setupSmartGen();
   initVoice();
   initVoiceSettings();
-  
-
-  window.addEventListener('online',()=>$('offBar').classList.remove('show'));
-  window.addEventListener('offline',()=>$('offBar').classList.add('show'));
-  if(!navigator.onLine) $('offBar').classList.add('show');
+  window.addEventListener('online',()=>{ if($('offBar')) $('offBar').classList.remove('show'); });
+  window.addEventListener('offline',()=>{ if($('offBar')) $('offBar').classList.add('show'); });
+  if(!navigator.onLine && $('offBar')) $('offBar').classList.add('show');
   if(window.speechSynthesis) window.speechSynthesis.getVoices();
-
   updateUI();
   loadData();
 }
 
-/* ══════════════════════════════════════
-   BOOT
-══════════════════════════════════════ */
+function renderSaved(){
+  const box=$('savedBox'),list=$('savedList');
+  if(!box||!list) return;
+  const users=getUsers();
+  const arr=Object.keys(users);
+  if(!arr.length){box.style.display='none';return;}
+  box.style.display='block';
+  list.innerHTML=arr.map(u=>`<div class="upill" data-name="${ea(u)}">${e(u)} <span class="uplvl">${users[u].level}</span></div>`).join('');
+  document.querySelectorAll('.upill').forEach(el=>el.addEventListener('click',()=>loginAs(el.dataset.name)));
+}
+
 (function boot(){
   if(localStorage.getItem('lexis_theme')==='light') document.body.classList.add('light');
   const active=localStorage.getItem('lxp_active');
   if(active&&loadUser(active)){
-    $('loginWrap').style.display='none'; $('app').style.display='block'; startApp();
+    if($('loginWrap')) $('loginWrap').style.display='none';
+    if($('app')) $('app').style.display='block';
+    startApp();
   } else { renderSaved(); }
-  $('loginBtn')?.addEventListener('click',()=>{
-    const n=$('loginName').value.trim(), l=$('loginLevel').value;
+  if($('loginBtn')) $('loginBtn').addEventListener('click',()=>{
+    const n=$('loginName')?.value.trim(), l=$('loginLevel')?.value;
     if(!n){toast('Enter your name','var(--red)');return;}
     if(getUsers()[n]){loginAs(n);return;}
-    userName=n; userLevel=l; mastered=[]; xp=0; streak=0;
-    saveUser(); $('loginWrap').style.display='none'; $('app').style.display='block';
+    userName=n; userLevel=l||'A1'; mastered=[]; xp=0; streak=0;
+    saveUser(); if($('loginWrap')) $('loginWrap').style.display='none'; if($('app')) $('app').style.display='block';
     startApp(); toast(`Welcome, ${n}! 🚀`,'var(--gold)');
   });
-  $('loginName')?.addEventListener('keydown',ev=>{if(ev.key==='Enter')$('loginBtn').click();});
+  if($('loginName')) $('loginName').addEventListener('keydown',ev=>{if(ev.key==='Enter' && $('loginBtn')) $('loginBtn').click();});
 })();
 </script>
 </body>
